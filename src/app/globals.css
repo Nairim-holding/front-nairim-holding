@@ -21,3 +21,24 @@ body {
 main{
   height: 30vh;
 }
+
+.underline-effect::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background-color: #fff;
+  transition: width 0.3s ease-in-out;
+}
+
+.underline-effect:hover::before {
+  width: 100%;
+  left: 0;
+}
+
+.underline-effect {
+  position: relative;
+  display: inline-block;
+}

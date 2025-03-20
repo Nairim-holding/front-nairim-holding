@@ -25,25 +25,25 @@ export default function Footer(){
         <div className="flex flex-wrap justify-between pt-5 mobile:flex-col mobile:gap-5">
           <div className="max-w-[200px]">
             <h2 className="font-medium mb-3 text-[14px]">Endereço</h2>
-            <p className="font-normal text-white text-opacity-60 text-[14px]">R. Joaquim Ramos Mendes, 323 - Cascata, Garça/SP</p>
+            <p className="font-normal text-white text-opacity-60 text-[14px] duration-300 cursor-default hover:text-opacity-100">R. Joaquim Ramos Mendes, 323 - Cascata, Garça/SP</p>
           </div>
 
           <div className="max-w-[200px]">
             <h2 className="font-medium mb-3 text-[14px]">Informações</h2>
             <ul>
-              <li className="font-normal text-white text-opacity-60 text-[14px] mb-2">
+              <li className="font-normal text-white text-opacity-60 text-[14px] mb-2 duration-300 hover:text-opacity-100">
                 <Link href="#">Imóveis</Link>
               </li>
-              <li className="font-normal text-white text-opacity-60 text-[14px] mb-2">
+              <li className="font-normal text-white text-opacity-60 text-[14px] mb-2 duration-300 hover:text-opacity-100">
                 <Link href="#">Alugueis</Link>
               </li>
-              <li className="font-normal text-white text-opacity-60 text-[14px] mb-2">
+              <li className="font-normal text-white text-opacity-60 text-[14px] mb-2 duration-300 hover:text-opacity-100">
                 <Link href="#">Compras</Link>
               </li>
-              <li className="font-normal text-white text-opacity-60 text-[14px] mb-2">
+              <li className="font-normal text-white text-opacity-60 text-[14px] mb-2 duration-300 hover:text-opacity-100">
                 <Link href="#">Sobre nós</Link>
               </li>
-              <li className="font-normal text-white text-opacity-60 text-[14px] mb-2">
+              <li className="font-normal text-white text-opacity-60 text-[14px] mb-2 duration-300 hover:text-opacity-100">
                 <Link href="#">Contato</Link>
               </li>
             </ul>
@@ -52,10 +52,10 @@ export default function Footer(){
           <div className="max-w-[200px]">
             <h2 className="font-medium mb-3 text-[14px]">Entre em contato</h2>
             <ul>
-              <li className="font-normal text-white text-opacity-60 text-[14px] mb-2">
+              <li className="font-normal text-white text-opacity-60 text-[14px] mb-2 duration-300 underline-effect hover:text-opacity-100">
                 <Link href="#">+1 891 989-11-91</Link>
               </li>
-              <li className="font-normal text-white text-opacity-60 text-[14px] mb-2">
+              <li className="font-normal text-white text-opacity-60 text-[14px] mb-2 duration-300 underline-effect hover:text-opacity-100">
                 <Link href="#">help@logoipsum.com</Link>
               </li>
             </ul>
@@ -122,8 +122,8 @@ export default function Footer(){
         </div>
 
         <div className="flex mt-[100px] mobile:mt-[50px] justify-between max-w-[390px]">
-            <p className="font-normal text-white text-opacity-60 text-[12px]">© {year} — Copyright</p>
-            <p className="font-normal text-white text-opacity-60 text-[12px]">Certificate</p>
+            <p className="font-normal text-white text-opacity-60 text-[12px] duration-300 hover:text-opacity-100 cursor-default">© {year} — Copyright</p>
+            <p className="font-normal text-white text-opacity-60 text-[12px] duration-300 hover:text-opacity-100 cursor-default">Certificate</p>
         </div>
       </footer>
     );
