@@ -1,13 +1,20 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import robotoFont from 'next/font/local';
+import interFont from 'next/font/local';
 
 const robotoFontLocation = robotoFont({
   src: '../fonts/roboto.ttf',
   weight: '400',
   style: 'normal',
   variable: '--font-roboto',
+});
+
+const interFontLocation = interFont({
+  src: '../fonts/inter.ttf',
+  weight: '400',
+  style: 'normal',
+  variable: '--font-inter',
 });
 
 export const metadata: Metadata = {
@@ -24,7 +31,7 @@ export default function RootLayout({
   return (
     <html lang="pt-br">
       <body
-        className={`${robotoFontLocation.className} antialiased`}
+        className={`${robotoFontLocation.className} ${interFontLocation.className} antialiased`}
       >
         {children}
       </body>

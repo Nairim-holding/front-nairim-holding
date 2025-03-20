@@ -13,10 +13,16 @@ export default {
         secondary: "#F2FAFC",
         terciary: "#A49DFC",
         gray: '#B4B4B4',
-        blue: '#4A3AFF',
+        blue: "#4A3AFF",
+        bg_footer: "#4236C5",
+        yellow: "#F6CB12",
+        text_black: "#292B22"
       },
       fontFamily: {
         roboto: ['var(--font-roboto)', 'sans-serif'],
+      },
+      screens: {
+        'mobile': {'max': '550px'},
       },
     },
   },

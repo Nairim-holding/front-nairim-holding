@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function Header(){
     return(
-        <header className="bg-secondary fixed w-full h-[80px] rounded-2xl">
+        <header className="bg-secondary fixed w-full h-[80px] rounded-2xl shadow-lg">
             <div className="flex items-center justify-center h-full gap-10">
                 <Link href={'/'}>
                     <Image src={'/logo.svg'} alt="logo da nairil holding" width={91} height={45}></Image>
@@ -30,7 +30,7 @@ export default function Header(){
                             </Link>
                         </li>
                         <li>
-                            <Link href={"/signup"} className="block bg-blue py-2 w-[100px] h-[35px] rounded-lg text-white flex items-center justify-center font-medium font-roboto ">
+                            <Link href={"/signup"} className="block bg-blue py-2 w-[100px] h-[35px] rounded-lg text-white flex items-center justify-center font-medium font-roboto border border-blue duration-300 ease hover:text-blue hover:bg-transparent">
                                 Sign Up
                             </Link>
                         </li>
