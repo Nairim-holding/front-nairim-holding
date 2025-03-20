@@ -6,6 +6,7 @@ import { token } from '@/types/token';
 
 export default function Page(){
     const [name, setName] = useState<string>(' matheus henrique dos santos bino ');
+    
     useEffect(() => {
         const cookie = Cookies.get('authToken') as string;
         const token = jwt.decode(cookie) as token;
