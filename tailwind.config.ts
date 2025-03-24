@@ -16,13 +16,16 @@ export default {
         blue: "#4A3AFF",
         bg_footer: "#4236C5",
         yellow: "#F6CB12",
-        text_black: "#292B22"
+        text_black: "#292B22",
+        text_black_light: "#333",
+        bg_input: "#4762FF14"
       },
       fontFamily: {
         roboto: ['var(--font-roboto)', 'sans-serif'],
       },
       screens: {
         'mobile': {'max': '550px'},
+        'mobile-sm': {'max': '375px'}
       },
     },
   },

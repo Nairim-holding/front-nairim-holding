@@ -19,7 +19,9 @@ body {
 }
 
 main{
-  height: 30vh;
+  height: 100%;
+  padding-top: 80px; 
+  min-height: 50vh;
 }
 
 .underline-effect::before {
