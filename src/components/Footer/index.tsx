@@ -11,6 +11,7 @@ export default function Footer(){
             <Image
               src={"/logo-footer.svg"}
               alt="logo da nairim holding"
+              className="size-auto"
               width={120}
               height={60}></Image>
           </Link>
