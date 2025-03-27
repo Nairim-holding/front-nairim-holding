@@ -2,13 +2,13 @@ import Image from "next/image";
 
 export default function AboutUs(){
     return(
-        <section className="relative py-10 flex justify-center align-center">
-            <div className="pr-[100px]">
-                <Image src={'/images/image-aboutUs.png'} width={902} height={759} alt="imagem"></Image>
+        <section className="relative p-10 flex justify-center items-center mobile:flex-col mobile:p-3">
+            <div>
+                <Image className="rounded-sm w-[902px] h-[759px] object-cover mobile:w-full mobile:h-full" src={'/images/image-aboutUs.png'} width={902} height={759} alt="imagem"></Image>
             </div>
             
-            <div className="width-[500px] max-w-[500px] min-h-[600px] bg-bg_footer p-10 text-white flex justify-around align-center flex-col absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                <h2 className="text-[32px]">Sobre nós</h2>
+            <div className="width-[450px] max-w-[450px] tablet:max-w-[350px] mobile:max-w-[100%] min-h-[600px] bg-bg_footer p-10 mobile:p-5 text-white flex justify-around align-center flex-col ml-[-150px] tablet:ml-[-100px] mobile:ml-0 rounded-sm">
+                <h2 className="text-[32px] font-bold">Sobre nós</h2>
                 <p className="flex flex-col gap-5">
                     <span>Fundada em 2023, a Nairim nasceu para <b>transformar a gestão imobiliária</b> com eficiência e transparência.</span>
 

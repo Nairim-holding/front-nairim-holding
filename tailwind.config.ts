@@ -24,6 +24,7 @@ export default {
         roboto: ['var(--font-roboto)', 'sans-serif'],
       },
       screens: {
+        'tablet': {'max': '768px'},
         'mobile': {'max': '550px'},
         'mobile-sm': {'max': '375px'}
       },
