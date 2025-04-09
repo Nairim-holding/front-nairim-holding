@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from "react";
-import HeaderMobile from "./mobile";
-import HeaderDesktop from "./desktop";
+import HeaderMobile from "./Mobile";
+import HeaderDesktop from "./Desktop";
 
 export default function Header(){
     const [isMobile, setIsMobile] = useState(false);

@@ -32,7 +32,7 @@ export default function HeaderDesktop(){
                         </li>
                         <li>
                             <Link href={"/signup"} className="block bg-blue py-2 w-[100px] h-[35px] rounded-lg text-white flex items-center justify-center font-medium font-roboto border border-blue duration-300 ease hover:text-blue hover:bg-transparent">
-                                Sign Up
+                                Login
                             </Link>
                         </li>
                     </ul>

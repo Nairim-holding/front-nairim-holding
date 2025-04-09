@@ -36,7 +36,7 @@ export default function HeaderMobile(){
                         </li>
                         <li className="w-full border-t pt-5 border-opacity-20 border-text_black_light">
                             <Link href={"/signup"} className="block w-full bg-blue py-2 h-[35px] rounded-lg text-white flex items-center justify-center font-medium font-roboto border border-blue duration-300 ease hover:text-blue hover:bg-transparent">
-                                Sign Up
+                                Login
                             </Link>
                         </li>
                     </ul>
