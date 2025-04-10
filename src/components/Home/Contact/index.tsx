@@ -2,7 +2,7 @@ import Form from "@/components/Form";
 
 export default function Contact(){
    return(
-    <section className="pt-8 font-inter">
+    <section className="font-inter">
         <div className="flex items-center justify-end bg-[url('/images/bg-contact.png')] bg-[center_70%] bg-no-repeat 2xl:bg-cover h-full w-full py-10">
         <div className="bg-secondary py-10 px-16 rounded-xl mr-20 max-w-[550px] h-full mobile:mx-5 mobile:px-8 mobile-sm:m-0 mobile-sm:px-4">
             <h1 className="text-text_black_light text-[56px] font-bold mb-3 leading-[1] mobile:text-5xl">Ainda tem alguma dúvida?</h1>

@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function AboutUs(){
     return(
-        <section className="relative p-10 flex justify-center items-center mobile:flex-col mobile:p-3">
+        <section className="relative p-10 flex justify-center items-center bg-[#0005FF30] mobile:flex-col mobile:p-3">
             <div>
                 <Image className="rounded-sm w-[902px] h-[759px] object-cover mobile:w-full mobile:h-full" src={'/images/image-aboutUs.png'} width={902} height={759} alt="imagem"></Image>
             </div>
