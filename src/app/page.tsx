@@ -1,5 +1,6 @@
 import Assessment from "@/components/Assessment";
 import CarrosselBanner from "@/components/CarrosselBanner";
+import CarrosselFilter from "@/components/CarrosselFilter";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import AboutUs from "@/components/Home/AboutUs";
@@ -11,6 +12,7 @@ export default function Home() {
         <Header></Header> 
         <main>
           <CarrosselBanner></CarrosselBanner>
+          <CarrosselFilter></CarrosselFilter>
           <AboutUs></AboutUs>
           <Assessment></Assessment>
           <Contact></Contact>
