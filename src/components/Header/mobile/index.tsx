@@ -8,7 +8,7 @@ import { RxHamburgerMenu } from "react-icons/rx";
 export default function HeaderMobile(){
     const [menu, setMenu] = useState<boolean>(false);
     return(
-        <header className="bg-secondary fixed w-full h-[80px] rounded-2xl shadow-lg z-[10]">
+        <header className="bg-secondary fixed w-full h-[80px] shadow-lg z-[1000]">
             <div className="flex items-center justify-center h-full gap-10">
                 <Link href={'/'}>
                     <Image src={'/logo.svg'} alt="logo da nairil holding" width={91} height={45} className="size-auto"></Image>
@@ -19,7 +19,7 @@ export default function HeaderMobile(){
 
             {
             menu &&
-            <aside className="absolute bg-secondary w-full max-w-[400px] rounded-2xl h-[calc(100vh-79px)] shadow-lg top-[81px]">
+            <aside className="absolute bg-secondary w-full max-w-[425px] h-[calc(100vh-79px)] shadow-lg top-[81px]">
                 <nav>
                     <ul className="flex gap-8 items-start flex-col h-screen p-10">
                         <li className="text-[16px] font-normal font-roboto ">

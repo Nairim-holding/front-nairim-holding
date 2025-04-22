@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import robotoFont from 'next/font/local';
 import interFont from 'next/font/local';
+import bebasNeueFont from 'next/font/local';
 
 const robotoFontLocation = robotoFont({
   src: '../fonts/roboto.ttf',
@@ -15,6 +16,13 @@ const interFontLocation = interFont({
   weight: '400',
   style: 'normal',
   variable: '--font-inter',
+});
+
+const bebasNeueFontLocation = bebasNeueFont({
+  src: '../fonts/BebasNeue.ttf',
+  weight: '400',
+  style: 'normal',
+  variable: '--font-bebasNeue',
 });
 
 export const metadata: Metadata = {
@@ -31,7 +39,7 @@ export default function RootLayout({
   return (
     <html lang="pt-br">
       <body
-        className={`${robotoFontLocation.className} ${interFontLocation.className} antialiased`}
+        className={`${robotoFontLocation.className} ${interFontLocation.className}  ${bebasNeueFontLocation.variable}  antialiased`}
       >
         {children}
       </body>

@@ -4,7 +4,7 @@ import { CiSearch } from "react-icons/ci";
 
 export default function HeaderDesktop(){
     return(
-        <header className="bg-secondary fixed w-full h-[80px] rounded-2xl shadow-lg z-[10]">
+        <header className="bg-secondary fixed w-full h-[80px] shadow-lg z-[10]">
             <div className="flex items-center justify-center h-full gap-10">
                 <Link href={'/'}>
                     <Image src={'/logo.svg'} alt="logo da nairil holding" width={91} height={45} className="size-auto"></Image>

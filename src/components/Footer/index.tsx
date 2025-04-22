@@ -5,7 +5,7 @@ export default function Footer(){
     const date = new Date();
     const year = date.getFullYear();
     return (
-      <footer className="bg-bg_footer p-10 text-white rounded-2xl mobile:p-8 font-inter">
+      <footer className="bg-bg_footer p-10 text-white mobile:p-8 font-inter">
         <div className="flex justify-between items-center border-b-[1px] border-white border-opacity-20 pb-8 mobile:gap-4">
           <Link href="/">
             <Image
@@ -14,12 +14,6 @@ export default function Footer(){
               className="size-auto"
               width={120}
               height={60}></Image>
-          </Link>
-
-          <Link
-            href="/"
-            className="bg-yellow text-[14px] text-text_black font-semibold py-3 px-4 rounded-3xl text-center w-[195px] duration-300 ease-in-out border border-yellow hover:bg-transparent hover:text-yellow hover:border mobile:px-2 mobile:text-[12px]">
-            Fazer um depoimento
           </Link>
         </div>
 

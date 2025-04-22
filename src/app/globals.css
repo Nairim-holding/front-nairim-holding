@@ -51,3 +51,24 @@ input[type="search"]::-webkit-search-results-button,
 input[type="search"]::-webkit-search-results-decoration {
   display: none;
 }
+
+.custom-pagination{
+  width: auto !important;
+  margin: 0;
+}
+
+.custom-swiper-pagination {
+  @apply flex justify-center mt-4 gap-2;
+}
+
+.custom-swiper-pagination .swiper-pagination-bullet {
+  @apply bg-[#DFE2E0] opacity-50 w-3 h-3 rounded-full transition-all;
+}
+
+.custom-swiper-pagination .swiper-pagination-bullet-active {
+  @apply bg-[#4B40BC] opacity-100;
+}
+
+.font-bebasNeue{
+  font-family: var(--font-bebasNeue);
+}
