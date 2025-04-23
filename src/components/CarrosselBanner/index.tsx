@@ -29,7 +29,7 @@ export default function CarrosselBanner() {
           direction="vertical" 
           loop={true} 
           slidesPerView={1}
-          style={{ height: '100vh' }}
+          style={{ height: '100vh', touchAction: 'auto' }}
           onSwiper={(swiper) => setVerticalSwiper(swiper)}
           className="mySwiper"
           allowTouchMove={false}
@@ -38,8 +38,8 @@ export default function CarrosselBanner() {
           grabCursor={false}
         >
           <SwiperSlide>
-            <div className="flex h-full w-full">
-              <div className="w-[100%] relative">
+            <div className="flex h-full w-full tablet:flex-col">
+              <div className="w-[100%] relative tablet:h-[65%]">
                 <Image 
                   className="w-full h-full object-cover brightness-50" 
                   src="/banners/banner1.png" 
@@ -47,25 +47,25 @@ export default function CarrosselBanner() {
                   width={500} 
                   height={500}
                 />
-                <div className="absolute inset-px text-white flex justify-center items-center flex-col px-16">
-                  <div className="flex w-full text-[16px] font-medium py-5 gap-2 italic">
+                <div className="absolute inset-px text-white flex justify-center items-center flex-col px-16 tablet:justify-start mobile:px-5">
+                  <div className="flex w-full text-[16px] font-medium py-5 gap-2 italic tablet:text-[14px]">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path opacity="0.4" d="M20.6191 8.45C19.5691 3.83 15.5391 1.75 11.9991 1.75C11.9991 1.75 11.9991 1.75 11.9891 1.75C8.45912 1.75 4.41912 3.82 3.36912 8.44C2.19912 13.6 5.35912 17.97 8.21912 20.72C9.27912 21.74 10.6391 22.25 11.9991 22.25C13.3591 22.25 14.7191 21.74 15.7691 20.72C18.6291 17.97 21.7891 13.61 20.6191 8.45Z" fill="white"/>
                       <path d="M11.9996 13.46C13.7393 13.46 15.1496 12.0497 15.1496 10.31C15.1496 8.57031 13.7393 7.16 11.9996 7.16C10.2599 7.16 8.84961 8.57031 8.84961 10.31C8.84961 12.0497 10.2599 13.46 11.9996 13.46Z" fill="white"/>
                     </svg>
                     Rua 1, Jd. Paineiras - Garça/SP
                   </div>
-                  <h1 className="text-[60px] font-bold w-full text-start leading-[60px] mb-5 font-bebasNeue">Excelente localização, perto de tudo!</h1>
-                  <p className="italic opacity-70 font-normal mb-5">A localização ideal para sua nova fase. Próxima a tudo, segura e com imóveis selecionados.</p>
-                  <Link href="#" className="mt-10 text-[24px] leading-[60px] flex items-center justify-center font-normal font-bebasNeue bg-[rgba(255,255,255,0.3)] pointer max-w-[230px] w-full rounded-full">ver imóvel</Link>
+                  <h1 className="text-[60px] font-bold w-full text-start leading-[60px] mb-5 font-bebasNeue tablet:text-[30px] tablet:m-0 mobile:leading-[30px]">Excelente localização, perto de tudo!</h1>
+                  <p className="italic opacity-70 font-normal mb-5 tablet:text-[14px] tablet:m-0 text-start w-full">A localização ideal para sua nova fase. Próxima a tudo, segura e com imóveis selecionados.</p>
+                  <Link href="#" className="mt-10 text-[24px] leading-[60px] flex items-center justify-center font-normal font-bebasNeue bg-[rgba(255,255,255,0.3)] pointer max-w-[230px] w-full rounded-full tablet:mt-3 tablet:leading-[30px] tablet:text-[16px] tablet:max-w-[170px]">ver imóvel</Link>
                 </div>
               </div>
-              <div className="w-full h-full bg-[#1F2633]" />
+              <div className="w-full h-full bg-[#1F2633] tablet:h-[50%]" />
             </div>
           </SwiperSlide>
           <SwiperSlide>
-            <div className="flex h-full w-full">
-              <div className="w-[100%] relative">
+            <div className="flex h-full w-full tablet:flex-col">
+              <div className="w-[100%] relative tablet:h-[65%]">
                 <Image 
                   className="w-full h-full object-cover brightness-50" 
                   src="/banners/banner2.png" 
@@ -73,25 +73,25 @@ export default function CarrosselBanner() {
                   width={500} 
                   height={500}
                 />
-                <div className="absolute inset-px text-white flex justify-center items-center flex-col px-16">
-                  <div className="flex w-full text-[16px] font-medium py-5 gap-2 italic">
+                <div className="absolute inset-px text-white flex justify-center items-center flex-col px-16 tablet:justify-start mobile:px-5">
+                  <div className="flex w-full text-[16px] font-medium py-5 gap-2 italic tablet:text-[14px]">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path opacity="0.4" d="M20.6191 8.45C19.5691 3.83 15.5391 1.75 11.9991 1.75C11.9991 1.75 11.9991 1.75 11.9891 1.75C8.45912 1.75 4.41912 3.82 3.36912 8.44C2.19912 13.6 5.35912 17.97 8.21912 20.72C9.27912 21.74 10.6391 22.25 11.9991 22.25C13.3591 22.25 14.7191 21.74 15.7691 20.72C18.6291 17.97 21.7891 13.61 20.6191 8.45Z" fill="white"/>
                       <path d="M11.9996 13.46C13.7393 13.46 15.1496 12.0497 15.1496 10.31C15.1496 8.57031 13.7393 7.16 11.9996 7.16C10.2599 7.16 8.84961 8.57031 8.84961 10.31C8.84961 12.0497 10.2599 13.46 11.9996 13.46Z" fill="white"/>
                     </svg>
                     Rua 1, Jd. Paineiras - Garça/SP
                   </div>
-                  <h1 className="text-[60px] font-bold w-full text-start leading-[60px] mb-5 font-bebasNeue">Excelente localização, perto de tudo!</h1>
-                  <p className="italic opacity-70 font-normal mb-5">A localização ideal para sua nova fase. Próxima a tudo, segura e com imóveis selecionados.</p>
-                  <Link href="#" className="mt-10 text-[24px] leading-[60px] flex items-center justify-center font-normal font-bebasNeue bg-[rgba(255,255,255,0.3)] pointer max-w-[230px] w-full rounded-full">ver imóvel</Link>
+                  <h1 className="text-[60px] font-bold w-full text-start leading-[60px] mb-5 font-bebasNeue tablet:text-[30px] tablet:m-0 mobile:leading-[30px]">Excelente localização, perto de tudo!</h1>
+                  <p className="italic opacity-70 font-normal mb-5 tablet:text-[14px] text-start w-full tablet:m-0 ">A localização ideal para sua nova fase. Próxima a tudo, segura e com imóveis selecionados.</p>
+                  <Link href="#" className="mt-10 text-[24px] leading-[60px] flex items-center justify-center font-normal font-bebasNeue bg-[rgba(255,255,255,0.3)] pointer max-w-[230px] w-full rounded-full tablet:mt-3 tablet:leading-[30px] tablet:text-[16px] tablet:max-w-[170px]">ver imóvel</Link>
                 </div>
               </div>
-              <div className="w-full h-full bg-[#3CABAE]" />
+              <div className="w-full h-full bg-[#3CABAE] tablet:h-[50%]" />
             </div>
           </SwiperSlide>
           <SwiperSlide>
-            <div className="flex h-full w-full">
-              <div className="w-[100%] relative">
+            <div className="flex h-full w-full tablet:flex-col">
+              <div className="w-[100%] relative tablet:h-[65%]">
                 <Image 
                   className="w-full h-full object-cover brightness-50" 
                   src="/banners/banner3.png" 
@@ -99,25 +99,25 @@ export default function CarrosselBanner() {
                   width={500} 
                   height={500}
                 />
-                <div className="absolute inset-px text-white flex justify-center items-center flex-col px-16">
-                  <div className="flex w-full text-[16px] font-medium py-5 gap-2 italic">
+                <div className="absolute inset-px text-white flex justify-center items-center flex-col px-16 tablet:justify-start mobile:px-5">
+                  <div className="flex w-full text-[16px] font-medium py-5 gap-2 italic tablet:text-[14px]">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path opacity="0.4" d="M20.6191 8.45C19.5691 3.83 15.5391 1.75 11.9991 1.75C11.9991 1.75 11.9991 1.75 11.9891 1.75C8.45912 1.75 4.41912 3.82 3.36912 8.44C2.19912 13.6 5.35912 17.97 8.21912 20.72C9.27912 21.74 10.6391 22.25 11.9991 22.25C13.3591 22.25 14.7191 21.74 15.7691 20.72C18.6291 17.97 21.7891 13.61 20.6191 8.45Z" fill="white"/>
                       <path d="M11.9996 13.46C13.7393 13.46 15.1496 12.0497 15.1496 10.31C15.1496 8.57031 13.7393 7.16 11.9996 7.16C10.2599 7.16 8.84961 8.57031 8.84961 10.31C8.84961 12.0497 10.2599 13.46 11.9996 13.46Z" fill="white"/>
                     </svg>
                     Rua 1, Jd. Paineiras - Garça/SP
                   </div>
-                  <h1 className="text-[60px] font-bold w-full text-start leading-[60px] mb-5 font-bebasNeue">Excelente localização, perto de tudo!</h1>
-                  <p className="italic opacity-70 font-normal mb-5">A localização ideal para sua nova fase. Próxima a tudo, segura e com imóveis selecionados.</p>
-                  <Link href="#" className="mt-10 text-[24px] leading-[60px] flex items-center justify-center font-normal font-bebasNeue bg-[rgba(255,255,255,0.3)] pointer max-w-[230px] w-full rounded-full">ver imóvel</Link>
+                  <h1 className="text-[60px] font-bold w-full text-start leading-[60px] mb-5 font-bebasNeue tablet:text-[30px] tablet:m-0 mobile:leading-[30px]">Excelente localização, perto de tudo!</h1>
+                  <p className="italic opacity-70 font-normal mb-5 tablet:text-[14px] text-start w-full tablet:m-0">A localização ideal para sua nova fase. Próxima a tudo, segura e com imóveis selecionados.</p>
+                  <Link href="#" className="mt-10 text-[24px] leading-[60px] flex items-center justify-center font-normal font-bebasNeue bg-[rgba(255,255,255,0.3)] pointer max-w-[230px] w-full rounded-full tablet:mt-3 tablet:leading-[30px] tablet:text-[16px] tablet:max-w-[170px]">ver imóvel</Link>
                 </div>
               </div>
-              <div className="w-full h-full bg-[#C9AC99]" />
+              <div className="w-full h-full bg-[#C9AC99] tablet:h-[50%]" />
             </div>
           </SwiperSlide>
           <SwiperSlide>
-            <div className="flex h-full w-full">
-              <div className="w-[100%] relative">
+            <div className="flex h-full w-full tablet:flex-col">
+              <div className="w-[100%] relative tablet:h-[65%]">
                 <Image 
                   className="w-full h-full object-cover brightness-50" 
                   src="/banners/banner4.png" 
@@ -125,25 +125,25 @@ export default function CarrosselBanner() {
                   width={500} 
                   height={500}
                 />
-                <div className="absolute inset-px text-white flex justify-center items-center flex-col px-16">
-                  <div className="flex w-full text-[16px] font-medium py-5 gap-2 italic">
+                <div className="absolute inset-px text-white flex justify-center items-center flex-col px-16 tablet:justify-start mobile:px-5">
+                  <div className="flex w-full text-[16px] font-medium py-5 gap-2 italic tablet:text-[14px]">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path opacity="0.4" d="M20.6191 8.45C19.5691 3.83 15.5391 1.75 11.9991 1.75C11.9991 1.75 11.9991 1.75 11.9891 1.75C8.45912 1.75 4.41912 3.82 3.36912 8.44C2.19912 13.6 5.35912 17.97 8.21912 20.72C9.27912 21.74 10.6391 22.25 11.9991 22.25C13.3591 22.25 14.7191 21.74 15.7691 20.72C18.6291 17.97 21.7891 13.61 20.6191 8.45Z" fill="white"/>
                       <path d="M11.9996 13.46C13.7393 13.46 15.1496 12.0497 15.1496 10.31C15.1496 8.57031 13.7393 7.16 11.9996 7.16C10.2599 7.16 8.84961 8.57031 8.84961 10.31C8.84961 12.0497 10.2599 13.46 11.9996 13.46Z" fill="white"/>
                     </svg>
                     Rua 1, Jd. Paineiras - Garça/SP
                   </div>
-                  <h1 className="text-[60px] font-bold w-full text-start leading-[60px] mb-5 font-bebasNeue">Excelente localização, perto de tudo!</h1>
-                  <p className="italic opacity-70 font-normal mb-5">A localização ideal para sua nova fase. Próxima a tudo, segura e com imóveis selecionados.</p>
-                  <Link href="#" className="mt-10 text-[24px] leading-[60px] flex items-center justify-center font-normal font-bebasNeue bg-[rgba(255,255,255,0.3)] pointer max-w-[230px] w-full rounded-full">ver imóvel</Link>
+                  <h1 className="text-[60px] font-bold w-full text-start leading-[60px] mb-5 font-bebasNeue tablet:text-[30px] tablet:m-0 mobile:leading-[30px]">Excelente localização, perto de tudo!</h1>
+                  <p className="italic opacity-70 font-normal mb-5 tablet:text-[14px] text-start w-full tablet:m-0">A localização ideal para sua nova fase. Próxima a tudo, segura e com imóveis selecionados.</p>
+                  <Link href="#" className="mt-10 text-[24px] leading-[60px] flex items-center justify-center font-normal font-bebasNeue bg-[rgba(255,255,255,0.3)] pointer max-w-[230px] w-full rounded-full tablet:mt-3 tablet:leading-[30px] tablet:text-[16px] tablet:max-w-[170px]">ver imóvel</Link>
                 </div>
               </div>
-              <div className="w-full h-full bg-[#184261]" />
+              <div className="w-full h-full bg-[#184261] tablet:h-[50%]" />
             </div>
           </SwiperSlide>
           <SwiperSlide>
-            <div className="flex h-full w-full">
-              <div className="w-[100%] relative">
+            <div className="flex h-full w-full tablet:flex-col">
+              <div className="w-[100%] relative tablet:h-[65%]">
                 <Image 
                   className="w-full h-full object-cover brightness-50" 
                   src="/banners/banner5.png" 
@@ -151,25 +151,25 @@ export default function CarrosselBanner() {
                   width={500} 
                   height={500}
                 />
-                <div className="absolute inset-px text-white flex justify-center items-center flex-col px-16">
-                  <div className="flex w-full text-[16px] font-medium py-5 gap-2 italic">
+                <div className="absolute inset-px text-white flex justify-center items-center flex-col px-16 tablet:justify-start mobile:px-5">
+                  <div className="flex w-full text-[16px] font-medium py-5 gap-2 italic tablet:text-[14px]">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path opacity="0.4" d="M20.6191 8.45C19.5691 3.83 15.5391 1.75 11.9991 1.75C11.9991 1.75 11.9991 1.75 11.9891 1.75C8.45912 1.75 4.41912 3.82 3.36912 8.44C2.19912 13.6 5.35912 17.97 8.21912 20.72C9.27912 21.74 10.6391 22.25 11.9991 22.25C13.3591 22.25 14.7191 21.74 15.7691 20.72C18.6291 17.97 21.7891 13.61 20.6191 8.45Z" fill="white"/>
                       <path d="M11.9996 13.46C13.7393 13.46 15.1496 12.0497 15.1496 10.31C15.1496 8.57031 13.7393 7.16 11.9996 7.16C10.2599 7.16 8.84961 8.57031 8.84961 10.31C8.84961 12.0497 10.2599 13.46 11.9996 13.46Z" fill="white"/>
                     </svg>
                     Rua 1, Jd. Paineiras - Garça/SP
                   </div>
-                  <h1 className="text-[60px] font-bold w-full text-start leading-[60px] mb-5 font-bebasNeue">Excelente localização, perto de tudo!</h1>
-                  <p className="italic opacity-70 font-normal mb-5">A localização ideal para sua nova fase. Próxima a tudo, segura e com imóveis selecionados.</p>
-                  <Link href="#" className="mt-10 text-[24px] leading-[60px] flex items-center justify-center font-normal font-bebasNeue bg-[rgba(255,255,255,0.3)] pointer max-w-[230px] w-full rounded-full">ver imóvel</Link>
+                  <h1 className="text-[60px] font-bold w-full text-start leading-[60px] mb-5 font-bebasNeue tablet:text-[30px] tablet:m-0 mobile:leading-[30px]">Excelente localização, perto de tudo!</h1>
+                  <p className="italic opacity-70 font-normal mb-5 tablet:text-[14px] text-start w-full tablet:m-0">A localização ideal para sua nova fase. Próxima a tudo, segura e com imóveis selecionados.</p>
+                  <Link href="#" className="mt-10 text-[24px] leading-[60px] flex items-center justify-center font-normal font-bebasNeue bg-[rgba(255,255,255,0.3)] pointer max-w-[230px] w-full rounded-full tablet:mt-3 tablet:leading-[30px] tablet:text-[16px] tablet:max-w-[170px]">ver imóvel</Link>
                 </div>
               </div>
-              <div className="w-full h-full bg-[#415622]" />
+              <div className="w-full h-full bg-[#415622] tablet:h-[50%]" />
             </div>
           </SwiperSlide>
         </Swiper>
 
-        <div className="absolute top-0 h-full w-full flex flex-col items-center justify-center">
+        <div className="absolute top-0 h-full w-full flex flex-col items-center justify-center tablet:flex-row tablet:mt-[75px]">
           <Swiper
             direction="horizontal"
             loop={true}
@@ -180,6 +180,14 @@ export default function CarrosselBanner() {
             simulateTouch={false}
             touchStartPreventDefault={false}
             grabCursor={false}
+            breakpoints={{
+              0: {
+                slidesPerView: 1,
+              },
+              770: {
+                slidesPerView: 1.2,
+              }
+            }}
             pagination={{
               type: 'custom',
               el: '.custom-pagination',
@@ -197,9 +205,9 @@ export default function CarrosselBanner() {
             className="w-full"
           >
             <SwiperSlide>
-              <div className="flex h-full w-full justify-end">
+              <div className="flex h-full w-full justify-end tablet:items-end tablet:justify-center">
                 <Image 
-                  className="w-[488px] h-[388px] object-cover rounded-3xl" 
+                  className="w-[488px] h-[388px] tablet:w-[288px] tablet:h-[188px] object-cover rounded-3xl" 
                   src="/banners/banner1.png" 
                   alt="banner1" 
                   width={488} 
@@ -208,44 +216,44 @@ export default function CarrosselBanner() {
               </div>
             </SwiperSlide>
             <SwiperSlide>
-              <div className="flex h-full w-full justify-end">
+              <div className="flex h-full w-full justify-end tablet:items-end tablet:justify-center">
                 <Image 
-                  className="w-[488px] h-[388px] object-cover rounded-3xl" 
+                  className="w-[488px] h-[388px] tablet:w-[288px] tablet:h-[188px] object-cover rounded-3xl" 
                   src="/banners/banner2.png" 
-                  alt="banner2" 
+                  alt="banner1" 
                   width={488} 
                   height={388} 
                 />
               </div>
             </SwiperSlide>
             <SwiperSlide>
-              <div className="flex h-full w-full justify-end">
+              <div className="flex h-full w-full justify-end tablet:items-end tablet:justify-center">
                 <Image 
-                  className="w-[488px] h-[388px] object-cover rounded-3xl" 
+                  className="w-[488px] h-[388px] tablet:w-[288px] tablet:h-[188px] object-cover rounded-3xl" 
                   src="/banners/banner3.png" 
-                  alt="banner3" 
+                  alt="banner1" 
                   width={488} 
                   height={388} 
                 />
               </div>
             </SwiperSlide>
             <SwiperSlide>
-              <div className="flex h-full w-full justify-end">
+              <div className="flex h-full w-full justify-end tablet:items-end tablet:justify-center">
                 <Image 
-                  className="w-[488px] h-[388px] object-cover rounded-3xl" 
+                  className="w-[488px] h-[388px] tablet:w-[288px] tablet:h-[188px] object-cover rounded-3xl" 
                   src="/banners/banner4.png" 
-                  alt="banner4" 
+                  alt="banner1" 
                   width={488} 
                   height={388} 
                 />
               </div>
             </SwiperSlide>
             <SwiperSlide>
-              <div className="flex h-full w-full justify-end">
+             <div className="flex h-full w-full justify-end tablet:items-end tablet:justify-center">
                 <Image 
-                  className="w-[488px] h-[388px] object-cover rounded-3xl" 
+                  className="w-[488px] h-[388px] tablet:w-[288px] tablet:h-[188px] object-cover rounded-3xl" 
                   src="/banners/banner5.png" 
-                  alt="banner5" 
+                  alt="banner1" 
                   width={488} 
                   height={388} 
                 />
@@ -253,7 +261,7 @@ export default function CarrosselBanner() {
             </SwiperSlide>
           </Swiper>
 
-          <div className="flex gap-5 z-[100] mt-8 relative left-[16%]">
+          <div className="flex gap-5 z-[100] mt-8 relative left-[16%] tablet:w-full tablet:left-[0] tablet:justify-center">
             <button
               onClick={handlePrev}
               className="w-[50px] h-[50px] rounded-full bg-white bg-opacity-10 flex items-center justify-center hover:bg-opacity-20 transition-all"
