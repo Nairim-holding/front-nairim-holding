@@ -46,7 +46,9 @@ export default function CarrosselBanner() {
                   alt="banner1" 
                   width={500} 
                   height={500}
-                  loading="eager"
+                  sizes="(max-width: 768px) 200px, 200px"
+                  loading="lazy"
+                  priority
                 />
                 <div className="absolute inset-px text-white flex justify-center items-center flex-col px-16 tablet:justify-start mobile:px-5">
                   <div className="flex w-full text-[16px] font-medium py-5 gap-2 italic tablet:text-[14px]">
@@ -73,7 +75,8 @@ export default function CarrosselBanner() {
                   alt="banner1" 
                   width={500} 
                   height={500}
-                  loading="eager"
+                  loading="lazy"
+                  sizes="(max-width: 768px) 200px, 200px"
                 />
                 <div className="absolute inset-px text-white flex justify-center items-center flex-col px-16 tablet:justify-start mobile:px-5">
                   <div className="flex w-full text-[16px] font-medium py-5 gap-2 italic tablet:text-[14px]">
@@ -99,8 +102,9 @@ export default function CarrosselBanner() {
                   src="/banners/banner3.png" 
                   alt="banner1" 
                   width={500} 
-                  loading="eager"
+                  loading="lazy"
                   height={500}
+                  sizes="(max-width: 768px) 200px, 200px"
                 />
                 <div className="absolute inset-px text-white flex justify-center items-center flex-col px-16 tablet:justify-start mobile:px-5">
                   <div className="flex w-full text-[16px] font-medium py-5 gap-2 italic tablet:text-[14px]">
@@ -127,7 +131,8 @@ export default function CarrosselBanner() {
                   alt="banner1" 
                   width={500} 
                   height={500}
-                  loading="eager"
+                  loading="lazy"
+                  sizes="(max-width: 768px) 200px, 200px"
                 />
                 <div className="absolute inset-px text-white flex justify-center items-center flex-col px-16 tablet:justify-start mobile:px-5">
                   <div className="flex w-full text-[16px] font-medium py-5 gap-2 italic tablet:text-[14px]">
@@ -154,7 +159,8 @@ export default function CarrosselBanner() {
                   alt="banner1" 
                   width={500} 
                   height={500}
-                  loading="eager"
+                  loading="lazy"
+                  sizes="(max-width: 768px) 200px, 200px"
                 />
                 <div className="absolute inset-px text-white flex justify-center items-center flex-col px-16 tablet:justify-start mobile:px-5">
                   <div className="flex w-full text-[16px] font-medium py-5 gap-2 italic tablet:text-[14px]">
@@ -217,7 +223,9 @@ export default function CarrosselBanner() {
                   alt="banner1" 
                   width={488} 
                   height={388} 
-                  loading="eager"
+                  loading="lazy"
+                  sizes="(max-width: 768px) 200px, 200px"
+                  priority
                 />
               </div>
             </SwiperSlide>
@@ -229,6 +237,7 @@ export default function CarrosselBanner() {
                   alt="banner1" 
                   width={488} 
                   height={388} 
+                  sizes="(max-width: 768px) 200px, 200px"
                 />
               </div>
             </SwiperSlide>
@@ -240,7 +249,8 @@ export default function CarrosselBanner() {
                   alt="banner1" 
                   width={488} 
                   height={388} 
-                  loading="eager"
+                  loading="lazy"
+                  sizes="(max-width: 768px) 200px, 200px"
                 />
               </div>
             </SwiperSlide>
@@ -252,7 +262,8 @@ export default function CarrosselBanner() {
                   alt="banner1" 
                   width={488} 
                   height={388} 
-                  loading="eager"
+                  loading="lazy"
+                  sizes="(max-width: 768px) 200px, 200px"
                 />
               </div>
             </SwiperSlide>
@@ -264,7 +275,8 @@ export default function CarrosselBanner() {
                   alt="banner1" 
                   width={488} 
                   height={388} 
-                  loading="eager"
+                  loading="lazy"
+                  sizes="(max-width: 768px) 200px, 200px"
                 />
               </div>
             </SwiperSlide>
