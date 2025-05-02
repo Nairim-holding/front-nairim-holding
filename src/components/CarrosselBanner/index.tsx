@@ -46,6 +46,7 @@ export default function CarrosselBanner() {
                   alt="banner1" 
                   width={500} 
                   height={500}
+                  loading="eager"
                 />
                 <div className="absolute inset-px text-white flex justify-center items-center flex-col px-16 tablet:justify-start mobile:px-5">
                   <div className="flex w-full text-[16px] font-medium py-5 gap-2 italic tablet:text-[14px]">
@@ -72,6 +73,7 @@ export default function CarrosselBanner() {
                   alt="banner1" 
                   width={500} 
                   height={500}
+                  loading="eager"
                 />
                 <div className="absolute inset-px text-white flex justify-center items-center flex-col px-16 tablet:justify-start mobile:px-5">
                   <div className="flex w-full text-[16px] font-medium py-5 gap-2 italic tablet:text-[14px]">
@@ -97,6 +99,7 @@ export default function CarrosselBanner() {
                   src="/banners/banner3.png" 
                   alt="banner1" 
                   width={500} 
+                  loading="eager"
                   height={500}
                 />
                 <div className="absolute inset-px text-white flex justify-center items-center flex-col px-16 tablet:justify-start mobile:px-5">
@@ -124,6 +127,7 @@ export default function CarrosselBanner() {
                   alt="banner1" 
                   width={500} 
                   height={500}
+                  loading="eager"
                 />
                 <div className="absolute inset-px text-white flex justify-center items-center flex-col px-16 tablet:justify-start mobile:px-5">
                   <div className="flex w-full text-[16px] font-medium py-5 gap-2 italic tablet:text-[14px]">
@@ -150,6 +154,7 @@ export default function CarrosselBanner() {
                   alt="banner1" 
                   width={500} 
                   height={500}
+                  loading="eager"
                 />
                 <div className="absolute inset-px text-white flex justify-center items-center flex-col px-16 tablet:justify-start mobile:px-5">
                   <div className="flex w-full text-[16px] font-medium py-5 gap-2 italic tablet:text-[14px]">
@@ -212,6 +217,7 @@ export default function CarrosselBanner() {
                   alt="banner1" 
                   width={488} 
                   height={388} 
+                  loading="eager"
                 />
               </div>
             </SwiperSlide>
@@ -234,6 +240,7 @@ export default function CarrosselBanner() {
                   alt="banner1" 
                   width={488} 
                   height={388} 
+                  loading="eager"
                 />
               </div>
             </SwiperSlide>
@@ -245,6 +252,7 @@ export default function CarrosselBanner() {
                   alt="banner1" 
                   width={488} 
                   height={388} 
+                  loading="eager"
                 />
               </div>
             </SwiperSlide>
@@ -256,6 +264,7 @@ export default function CarrosselBanner() {
                   alt="banner1" 
                   width={488} 
                   height={388} 
+                  loading="eager"
                 />
               </div>
             </SwiperSlide>
