@@ -3,6 +3,7 @@ import Cookies from 'js-cookie'
 import { useEffect, useState } from 'react';
 import jwt from 'jsonwebtoken';
 import { token } from '@/types/token';
+import Aside from '@/components/Admin/Aside';
 
 export default function Page(){
     const [name, setName] = useState<string>(' matheus henrique dos santos bino ');
@@ -14,24 +15,6 @@ export default function Page(){
     }, [])
 
     return(
-        <div>
-            <h1>Olá, {name}</h1>
-            <h1 className="text-black text-4xl">⢀⢀⢀⢀⢀⡤⠤⠒⠒⠒⠛⠉⣉⣉⡉⠛⠒⠒⠒⠦⢤⢀⢀⢀⢀⢀⢀⢀⢀ 
-⢀⢀⢀⢀⢀⢀⣧⠀⣶⣿⣿⣿⡿⠛⣿⣿⣿⣿⣿⣶⠀⣸⢀⢀⢀⢀⢀⢀⢀⢀ 
-⢀⢀⢀⢀⢀⢀⢸⠀⣿⣿⣿⣯⣴⡇⣿⣿⣿⣿⣿⣿⠀⣿⢀⢀⢀⢀⢀⢀⢀⢀ 
-⢀⢀⢀⢀⢀⢀⡏⢰⣿⣿⣿⣿⠿⠦⠾⡿⡿⣿⣿⣿⡆⠸⡄⢀⢀⢀⢀⢀⢀⢀ 
-⡖⠦⠤⠤⠤⠖⢋⣠⣿⣿⣿⣿⣇⠤⠤⠤⠤⠀⠿⠿⠋⡈⠀⡉⠲⠤⠤⠤⠴⢶ 
-⡇⢰⣶⣶⣶⣾⣿⣿⣿⣿⣏⠉⠉⠁⠁⠁⠁⠁⠁⠈⠈⠈⠈⠁⠈⠈⢀⡄⡆⢸ 
-⡇⢸⣿⠿⢰⣒⠛⢿⣟⠛⠛⢒⢒⡆⠠⠄⠄⠄⠠⢀⢀⠂⠈⠈⠈⣀⣴⣿⡇⢸ 
-⡇⢸⣏⢸⢘⣉⢼⣿⣿⡀⢂⠆⠆⠆⠄⠄⠆⠄⠄⠄⠄⠄⠘⣠⣾⣿⣿⣿⡇⢸ 
-⡇⢸⣿⣦⢍⣉⡆⢶⣿⠇⢀⡀⢀⢀⢠⡈⢿⠏⣠⢀⢀⢀⢠⣿⣿⣿⣿⣿⡇⢸ 
-⢷⠘⣿⣷⣶⣿⣿⣿⠿⢀⢀⠇⢀⢀⠸⠛⣿⡛⠻⢀⢀⢀⣸⣿⣿⣿⣿⣿⠃⡞ 
-⢸⡀⣿⣿⣿⡿⠋⠁⢂⠀⠤⢀⢀⢀⢀⣈⣉⠍⡀⢀⢀⣠⣿⣿⣿⣿⣿⣿⢀⡇ 
-⢀⣇⠸⠿⠋⢀⢀⠁⢀⢐⠁⣤⢔⡪⠍⣒⡞⡔⢍⣤⣾⣿⣿⣿⣿⣿⣿⠇⣸⢀ 
-⢀⠘⡄⢂⢀⢀⢀⢀⢀⠀⠪⢦⣕⡢⠥⢰⢳⣾⣿⣿⣿⣿⣿⣿⣿⣿⡟⢠⠃⢀ 
-⢀⢀⠹⡄⠂⢀⢀⠤⠤⣩⡶⠭⣭⠿⠯⣭⡿⠭⢽⣿⠷⣿⣿⣿⣿⠟⢠⠏⢀⢀ 
-⢀⢀⢀⠘⣆⠁⡀⣠⣾⣿⣿⣿⣛⢻⠿⠿⠿⠛⣻⣿⣿⣿⣿⣿⠋⡰⠃⢀⢀⢀ 
-⢀⢀⢀⢀⠈⠳⡈⠻⣿⣿⣿⣿⣿⢀⢾⣿⠏⣼⣿⣿⣿⣿⠟⢁⠞ 󠀀</h1>
-        </div>
+        <Aside></Aside>
     )
 }

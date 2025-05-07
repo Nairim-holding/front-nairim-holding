@@ -47,7 +47,6 @@ export default function CarrosselBanner() {
                   width={500} 
                   height={500}
                   sizes="(max-width: 768px) 200px, 200px"
-                  loading="lazy"
                   priority
                 />
                 <div className="absolute inset-px text-white flex justify-center items-center flex-col px-16 tablet:justify-start mobile:px-5">
@@ -223,7 +222,6 @@ export default function CarrosselBanner() {
                   alt="banner1" 
                   width={488} 
                   height={388} 
-                  loading="lazy"
                   sizes="(max-width: 768px) 200px, 200px"
                   priority
                 />
