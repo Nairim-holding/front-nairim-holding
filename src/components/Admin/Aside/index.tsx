@@ -1,63 +1,24 @@
 import Link from "next/link";
-import { CiHeart, CiSearch } from "react-icons/ci";
-import { RxDashboard } from "react-icons/rx";
-import { LuUserRound } from "react-icons/lu";
-import { TbDeviceAnalytics, TbMessage } from "react-icons/tb";
-import { IoExitOutline, IoFileTrayFullOutline, IoSunnyOutline } from "react-icons/io5";
-import { AiOutlineShoppingCart } from "react-icons/ai";
-import { CiSettings } from "react-icons/ci";
-import Image from "next/image";
+import { useState } from "react";
+import PropsDarkMode from "@/types/propsDarkMode";
+import Logo from "./Logo";
+import AccountInfo from "./AccountInfo";
+import List from "./List";
 
-export default function Aside(){
+
+export default function Aside({ darkMode, setDarkMode } : PropsDarkMode ){
+    const [openAside, setOpenAside] = useState<boolean>(false);
     return(
-        <aside className="fixed left-0 w-xm h-full bg-[#12101D]">
-            <div className="flex flex-col h-full px-5 justify-center items-center gap-7 pb-3">
+        <aside className={`fixed h-full ${darkMode ? 'bg-[#12101D]' : 'bg-[#fff]'} left-0`} >
+            <div onMouseEnter={(e) => setOpenAside(true)} onMouseLeave={(e) => setOpenAside(false)} className={`flex flex-col h-full pt-5 px-5 gap-7 pb-3 items-start  ${openAside ? 'w-[300px]' : 'w-[90px]'} transition-all ease-linear relative`}>
                 <Link href="#">
-                    <Image src="/logo-navbar.svg" alt="logo Nairim Holding" width={50} height={50}></Image>
+                    <Logo darkMode={darkMode} setDarkMode={setDarkMode} openAside={openAside} ></Logo>
                 </Link>
-
-                <Link href="#" className="mt-5">
-                   <RxDashboard size={25} color="#FFF"/>
-                </Link>
-                <Link href="#">
-                  <LuUserRound size={25} color="#FFF"/>
-                </Link>
-                <Link href="#"> 
-                    <TbMessage size={25} color="#FFF"/>
-                </Link>
-                <Link href="#">
-                    <TbDeviceAnalytics size={25} color="#FFF"/>
-                </Link>
-                <Link href="#">
-                    <IoFileTrayFullOutline size={25} color="#FFF"/>
-                </Link>
-
-                <Link href="#">
-                    <AiOutlineShoppingCart  size={25} color="#FFF"/>
-                </Link>
-
-                <Link href="#">
-                    <CiHeart size={30} color="#FFF"/>
-                </Link>
-
-                <Link href="#"  >
-                    <CiSettings size={30} color="#FFF"/>
-                </Link>
-
-                <Link href="#" className="mt-10">
-                        <div className="bg-[#37373B] rounded-full w-[40px] h-full p-1">
-                            <div className="bg-[#fff] w-[19px] h-[19px] rounded-full flex justify-center items-center">
-                                <IoSunnyOutline color="#000" />
-                            </div>
-                        </div>
-                    </Link>
-
-                <Link href="#">
-                    <IoExitOutline size={30} className="rotate-180" color="#FFF"/>
-                </Link>
-
                 
+                <List darkMode={darkMode} setDarkMode={setDarkMode} openAside={openAside}></List>
 
+ 
+                <AccountInfo darkMode={darkMode} setDarkMode={setDarkMode} openAside={openAside}></AccountInfo>
             </div>
         </aside>
     )
