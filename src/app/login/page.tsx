@@ -2,39 +2,137 @@
 import responseLogin from "@/types/responseLogin";
 import axios from "axios";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import Cookies from 'js-cookie';
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { FcGoogle } from 'react-icons/fc';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { TbLockPassword } from "react-icons/tb";
+import { MdOutlineEmail } from "react-icons/md";
 
-export default function Page(){
-    const navigation = useRouter();
-    async function onSubmit(e: React.FormEvent){
-        e.preventDefault();
-        
-        const formData = new FormData(e.target as HTMLFormElement);
-        const email = formData.get('email');
-        const password = formData.get('password');
+// Fonte Poppins
+import { Poppins } from 'next/font/google';
+const poppins = Poppins({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-poppins',
+});
 
-        const response = axios.post('http://localhost:5000/authenticate', {
-            email,
-            password
-        });
+export default function Page() {
+  const navigation = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
 
-        const { data } = await response as {data: responseLogin};
-        Cookies.set('authToken', data.token, { expires: 7, path: '' });
+  async function onSubmit(e: React.FormEvent) {
+    e.preventDefault();
 
-        navigation.push('/dashboard');
-    }
-    return(
-        <section>
-            <h2 className="text-center">Login</h2>
-            <form className="flex flex-col gap-3 items-center" onSubmit={onSubmit}>
-                <input type="email" placeholder="Digite o seu email:" name="email" className="text-black border px-5 py-2 border-black outline-none"></input>
-                <input type="password" placeholder="Digite a sua senha: " name="password" className="text-black border px-5 py-2 border-black outline-none"></input>
-                <button type="submit" className="border border-black p-2 px-4 mb-4">Entrar</button>
-            </form>
+    const formData = new FormData(e.target as HTMLFormElement);
+    const email = formData.get('email');
+    const password = formData.get('password');
 
-            <Link href={'/signup'} className="text-center w-full block">Cadastre-se</Link>
-        </section>
-    )
+    const response = axios.post('http://localhost:5000/authenticate', {
+      email,
+      password
+    });
+
+    const { data } = await response as { data: responseLogin };
+    Cookies.set('authToken', data.token, { expires: 7, path: '' });
+
+    navigation.push('/dashboard');
+  }
+
+  const togglePassword = () => setShowPassword((prev) => !prev);
+
+  return (
+    <section className={`${poppins.variable} font-poppins flex flex-col lg:flex-row h-dvh w-full bg-gradient-to-b from-cor_grad_1 via-cor_grad_2 to-cor_grad_3`}>
+
+      {/* LOGO / CABEÇALHO */}
+      <section className="w-full flex flex-col items-center justify-center text-center p-6 lg:hidden">
+        <Image
+          src="/logo-login.svg"
+          alt="logo-nairim-old-woman-home"
+          width={200}
+          height={72}
+          className="mb-4"
+        />
+        <h2 className="text-white text-2xl font-bold mb-1">Bem vindo de volta!</h2>
+        <p className="text-white text-sm mb-6">Faça login</p>
+      </section>
+
+      {/* VERSÃO DESKTOP DA LOGO */}
+      <section className="hidden lg:flex w-full justify-center items-center">
+        <Image
+          src="/logo-login.svg"
+          alt="logo-nairim-old-woman-home"
+          width={601}
+          height={217}
+          className="xl:px-10"
+        />
+      </section>
+
+      {/* FORMULÁRIO */}
+      <section className="flex flex-col justify-center items-center bg-white w-full px-6 sm:px-10 md:px-16 lg:px-32 xl:px-40 2xl:px-60 py-10 sm:rounded-t-3xl lg:rounded-none">
+
+        {/* Botão Google */}
+        <button className="flex items-center justify-center gap-3 border w-full max-w-md border-gray-300 rounded-lg py-2 mb-6">
+          <FcGoogle size="30px" className="my-icon" />
+          <span className="text-sm">Continue com o Google</span>
+        </button>
+
+        {/* Divider */}
+        <div className="flex items-center w-full max-w-md mb-4">
+          <div className="flex-grow border-t border-gray-300" />
+          <span className="mx-4 text-gray-500 text-sm">Ou login com</span>
+          <div className="flex-grow border-t border-gray-300" />
+        </div>
+
+        {/* Formulário */}
+        <form className="flex flex-col gap-4 w-full max-w-md" onSubmit={onSubmit}>
+
+          {/* Email input com ícone */}
+          <div className="relative">
+            <MdOutlineEmail className="absolute left-3 top-2.5 text-gray-400" size="20px" />
+            <input
+              type="email"
+              name="email"
+              placeholder="exemplo@gmail.com"
+              className="border border-gray-300 pl-10 py-2 rounded-lg w-full"
+            />
+          </div>
+
+          {/* Password input com ícone + toggle */}
+          <div className="relative">
+            <TbLockPassword className="absolute left-3 top-2.5 text-gray-400" size="20px" />
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              placeholder="senha"
+              className="border border-gray-300 pl-10 pr-10 py-2 rounded-lg w-full"
+            />
+            <span
+              className="absolute right-3 top-2.5 cursor-pointer text-gray-400"
+              onClick={togglePassword}
+            >
+              {showPassword ? <FaEyeSlash size="20px" /> : <FaEye size="20px" />}
+            </span>
+          </div>
+
+          <Link href="/forgot-password" className="text-sm text-center text-gray-500">
+            Esqueci a senha
+          </Link>
+
+          <button
+            type="submit"
+            className="bg-gradient-to-r from-cor_grad_1 to-cor_grad_2 text-white rounded-lg py-2 mt-2"
+          >
+            Entrar
+          </button>
+        </form>
+
+        <Link href="/signup" className="text-sm text-center text-gray-600 mt-6">
+          Não tem uma conta? Cadastre-se
+        </Link>
+      </section>
+    </section>
+  );
 }

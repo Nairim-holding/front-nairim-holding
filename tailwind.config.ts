@@ -9,6 +9,9 @@ export default {
   theme: {
     extend: {
       colors: {
+        cor_grad_1: "#6A36C5",
+        cor_grad_2: "#22005B",
+        cor_grad_3: "#11002E",
         primary: "#6D60FC",
         secondary: "#F2FAFC",
         terciary: "#A49DFC",
@@ -22,6 +25,7 @@ export default {
       },
       fontFamily: {
         roboto: ['var(--font-roboto)', 'sans-serif'],
+        poppins: ['var(--font-poppins)', 'sans-serif'],
       },
       screens: {
         'tablet': {'max': '768px'},
