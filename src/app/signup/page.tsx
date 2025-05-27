@@ -18,8 +18,8 @@ export default function Page() {
         const password = formData.get('password') as string;
         const confirmPassword = formData.get('confirm_password') as string;
         const name = formData.get('name');
-        const birth_date = formData.get('birth_date');
-        const gender = formData.get('gender');
+        const birth_date = formData.get('birth_date'); //arrumar data-time
+        const gender = formData.get('gender'); //arrumar, alterar de texto para radio, para o usuario ter escolhas ilimitadas
 
         if (password !== confirmPassword) {
             setErrorMessage("As senhas não coincidem.");
@@ -27,7 +27,7 @@ export default function Page() {
         }
 
         try {
-            const response = await axios.post('http://localhost:5000/users', {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_URL_API}/users`, {
                 name,
                 email,
                 password,

@@ -39,7 +39,6 @@ export default function Page() {
     Cookies.set('authToken', data.token, { expires: 7, path: '' });
 
     navigation.push('/dashboard');
-    console.log(data)
   }
 
   const togglePassword = () => setShowPassword((prev) => !prev);
