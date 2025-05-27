@@ -22,23 +22,34 @@ const poppins = Poppins({
 export default function Page() {
   const navigation = useRouter();
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
+    setIsLoading(true);
+    setError('');
 
     const formData = new FormData(e.target as HTMLFormElement);
     const email = formData.get('email');
     const password = formData.get('password');
 
-    const response = axios.post(`${process.env.NEXT_PUBLIC_URL_API}/authenticate`, {
-      email,
-      password
-    });
+    try {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_URL_API}/authenticate`, {
+        email,
+        password
+      });
 
-    const { data } = await response as { data: responseLogin };
-    Cookies.set('authToken', data.token, { expires: 7, path: '' });
+      const { data } = response as { data: responseLogin };
+      Cookies.set('authToken', data.token, { expires: 7, path: '' });
 
-    navigation.push('/dashboard');
+      navigation.push('/dashboard');
+    } catch (err: any) {
+      const message = err?.response?.data?.message || 'Erro ao tentar fazer login. Verifique suas credenciais.';
+      setError(message);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   const togglePassword = () => setShowPassword((prev) => !prev);
@@ -97,6 +108,7 @@ export default function Page() {
               name="email"
               placeholder="exemplo@gmail.com"
               className="border border-gray-300 pl-10 py-2 rounded-lg w-full"
+              required
             />
           </div>
 
@@ -108,14 +120,22 @@ export default function Page() {
               name="password"
               placeholder="senha"
               className="border border-gray-300 pl-10 pr-10 py-2 rounded-lg w-full"
+              required
             />
             <span
               className="absolute right-3 top-2.5 cursor-pointer text-gray-400"
               onClick={togglePassword}
             >
-              {showPassword ? <FaEyeSlash size="20px" /> : <FaEye size="20px" />}
+              {showPassword ? <FaEye size="20px" /> : <FaEyeSlash size="20px" />}
             </span>
           </div>
+
+          {/* Erro */}
+          {error && (
+            <div className="text-red-500 text-sm bg-red-100 border border-red-400 rounded-md px-4 py-2">
+              {error}
+            </div>
+          )}
 
           <Link href="/forgot-password" className="text-sm text-center text-gray-500">
             Esqueci a senha
@@ -123,9 +143,12 @@ export default function Page() {
 
           <button
             type="submit"
-            className="bg-gradient-to-r from-cor_grad_1 to-cor_grad_2 text-white rounded-lg py-2 mt-2"
+            disabled={isLoading}
+            className={`bg-gradient-to-r from-cor_grad_1 to-cor_grad_2 text-white rounded-lg py-2 mt-2 transition-opacity ${
+              isLoading ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
           >
-            Entrar
+            {isLoading ? 'Entrando...' : 'Entrar'}
           </button>
         </form>
 
