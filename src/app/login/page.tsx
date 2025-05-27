@@ -30,7 +30,7 @@ export default function Page() {
     const email = formData.get('email');
     const password = formData.get('password');
 
-    const response = axios.post('http://localhost:5000/authenticate', {
+    const response = axios.post(`${process.env.NEXT_PUBLIC_URL_API}/authenticate`, {
       email,
       password
     });
@@ -39,6 +39,7 @@ export default function Page() {
     Cookies.set('authToken', data.token, { expires: 7, path: '' });
 
     navigation.push('/dashboard');
+    console.log(data)
   }
 
   const togglePassword = () => setShowPassword((prev) => !prev);
