@@ -19,7 +19,7 @@ body {
   background-color: rgb(147, 128, 255);
 }
 
-main{
+.main-home{
   height: 100%;
   padding-top: 80px; 
   min-height: 50vh;

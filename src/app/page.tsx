@@ -10,7 +10,7 @@ export default function Home() {
   return (
     <>
         <Header></Header> 
-        <main>
+        <main className="main-home">
           <CarrosselBanner></CarrosselBanner>
           <CarrosselFilter></CarrosselFilter>
           <AboutUs></AboutUs>

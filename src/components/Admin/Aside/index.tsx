@@ -5,8 +5,12 @@ import Logo from "./Logo";
 import AccountInfo from "./AccountInfo";
 import List from "./List";
 
+export default interface Aside extends PropsDarkMode {
+    userName: string | undefined;
+}
 
-export default function Aside({ darkMode, setDarkMode } : PropsDarkMode ){
+
+export default function Aside({ darkMode, setDarkMode, userName } : Aside ){
     const [openAside, setOpenAside] = useState<boolean>(false);
     return(
         <aside className={`fixed h-full ${darkMode ? 'bg-[#12101D]' : 'bg-[#fff]'} left-0`} >
@@ -18,7 +22,7 @@ export default function Aside({ darkMode, setDarkMode } : PropsDarkMode ){
                 <List darkMode={darkMode} setDarkMode={setDarkMode} openAside={openAside}></List>
 
  
-                <AccountInfo darkMode={darkMode} setDarkMode={setDarkMode} openAside={openAside}></AccountInfo>
+                <AccountInfo darkMode={darkMode} setDarkMode={setDarkMode} openAside={openAside} userName={userName}></AccountInfo>
             </div>
         </aside>
     )

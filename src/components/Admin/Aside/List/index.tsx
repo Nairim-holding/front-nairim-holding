@@ -21,7 +21,7 @@ export default function List({
   return (
     <ul className="flex flex-col gap-5 items-start justify-start w-full">
       <Link
-        href="#"
+        href="/dashboard"
         className={`mt-5 ${
           openAside ? "w-auto" : "w-full"
         } flex gap-3 justify-center`}>
@@ -33,7 +33,7 @@ export default function List({
         )}
       </Link>
       <Link
-        href="#"
+        href="/dashboard/signup"
         className={`${
           openAside ? "w-auto" : "w-full"
         } flex justify-center gap-3`}>

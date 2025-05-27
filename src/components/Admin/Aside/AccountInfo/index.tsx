@@ -4,12 +4,14 @@ import { IoExitOutline } from "react-icons/io5";
 
 interface PropsAccountInfo extends PropsDarkMode {
   openAside: boolean;
+  userName: string | undefined;
 }
 
 export default function AccountInfo({
   darkMode,
   setDarkMode,
   openAside,
+  userName
 }: PropsAccountInfo) {
   return (
     <div
@@ -22,9 +24,9 @@ export default function AccountInfo({
           <figure className="w-[50px] h-[50px] rounded-full overflow-hidden">
             <div className="w-full h-full bg-white"></div>
           </figure>
-          <div className="flex flex-col items-start">
-            <p className="text-[16px] font-normal">John Doe</p>
-            <p className="text-[16px] font-normal">Web Designer</p>
+          <div className="flex flex-col items-start min-w-[100px] overflow-hidden">
+            <p className="text-[16px] font-normal">{userName ? userName : 'Carregando...'}</p>
+            {/*<p className="text-[16px] font-normal">Web Designer</p> */}
           </div>
         </>
       )}
