@@ -137,10 +137,6 @@ export default function Page() {
             </div>
           )}
 
-          <Link href="/forgot-password" className="text-sm text-center text-gray-500">
-            Esqueci a senha
-          </Link>
-
           <button
             type="submit"
             disabled={isLoading}
@@ -152,9 +148,10 @@ export default function Page() {
           </button>
         </form>
 
-        <Link href="/signup" className="text-sm text-center text-gray-600 mt-6">
-          Não tem uma conta? Cadastre-se
-        </Link>
+          <Link href="/forgot-password" className="text-sm text-center text-gray-500 mt-6">
+            Esqueci a senha
+          </Link>
+            
       </section>
     </section>
   );
