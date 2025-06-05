@@ -73,3 +73,7 @@ input[type="search"]::-webkit-search-results-decoration {
 .font-bebasNeue{
   font-family: var(--font-bebasNeue);
 }
+
+.main-dashboard{
+  padding-left: 90px;
+}

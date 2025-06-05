@@ -17,10 +17,10 @@ export default function Page({ children }: {children: React.ReactNode}){
 
     return(
         <>
-        <Aside darkMode={darkMode} setDarkMode={setDarkMode} userName={name} ></Aside>
-        <main>
-            {children}
-        </main>
+            <Aside darkMode={darkMode} setDarkMode={setDarkMode} userName={name} ></Aside>
+            <main className="main-dashboard">
+                {children}
+            </main>
         </>
     )
 }

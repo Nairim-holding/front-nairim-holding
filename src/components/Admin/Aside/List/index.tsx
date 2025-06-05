@@ -1,11 +1,6 @@
 import { useState } from "react";
-import { CiHeart } from "react-icons/ci";
 import { RxDashboard } from "react-icons/rx";
-import { LuUserRound } from "react-icons/lu";
 import { MdOutlineHomeWork } from "react-icons/md";
-import { TbDeviceAnalytics, TbMessage } from "react-icons/tb";
-import { IoFileTrayFullOutline } from "react-icons/io5";
-import { AiOutlineShoppingCart } from "react-icons/ai";
 import { CiSettings } from "react-icons/ci";
 import Link from "next/link";
 import PropsDarkMode from "@/types/propsDarkMode";
@@ -31,9 +26,9 @@ export default function List({
         } flex gap-3 justify-center`}>
         <RxDashboard size={25} color={`${darkMode ? "#fff" : "#000"}`} />
         {openAside && (
-          <p className={`${darkMode ? "text-white" : "text-black"}`}>
+          <span className={`${darkMode ? "text-white" : "text-black"}`}>
             Dashboard
-          </p>
+          </span>
         )}
       </Link>
 
@@ -42,13 +37,13 @@ export default function List({
         onClick={() => setShowSublist(!showSublist)}
         className={`${openAside ? "w-auto" : "w-full"} cursor-pointer flex flex-col gap-2`}
       >
-        <p
+      <p
         className={`${
           openAside ? "w-auto" : "w-full"
         } flex justify-center gap-3 mr-10`}>
         <MdOutlineHomeWork size={25} color={`${darkMode ? "#fff" : "#000"}`} />
         {openAside && (
-          <p className={`${darkMode ? "text-white" : "text-black"}`}>Cadastrar</p>
+          <span className={`${darkMode ? "text-white" : "text-black"}`}>Cadastrar</span>
         )}
       </p>
 
@@ -57,20 +52,20 @@ export default function List({
           <ul className="flex flex-col gap-2">
             <li className="flex gap-5 flex-row ml-5 items-center">
               <MdOutlineHomeWork size={25} color={`${darkMode ? "#fff" : "#000"}`} />
-              <Link href="/dashboard/signup/clientes" className="text-sm text-gray-500 hover:text-blue-500">
+              <Link href="/dashboard/users" className="text-sm text-gray-500 hover:text-blue-500">
                 <p className={`${darkMode ? "text-white" : "text-black"}`}>Usuario</p>
               </Link>
             </li>
             <li className="flex gap-5 flex-row ml-5 items-center">
               <MdOutlineHomeWork size={25} color={`${darkMode ? "#fff" : "#000"}`} />
-              <Link href="/dashboard/signup/produtos" className="text-sm text-gray-500 hover:text-blue-500">
+              <Link href="/dashboard/agencys" className="text-sm text-gray-500 hover:text-blue-500">
                 <p className={`${darkMode ? "text-white" : "text-black"}`}>Imobiliária</p>
               </Link>
             </li>
             <li className="flex gap-5 flex-row ml-5 items-center">
               <MdOutlineHomeWork size={25} color={`${darkMode ? "#fff" : "#000"}`} />
-              <Link href="/dashboard/signup/pedidos" className="text-sm text-gray-500 hover:text-blue-500">
-                <p className={`${darkMode ? "text-white" : "text-black"}`}>Cadastrar</p>
+              <Link href="/dashboard/propertys" className="text-sm text-gray-500 hover:text-blue-500">
+                <p className={`${darkMode ? "text-white" : "text-black"}`}>Imovéis</p>
               </Link>
             </li>
           </ul>
