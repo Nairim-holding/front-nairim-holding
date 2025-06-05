@@ -77,3 +77,16 @@ input[type="search"]::-webkit-search-results-decoration {
 .main-dashboard{
   padding-left: 90px;
 }
+
+.transcended-image {
+  animation: brilhoEntrada 1s ease-out forwards;
+}
+
+@keyframes brilhoEntrada {
+  0% {
+    filter: brightness(1) drop-shadow(0 0 0px white);
+  }
+  100% {
+    filter: brightness(1.5) drop-shadow(0 0 20px white);
+  }
+}
