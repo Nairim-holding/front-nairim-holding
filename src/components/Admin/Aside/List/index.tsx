@@ -52,19 +52,19 @@ export default function List({
           <ul className="flex flex-col gap-2">
             <li className="flex gap-5 flex-row ml-5 items-center">
               <MdOutlineHomeWork size={25} color={`${darkMode ? "#fff" : "#000"}`} />
-              <Link href="/dashboard/users" className="text-sm text-gray-500 hover:text-blue-500">
+              <Link href="/dashboard/usuarios" className="text-sm text-gray-500 hover:text-blue-500">
                 <p className={`${darkMode ? "text-white" : "text-black"}`}>Usuario</p>
               </Link>
             </li>
             <li className="flex gap-5 flex-row ml-5 items-center">
               <MdOutlineHomeWork size={25} color={`${darkMode ? "#fff" : "#000"}`} />
-              <Link href="/dashboard/agencys" className="text-sm text-gray-500 hover:text-blue-500">
+              <Link href="/dashboard/imobiliarias" className="text-sm text-gray-500 hover:text-blue-500">
                 <p className={`${darkMode ? "text-white" : "text-black"}`}>Imobiliária</p>
               </Link>
             </li>
             <li className="flex gap-5 flex-row ml-5 items-center">
               <MdOutlineHomeWork size={25} color={`${darkMode ? "#fff" : "#000"}`} />
-              <Link href="/dashboard/propertys" className="text-sm text-gray-500 hover:text-blue-500">
+              <Link href="/dashboard/imoveis" className="text-sm text-gray-500 hover:text-blue-500">
                 <p className={`${darkMode ? "text-white" : "text-black"}`}>Imovéis</p>
               </Link>
             </li>
@@ -72,16 +72,6 @@ export default function List({
         )}
       </div>
       
-      <Link
-        href="#"
-        className={`${
-          openAside ? "w-auto" : "w-full"
-        } flex justify-center gap-3`}>
-        <RxDashboard size={25} color={`${darkMode ? "#fff" : "#000"}`} />
-        {openAside && (
-          <p className={`${darkMode ? "text-white" : "text-black"}`}>Resumo</p>
-        )}
-      </Link>
       <Link
         href="#"
         className={`${
