@@ -28,9 +28,16 @@ export default {
         poppins: ['var(--font-poppins)', 'sans-serif'],
       },
       screens: {
+        'laptop': {'max': '992px'},
         'tablet': {'max': '768px'},
         'mobile': {'max': '550px'},
         'mobile-sm': {'max': '375px'}
+      },
+      dropShadow: {
+        'custom-black': '0px 4px 6px #0000000D',
+        'purple-soft': '0px 4px 12px #8B5CF666',
+        'section-1': '0px 1px 3px 0px rgb(0, 0, 0)',
+        'section-2': '0px 4px 8px 3px rgb(0, 0, 0)',
       },
     },
   },
