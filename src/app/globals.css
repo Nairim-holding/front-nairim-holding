@@ -74,6 +74,10 @@ input[type="search"]::-webkit-search-results-decoration {
   font-family: var(--font-bebasNeue);
 }
 
+.font-poppins{
+  font-family: var(--font-poppins);
+}
+
 .main-dashboard{
   padding-left: 90px;
 }
