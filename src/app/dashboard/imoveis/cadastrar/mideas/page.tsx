@@ -1,5 +1,12 @@
+import Input from "@/components/Admin/Input";
+import NavigationButtons from "@/components/Admin/NavigationButtons";
+import Form from "@/components/Form";
+
 export default function Page(){
     return(
-        <div>mideas</div>
+        <Form className="flex flex-row flex-wrap" title="Mídeas" svg={<svg width="25" height="25" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 12H17L13.55 7.5L11.25 10.5L9.7 8.5L7 12ZM6 16C5.45 16 4.97917 15.8042 4.5875 15.4125C4.19583 15.0208 4 14.55 4 14V2C4 1.45 4.19583 0.979167 4.5875 0.5875C4.97917 0.195833 5.45 0 6 0H18C18.55 0 19.0208 0.195833 19.4125 0.5875C19.8042 0.979167 20 1.45 20 2V14C20 14.55 19.8042 15.0208 19.4125 15.4125C19.0208 15.8042 18.55 16 18 16H6ZM6 14H18V2H6V14ZM2 20C1.45 20 0.979167 19.8042 0.5875 19.4125C0.195833 19.0208 0 18.55 0 18V4H2V18H16V20H2Z" fill="#4236C5"/></svg>}>
+            <Input label="CEP" id="cep" required placeHolder="00000-000" type="text" svg={<svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 17.5V19.5C14 19.7833 13.9042 20.0208 13.7125 20.2125C13.5208 20.4042 13.2833 20.5 13 20.5H1C0.716667 20.5 0.479167 20.4042 0.2875 20.2125C0.0958333 20.0208 0 19.7833 0 19.5V11.5C0 11.2167 0.0958333 10.9792 0.2875 10.7875C0.479167 10.5958 0.716667 10.5 1 10.5H4V6.5C4 4.83333 4.58333 3.41667 5.75 2.25C6.91667 1.08333 8.33333 0.5 10 0.5H14C15.6667 0.5 17.0833 1.08333 18.25 2.25C19.4167 3.41667 20 4.83333 20 6.5V20.5H18V17.5H14ZM14 15.5H18V6.5C18 5.4 17.6083 4.45833 16.825 3.675C16.0417 2.89167 15.1 2.5 14 2.5H10C8.9 2.5 7.95833 2.89167 7.175 3.675C6.39167 4.45833 6 5.4 6 6.5V10.5H13C13.2833 10.5 13.5208 10.5958 13.7125 10.7875C13.9042 10.9792 14 11.2167 14 11.5V15.5ZM8 8.5V6.5H16V8.5H8ZM7 15.35L12 12.5H2L7 15.35ZM7 17.1L2 14.25V18.5H12V14.25L7 17.1Z" fill="#111111" fillOpacity="0.7"/></svg>}></Input>
+            <NavigationButtons nextUrl="/dashboard/imoveis/cadastrar/mideas"></NavigationButtons>
+        </Form>
     )
 }
