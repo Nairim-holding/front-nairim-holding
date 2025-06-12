@@ -1,6 +1,7 @@
 'use client'
 import React, { useState } from "react";
 import IncrementDecrementButtons from "./IncrementDecrementButton";
+import Label from "../Label";
 
 interface InputProps {
     id: string;
@@ -9,7 +10,7 @@ interface InputProps {
     type: string;
     value?: string;
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    placeHolder: string;
+    placeHolder?: string;
     svg?: React.ReactNode;
     disabled?: boolean
 }
@@ -52,13 +53,7 @@ export default function Input({
 
     return (
         <div className="flex flex-col font-poppins max-w-[250px] w-full">
-            <label htmlFor={id} className="flex items-center gap-4 pl-2 mb-2 max-h-[20px]">
-                {svg && svg}
-                <p className="text-[#111111B2] text-[14px] font-normal">
-                    {label}
-                    {required && <span className="text-[#FF0000B2]">*</span>}
-                </p>
-            </label>
+            <Label id={id} label={label} required={required} svg={svg}></Label>
 
             <div className="relative flex items-center">
                 {type === "number" && (

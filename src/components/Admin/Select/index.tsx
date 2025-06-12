@@ -1,5 +1,6 @@
 'use client'
 import React, { useState, useEffect, useRef } from 'react';
+import Label from '../Label';
 
 interface Option {
   value: string;
@@ -73,13 +74,7 @@ export default function Select({ options, defaultValue, onChange, label, require
         ))}
       </select>
 
-      <label htmlFor={id} className="flex items-center gap-3 pl-2 mb-2 max-h-[20px]">
-        {svg && svg}
-        <p className="text-[#111111B2] text-[14px] font-normal">
-          {label}
-          {required && <span className="text-[#FF0000B2]">*</span>}
-        </p>
-      </label>
+      <Label id={id} label={label} required={required} svg={svg}></Label>
       <div
         className="bg-white border border-[#CCCCCC] rounded-lg py-2 px-4 flex justify-between items-center cursor-pointer relative text-[14px] text-[#111111B2] h-[40px]"
         onClick={toggleSelect}
