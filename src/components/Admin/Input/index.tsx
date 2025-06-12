@@ -11,6 +11,7 @@ interface InputProps {
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
     placeHolder: string;
     svg?: React.ReactNode;
+    disabled?: boolean
 }
 
 export default function Input({
@@ -22,6 +23,7 @@ export default function Input({
     onChange,
     placeHolder,
     svg,
+    disabled,
 }: InputProps) {
     const [internalValue, setInternalValue] = useState<string>(value || "");
 
@@ -50,7 +52,7 @@ export default function Input({
 
     return (
         <div className="flex flex-col font-poppins max-w-[250px] w-full">
-            <label htmlFor={id} className="flex items-center gap-4 pl-2 mb-1 max-h-[20px]">
+            <label htmlFor={id} className="flex items-center gap-4 pl-2 mb-2 max-h-[20px]">
                 {svg && svg}
                 <p className="text-[#111111B2] text-[14px] font-normal">
                     {label}
@@ -72,7 +74,23 @@ export default function Input({
                     placeholder={placeHolder}
                     required={required}
                     min={1}
-                    className={`w-full border-2 border-[#CCCCCC] rounded-lg h-[40px] outline-none px-5 text-[#111111B2] text-[14px] font-normal placeholder-[#111111B2] no-spinner`}
+                    disabled={disabled}
+                    className={`
+                        w-full
+                        border-2
+                        rounded-lg
+                        h-[40px]
+                        outline-none
+                        px-5
+                        text-[14px]
+                        font-normal
+                        no-spinner
+                        border-[#CCCCCC]
+                        placeholder-[#111111B2]
+                        text-[#111111B2]
+                        ${disabled && 'bg-[#EDEDED] cursor-not-allowed' }
+                    `}
+
                 />
             </div>
         </div>
