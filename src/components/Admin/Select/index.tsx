@@ -15,9 +15,10 @@ interface CustomSelectProps {
   label: string;
   required?: boolean;
   svg?: React.ReactNode;
+  tabIndex?: number;
 }
 
-export default function Select({ options, defaultValue, onChange, label, required, svg, id }: CustomSelectProps) {
+export default function Select({ options, defaultValue, onChange, label, required, svg, id, tabIndex, ...props }: CustomSelectProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState<string>(defaultValue || options[0]?.value || '');
   const [selectedLabel, setSelectedLabel] = useState<string>(
@@ -57,6 +58,14 @@ export default function Select({ options, defaultValue, onChange, label, require
     setIsOpen(!isOpen);
   };
 
+  useEffect(() => {
+  if (defaultValue) {
+    setSelectedValue(defaultValue);
+    const foundLabel = options.find(opt => opt.value === defaultValue)?.label || options[0]?.label || '';
+    setSelectedLabel(foundLabel);
+  }
+}, [defaultValue, options]);
+
   return (
     <div className="relative font-poppins max-w-[250px] w-full" ref={customSelectRef}>
       <select
@@ -65,7 +74,8 @@ export default function Select({ options, defaultValue, onChange, label, require
         value={selectedValue}
         onChange={(e) => handleOptionClick(options.find(opt => opt.value === e.target.value) as Option)}
         aria-hidden="true"
-        name={id}
+        tabIndex={tabIndex}
+        {...props}
       >
         {options.map((option) => (
           <option key={option.value} value={option.value}>

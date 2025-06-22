@@ -1,32 +1,366 @@
+"use client";
 import Input from "@/components/Admin/Input";
-import NavigationButtons from "@/components/Admin/NavigationButtons";
 import Select from "@/components/Admin/Select";
 import TextArea from "@/components/Admin/TextArea";
 import Form from "@/components/Form";
+import { Controller, FieldValues, useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
 
-export default function Page(){
-    const options = [
-        {label: 'Não', value: 'false'},
-        {label: 'Sim', value: 'true'},
-    ]
-    return(
-        <>
-            <Form className="flex flex-row flex-wrap gap-8" title="Dados do Imóvel" svg={<svg width="30" height="28" viewBox="0 0 30 28" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.33398 27.5V15L1.93398 16.8334L0.333984 14.7L4.33398 11.6334V7.50004H7.00065V9.60004L15.0007 3.50004L29.6673 14.7L28.0673 16.8L25.6673 15V27.5H4.33398ZM7.00065 24.8334H13.6673V19.5H16.334V24.8334H23.0007V12.9667L15.0007 6.86671L7.00065 12.9667V24.8334ZM4.33398 6.16671C4.33398 5.0556 4.72287 4.11115 5.50065 3.33337C6.27843 2.5556 7.22287 2.16671 8.33398 2.16671C8.71176 2.16671 9.02843 2.03893 9.28399 1.78337C9.53954 1.52782 9.66732 1.21115 9.66732 0.833374H12.334C12.334 1.94449 11.9451 2.88893 11.1673 3.66671C10.3895 4.44448 9.4451 4.83337 8.33398 4.83337C7.95621 4.83337 7.63954 4.96115 7.38398 5.21671C7.12843 5.47226 7.00065 5.78893 7.00065 6.16671H4.33398Z" fill="#4236C5"/></svg>}>
-                <Input label="Nome Fantasia" id="nomeFantasia" required placeHolder="Nome para o imóvel" type="text" svg={<svg width="20" height="17" viewBox="0 0 20 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 9.5H17V7.5H12V9.5ZM12 6.5H17V4.5H12V6.5ZM3 12.5H11V11.95C11 11.2 10.6333 10.6042 9.9 10.1625C9.16667 9.72083 8.2 9.5 7 9.5C5.8 9.5 4.83333 9.72083 4.1 10.1625C3.36667 10.6042 3 11.2 3 11.95V12.5ZM7 8.5C7.55 8.5 8.02083 8.30417 8.4125 7.9125C8.80417 7.52083 9 7.05 9 6.5C9 5.95 8.80417 5.47917 8.4125 5.0875C8.02083 4.69583 7.55 4.5 7 4.5C6.45 4.5 5.97917 4.69583 5.5875 5.0875C5.19583 5.47917 5 5.95 5 6.5C5 7.05 5.19583 7.52083 5.5875 7.9125C5.97917 8.30417 6.45 8.5 7 8.5ZM2 16.5C1.45 16.5 0.979167 16.3042 0.5875 15.9125C0.195833 15.5208 0 15.05 0 14.5V2.5C0 1.95 0.195833 1.47917 0.5875 1.0875C0.979167 0.695833 1.45 0.5 2 0.5H18C18.55 0.5 19.0208 0.695833 19.4125 1.0875C19.8042 1.47917 20 1.95 20 2.5V14.5C20 15.05 19.8042 15.5208 19.4125 15.9125C19.0208 16.3042 18.55 16.5 18 16.5H2ZM2 14.5H18V2.5H2V14.5Z" fill="#111111" fillOpacity="0.7"/></svg>}></Input>
-                <Input label="Quartos " id="quartos" required placeHolder="Quantidade de quartos" type="number" svg={<svg width="24" height="21" viewBox="0 0 24 21" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.8125 11.7236V3.15784H0V17.842H2.8125V15.3947H21.1875V17.842H24V15.3947V11.7236H2.8125Z" fill="#111111" fillOpacity="0.7"/><path d="M6.32812 6.82886C5.16314 6.82886 4.21875 7.65064 4.21875 8.66438V10.4999H8.4375V8.66438C8.4375 7.65064 7.49311 6.82886 6.32812 6.82886Z" fill="#111111" fillOpacity="0.7"/><path d="M21.8906 6.82886H11.9531C10.7881 6.82886 9.84375 7.65064 9.84375 8.66438V10.4999H24V8.66438C24 7.65064 23.0556 6.82886 21.8906 6.82886Z" fill="#111111" fillOpacity="0.7"/></svg>}></Input>
-                <Input label="Banheiros" id="banheiros" required placeHolder="Quantidade de banheiros" type="number" svg={<svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg"><g clipPath="url(#clip0_980_1453)"><path d="M22.4998 12.4554H1.49999C0.672978 12.4554 0 13.1284 0 13.9554C0 14.7825 0.672978 15.4554 1.49999 15.4554H22.4998C23.3268 15.4554 23.9998 14.7825 23.9998 13.9554C23.9998 13.1284 23.3268 12.4554 22.4998 12.4554ZM22.4998 14.4554H1.49999C1.22497 14.4554 0.999975 14.2314 0.999975 13.9554C0.999975 13.6794 1.22497 13.4554 1.49999 13.4554H22.4998C22.7748 13.4554 22.9998 13.6794 22.9998 13.9554C22.9998 14.2314 22.7748 14.4554 22.4998 14.4554Z" fill="#111111" fillOpacity="0.7"/><path d="M22.6373 14.4745C22.3663 14.3995 22.0943 14.5525 22.0193 14.8186L20.6413 19.6426C20.3363 20.7096 19.3474 21.4556 18.2374 21.4556H5.76245C4.65246 21.4556 3.66449 20.7095 3.35849 19.6426L1.98047 14.8185C1.90547 14.5525 1.63248 14.3995 1.36248 14.4745C1.09646 14.5505 0.943466 14.8265 1.0195 15.0925L2.39747 19.9165C2.82445 21.4115 4.20744 22.4555 5.76245 22.4555H18.2363C19.7913 22.4555 21.1753 21.4115 21.6023 19.9165L22.9803 15.0925C23.0563 14.8275 22.9033 14.5505 22.6373 14.4745Z" fill="#111111" fillOpacity="0.7"/><path d="M5.7627 19.4564C5.5407 19.4564 5.34369 19.3064 5.28172 19.0934L4.63274 16.8194C4.55774 16.5544 4.28273 16.3994 4.01475 16.4754C3.74976 16.5514 3.59573 16.8274 3.67176 17.0934L4.32074 19.3674C4.50276 20.0084 5.09675 20.4554 5.76274 20.4554C6.03874 20.4554 6.26276 20.2324 6.26276 19.9564C6.26271 19.6804 6.0387 19.4564 5.7627 19.4564Z" fill="#111111" fillOpacity="0.7"/><path d="M6.72359 21.5076C6.4766 21.3866 6.17759 21.4836 6.05258 21.7316L5.0526 23.7316C4.9296 23.9786 5.02959 24.2786 5.27662 24.4026C5.3496 24.4386 5.42563 24.4556 5.50063 24.4556C5.68363 24.4556 5.85964 24.3546 5.94763 24.1787L6.9476 22.1786C7.0706 21.9316 6.97057 21.6316 6.72359 21.5076Z" fill="#111111" fillOpacity="0.7"/><path d="M18.9476 23.7325L17.9476 21.7325C17.8236 21.4845 17.5236 21.3855 17.2766 21.5085C17.0296 21.6325 16.9296 21.9325 17.0526 22.1795L18.0526 24.1795C18.1405 24.3545 18.3166 24.4555 18.4996 24.4555C18.5746 24.4555 18.6505 24.4385 18.7236 24.4035C18.9706 24.2795 19.0706 23.9795 18.9476 23.7325Z" fill="#111111" fillOpacity="0.7"/><path d="M20.0842 0.544434C19.5742 0.544434 19.0942 0.743418 18.7332 1.10445L17.1462 2.69145C16.9513 2.88645 16.9513 3.20346 17.1462 3.39846C17.3412 3.59347 17.6583 3.59347 17.8533 3.39846L19.4402 1.81245C19.6112 1.64047 19.8402 1.54545 20.0892 1.54545C20.5912 1.54545 20.9992 1.95345 20.9992 2.45543V12.9554C20.9992 13.2314 21.2232 13.4555 21.4992 13.4555C21.7752 13.4555 21.9992 13.2314 22.0002 12.9545V2.45445C22.0002 1.40145 21.1442 0.544434 20.0842 0.544434Z" fill="#111111" fillOpacity="0.7"/><path d="M18.3544 3.19252L17.3545 2.19253C17.2395 2.07755 17.0805 2.02453 16.9195 2.05252L14.4195 2.46253C14.2355 2.49155 14.0845 2.62153 14.0255 2.79853C13.9666 2.97553 14.0115 3.17053 14.1416 3.30352L17.1415 6.39352C17.2355 6.49252 17.3665 6.54553 17.4995 6.54553C17.5465 6.54553 17.5945 6.53855 17.6425 6.52552C17.8205 6.47353 17.9555 6.32653 17.9915 6.14452L18.4915 3.64453C18.5245 3.48052 18.4725 3.3105 18.3544 3.19252ZM17.1955 5.0145L15.5245 3.29353L16.8275 3.08053L17.4565 3.70955L17.1955 5.0145Z" fill="#111111" fillOpacity="0.7"/><path d="M11.8532 6.60255C11.6582 6.40755 11.3412 6.40755 11.1462 6.60255L10.1462 7.60254C9.95125 7.79754 9.95125 8.11455 10.1462 8.30955C10.2443 8.40654 10.3722 8.45557 10.5002 8.45557C10.6283 8.45557 10.7562 8.40658 10.8533 8.30955L11.8532 7.30957C12.0482 7.11452 12.0482 6.79755 11.8532 6.60255Z" fill="#111111" fillOpacity="0.7"/><path d="M13.8532 8.60243C13.6582 8.40743 13.3412 8.40743 13.1462 8.60243L12.1462 9.60241C11.9513 9.79741 11.9513 10.1144 12.1462 10.3094C12.2443 10.4064 12.3722 10.4554 12.5002 10.4554C12.6283 10.4554 12.7562 10.4065 12.8533 10.3094L13.8532 9.30944C14.0482 9.11444 14.0482 8.79743 13.8532 8.60243Z" fill="#111111" fillOpacity="0.7"/><path d="M14.8532 5.60243C14.6582 5.40743 14.3412 5.40743 14.1462 5.60243L13.1462 6.60241C12.9513 6.79741 12.9513 7.11443 13.1462 7.30943C13.2443 7.40642 13.3722 7.45545 13.5002 7.45545C13.6283 7.45545 13.7562 7.40646 13.8533 7.30943L14.8532 6.30944C15.0482 6.11444 15.0482 5.79743 14.8532 5.60243Z" fill="#111111" fillOpacity="0.7"/></g><defs><clipPath id="clip0_980_1453"><rect width="24" height="24" fill="white" transform="translate(0 0.5)"/></clipPath></defs></svg>}></Input>
-                <Input label="Vagas na Garagem" id="vagasGaragem" required placeHolder="Quantidade de vagas" type="number" svg={<svg width="24" height="12" viewBox="0 0 24 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5.625 9.96252C5.93566 9.96252 6.1875 9.71068 6.1875 9.40002C6.1875 9.08936 5.93566 8.83752 5.625 8.83752C5.31434 8.83752 5.0625 9.08936 5.0625 9.40002C5.0625 9.71068 5.31434 9.96252 5.625 9.96252Z" fill="#111111" fillOpacity="0.7"/><path d="M19.125 9.96252C19.4357 9.96252 19.6875 9.71068 19.6875 9.40002C19.6875 9.08936 19.4357 8.83752 19.125 8.83752C18.8143 8.83752 18.5625 9.08936 18.5625 9.40002C18.5625 9.71068 18.8143 9.96252 19.125 9.96252Z" fill="#111111" fillOpacity="0.7"/><path d="M22.3781 4.9486L18.2377 4.32047L14.2725 1.05722C13.9031 0.754031 13.4402 0.588069 12.9623 0.587531H7.47094C7.16148 0.586767 6.85586 0.656002 6.57694 0.790054C6.29802 0.924107 6.05304 1.1195 5.86031 1.36163L3.47963 4.33754H1.875C1.4276 4.33803 0.998666 4.51598 0.682305 4.83234C0.365945 5.1487 0.187996 5.57764 0.1875 6.02504V7.90004C0.188108 8.44687 0.405602 8.97112 0.792264 9.35778C1.17893 9.74445 1.70318 9.96194 2.25 9.96255H3.25373C3.38024 10.4964 3.68316 10.9719 4.1135 11.3122C4.54383 11.6524 5.07639 11.8376 5.625 11.8376C6.17361 11.8376 6.70617 11.6524 7.1365 11.3122C7.56684 10.9719 7.86976 10.4964 7.99627 9.96255H16.7537C16.8802 10.4964 17.1832 10.9719 17.6135 11.3122C18.0438 11.6524 18.5764 11.8376 19.125 11.8376C19.6736 11.8376 20.2062 11.6524 20.6365 11.3122C21.0668 10.9719 21.3698 10.4964 21.4963 9.96255H22.125C22.5724 9.96205 23.0013 9.7841 23.3177 9.46774C23.6341 9.15138 23.812 8.72245 23.8125 8.27504V6.61707C23.8145 6.21282 23.6705 5.82144 23.407 5.51489C23.1434 5.20835 22.7781 5.00726 22.3781 4.9486ZM13.5579 1.9261L16.4882 4.33754H11.0625V1.71253H12.9623C13.1796 1.71282 13.39 1.78828 13.5579 1.9261ZM6.73884 2.0641C6.82648 1.9541 6.93785 1.86534 7.06462 1.80446C7.1914 1.74358 7.3303 1.71215 7.47094 1.71253H7.6875V4.33754H4.92033L6.73884 2.0641ZM5.625 10.7125C5.36541 10.7125 5.11165 10.6356 4.89581 10.4914C4.67997 10.3471 4.51175 10.1421 4.41241 9.90232C4.31307 9.66249 4.28708 9.39859 4.33772 9.14399C4.38836 8.88939 4.51337 8.65552 4.69692 8.47197C4.88048 8.28841 5.11434 8.16341 5.36894 8.11276C5.62354 8.06212 5.88744 8.08811 6.12727 8.18745C6.3671 8.28679 6.57208 8.45502 6.7163 8.67086C6.86052 8.8867 6.9375 9.14046 6.9375 9.40005C6.9371 9.74802 6.7987 10.0816 6.55264 10.3277C6.30658 10.5737 5.97297 10.7122 5.625 10.7125ZM19.125 10.7125C18.8654 10.7125 18.6117 10.6356 18.3958 10.4914C18.18 10.3471 18.0117 10.1421 17.9124 9.90232C17.8131 9.66249 17.7871 9.39859 17.8377 9.14399C17.8884 8.88939 18.0134 8.65552 18.1969 8.47197C18.3805 8.28841 18.6143 8.16341 18.8689 8.11276C19.1235 8.06212 19.3874 8.08811 19.6273 8.18745C19.8671 8.28679 20.0721 8.45502 20.2163 8.67086C20.3605 8.8867 20.4375 9.14046 20.4375 9.40005C20.4371 9.74802 20.2987 10.0816 20.0526 10.3277C19.8066 10.5737 19.473 10.7122 19.125 10.7125ZM22.6875 8.27504C22.6873 8.42418 22.628 8.56716 22.5226 8.67261C22.4171 8.77807 22.2741 8.83738 22.125 8.83755H21.4963C21.3698 8.30372 21.0668 7.8282 20.6365 7.48792C20.2062 7.14765 19.6736 6.96253 19.125 6.96253C18.5764 6.96253 18.0438 7.14765 17.6135 7.48792C17.1832 7.8282 16.8802 8.30372 16.7537 8.83755H7.99627C7.86976 8.30372 7.56684 7.8282 7.1365 7.48792C6.70617 7.14765 6.17361 6.96253 5.625 6.96253C5.07639 6.96253 4.54383 7.14765 4.1135 7.48792C3.68316 7.8282 3.38024 8.30372 3.25373 8.83755H2.25C2.00145 8.83726 1.76316 8.7384 1.5874 8.56264C1.41165 8.38689 1.31279 8.1486 1.3125 7.90004V6.02504C1.31266 5.87591 1.37198 5.73292 1.47743 5.62747C1.58288 5.52202 1.72587 5.4627 1.875 5.46254H8.25C8.39918 5.46254 8.54226 5.40328 8.64775 5.29779C8.75324 5.1923 8.8125 5.04922 8.8125 4.90004V1.71253H9.9375V4.90004C9.9375 5.04922 9.99676 5.1923 10.1023 5.29779C10.2077 5.40328 10.3508 5.46254 10.5 5.46254H18.2664L22.2094 6.06085C22.3421 6.08177 22.4631 6.1492 22.5507 6.2511C22.6382 6.35299 22.6867 6.48271 22.6875 6.61707V8.27504Z" fill="#111111" fillOpacity="0.7"/><path d="M11.25 5.83752H10.5C10.3508 5.83752 10.2077 5.89679 10.1023 6.00228C9.99676 6.10777 9.9375 6.25084 9.9375 6.40002C9.9375 6.54921 9.99676 6.69228 10.1023 6.79777C10.2077 6.90326 10.3508 6.96252 10.5 6.96252H11.25C11.3992 6.96252 11.5423 6.90326 11.6477 6.79777C11.7532 6.69228 11.8125 6.54921 11.8125 6.40002C11.8125 6.25084 11.7532 6.10777 11.6477 6.00228C11.5423 5.89679 11.3992 5.83752 11.25 5.83752Z" fill="#111111" fillOpacity="0.7"/><path d="M5.625 9.96252C5.93566 9.96252 6.1875 9.71068 6.1875 9.40002C6.1875 9.08936 5.93566 8.83752 5.625 8.83752C5.31434 8.83752 5.0625 9.08936 5.0625 9.40002C5.0625 9.71068 5.31434 9.96252 5.625 9.96252Z" fill="#111111" fillOpacity="0.7"/><path d="M19.125 9.96252C19.4357 9.96252 19.6875 9.71068 19.6875 9.40002C19.6875 9.08936 19.4357 8.83752 19.125 8.83752C18.8143 8.83752 18.5625 9.08936 18.5625 9.40002C18.5625 9.71068 18.8143 9.96252 19.125 9.96252Z" fill="#111111" fillOpacity="0.7"/></svg>}></Input>
+import IconeCasa from "@/../public/icons/casa.svg";
+import IconeObservacoes from "@/../public/icons/observacoes.svg";
+import IconeMobiliado from "@/../public/icons/mobiliado.svg";
+import IconeTestada from "@/../public/icons/testada.svg";
+import IconeAndares from "@/../public/icons/predio.svg";
+import IconeAreaPrivativa from "@/../public/icons/area-privativa.svg";
+import IconeGaragem from "@/../public/icons/garagem.svg";
+import IconeBanheiro from "@/../public/icons/banheiro.svg";
+import IconeQuartos from "@/../public/icons/quartos.svg";
+import IconeNomeFantasia from "@/../public/icons/nome-fantasia.svg";
+import NavigationBar from "@/components/Admin/NavigationBar";
+import axios from "axios";
+import Owner from "@/types/owner";
+import { label } from "framer-motion/client";
+import propertyTypes from "@/types/propertyTypes";
 
-                <Input label="Área Privativa (m²)" id="areaPrivativa" required placeHolder="Tamanho total do imóvel" type="number" svg={<svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg"><g clipPath="url(#clip0_985_2489)"><path d="M23.4059 5.38235C23.7294 5.38235 23.9941 5.11765 24 4.79412V1.09412C24 0.764706 23.7353 0.5 23.4059 0.5H19.7059C19.3824 0.5 19.1176 0.764706 19.1176 1.09412V2.38235H4.88235V1.09412C4.88235 0.770588 4.61765 0.505882 4.29412 0.5H0.594118C0.270588 0.5 0.00588235 0.764706 0 1.09412V4.79412C0 5.11765 0.264706 5.38235 0.594118 5.38235H1.88235V19.6176H0.594118C0.270588 19.6176 0.00588235 19.8824 0 20.2059V23.9059C0 24.2294 0.264706 24.4941 0.594118 24.5H4.29412C4.61765 24.5 4.88235 24.2353 4.88235 23.9059V22.6176H19.1176V23.9059C19.1176 24.2294 19.3824 24.4941 19.7059 24.5H23.4059C23.7294 24.5 23.9941 24.2353 24 23.9059V20.2059C24 19.8824 23.7353 19.6176 23.4059 19.6176H22.1176V5.38235H23.4059ZM1.17647 4.20588V1.67647H3.70588V4.20588H1.17647ZM3.70588 23.3235H1.17647V20.7941H3.70588V23.3235ZM19.1176 20.2059V21.4412H4.88235V20.2059C4.88235 19.8824 4.61765 19.6176 4.29412 19.6176H3.05882V5.38235H4.29412C4.61765 5.38235 4.88235 5.11765 4.88235 4.79412V3.55882H19.1176V4.79412C19.1176 5.11765 19.3824 5.38235 19.7059 5.38235H20.9412V19.6176H19.7059C19.3824 19.6176 19.1176 19.8824 19.1176 20.2059ZM22.8235 20.7941V23.3235H20.2941V20.7941H22.8235ZM20.2941 4.20588V1.67647H22.8235V4.20588H20.2941Z" fill="#111111" fillOpacity="0.7"/></g><defs><clipPath id="clip0_985_2489"><rect width="24" height="24" fill="white" transform="translate(0 0.5)"/></clipPath></defs></svg>}></Input>
-                <Input label="Número do Andar" id="numeroAndar" required placeHolder="Quantidade de andares" type="number" svg={<svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 18.5V4.5H4V0.5H14V8.5H18V18.5H10V14.5H8V18.5H0ZM2 16.5H4V14.5H2V16.5ZM2 12.5H4V10.5H2V12.5ZM2 8.5H4V6.5H2V8.5ZM6 12.5H8V10.5H6V12.5ZM6 8.5H8V6.5H6V8.5ZM6 4.5H8V2.5H6V4.5ZM10 12.5H12V10.5H10V12.5ZM10 8.5H12V6.5H10V8.5ZM10 4.5H12V2.5H10V4.5ZM14 16.5H16V14.5H14V16.5ZM14 12.5H16V10.5H14V12.5Z" fill="#111111" fillOpacity="0.7"/></svg>}></Input>
-                <Input label="Testada (m)" id="testada" required placeHolder="Tamanho da testada" type="text" svg={<svg width="20" height="13" viewBox="0 0 20 13" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 12.5C1.45 12.5 0.979167 12.3042 0.5875 11.9125C0.195833 11.5208 0 11.05 0 10.5V2.5C0 1.95 0.195833 1.47917 0.5875 1.0875C0.979167 0.695833 1.45 0.5 2 0.5H18C18.55 0.5 19.0208 0.695833 19.4125 1.0875C19.8042 1.47917 20 1.95 20 2.5V10.5C20 11.05 19.8042 11.5208 19.4125 11.9125C19.0208 12.3042 18.55 12.5 18 12.5H2ZM2 10.5H18V2.5H15V6.5H13V2.5H11V6.5H9V2.5H7V6.5H5V2.5H2V10.5Z" fill="#111111" fillOpacity="0.7"/></svg>}></Input>
+export default function Page() {
+  const [proprietarios, setProprietarios] = useState<[Owner]>();
+  const [tipoImovel, setTipoImovel] = useState<[propertyTypes]>();
+  useEffect(() => {
+    async function getItens(){
+      const responseProprietarios = await axios.get(`${process.env.NEXT_PUBLIC_URL_API}/owner`);
+      const responseTipoImovel = await axios.get(`${process.env.NEXT_PUBLIC_URL_API}/property-type`);
 
-                <Select label="Mobiliado" required id="mobiliado" options={options} svg={<svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 17.975L4 15.1C3.68333 14.9167 3.4375 14.675 3.2625 14.375C3.0875 14.075 3 13.7417 3 13.375V7.625C3 7.25833 3.0875 6.925 3.2625 6.625C3.4375 6.325 3.68333 6.08333 4 5.9L9 3.025C9.31667 2.84167 9.65 2.75 10 2.75C10.35 2.75 10.6833 2.84167 11 3.025L16 5.9C16.3167 6.08333 16.5625 6.325 16.7375 6.625C16.9125 6.925 17 7.25833 17 7.625V13.375C17 13.7417 16.9125 14.075 16.7375 14.375C16.5625 14.675 16.3167 14.9167 16 15.1L11 17.975C10.6833 18.1583 10.35 18.25 10 18.25C9.65 18.25 9.31667 18.1583 9 17.975ZM9 15.675V11.075L5 8.75V13.375L9 15.675ZM11 15.675L15 13.375V8.75L11 11.075V15.675ZM0 5.5V2.5C0 1.95 0.195833 1.47917 0.5875 1.0875C0.979167 0.695833 1.45 0.5 2 0.5H5V2.5H2V5.5H0ZM5 20.5H2C1.45 20.5 0.979167 20.3042 0.5875 19.9125C0.195833 19.5208 0 19.05 0 18.5V15.5H2V18.5H5V20.5ZM15 20.5V18.5H18V15.5H20V18.5C20 19.05 19.8042 19.5208 19.4125 19.9125C19.0208 20.3042 18.55 20.5 18 20.5H15ZM18 5.5V2.5H15V0.5H18C18.55 0.5 19.0208 0.695833 19.4125 1.0875C19.8042 1.47917 20 1.95 20 2.5V5.5H18ZM10 9.35L13.95 7.025L10 4.75L6.05 7.025L10 9.35Z" fill="#111111" fillOpacity="0.7"/></svg>}></Select>
-            
-                <TextArea label="Observações" id="observacoes" placeHolder="Escreva detalalhes não expecificados anteriormente" svg={<svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 14.5H11V12.5H4V14.5ZM4 10.5H14V8.5H4V10.5ZM4 6.5H14V4.5H4V6.5ZM2 18.5C1.45 18.5 0.979167 18.3042 0.5875 17.9125C0.195833 17.5208 0 17.05 0 16.5V2.5C0 1.95 0.195833 1.47917 0.5875 1.0875C0.979167 0.695833 1.45 0.5 2 0.5H16C16.55 0.5 17.0208 0.695833 17.4125 1.0875C17.8042 1.47917 18 1.95 18 2.5V16.5C18 17.05 17.8042 17.5208 17.4125 17.9125C17.0208 18.3042 16.55 18.5 16 18.5H2ZM2 16.5H16V2.5H2V16.5Z" fill="#111111" fillOpacity="0.7"/></svg>}></TextArea>
+      if(responseProprietarios.status == 200)
+        setProprietarios(responseProprietarios.data)
+      
+      if(responseTipoImovel.status == 200)
+        setTipoImovel(responseTipoImovel.data)
+    }
+    getItens();
+  }, []);
 
-                <NavigationButtons nextUrl="/dashboard/imoveis/cadastrar/endereco"></NavigationButtons>
-            </Form>
-        </>
-    )
+  const { handleSubmit, control, register, reset, watch } = useForm();
+
+  const optionsProprietarios = proprietarios?.map((e) => ({
+    label: e.name, value: e.id.toString()
+  }))
+
+  const optionsTiposImoveis = tipoImovel?.map((e) => ({
+    label: e.description, value: e.id.toString()
+  }))
+
+  const optionsMobiliado = [
+    { label: "Não", value: "false" },
+    { label: "Sim", value: "true" },
+  ];
+
+  function submitData(data: FieldValues) {
+    localStorage.setItem("dataPropertys", JSON.stringify(data));
+  }
+
+  useEffect(() => {
+    const saved = localStorage.getItem("dataPropertys");
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      reset(parsed);
+    }
+  }, [reset]);
+
+  const [isFormComplete, setIsFormComplete] = useState<boolean>(false);
+  const watchedValues = watch();
+  useEffect(() => {
+    const requiredFields = [
+      "title",
+      "owner_id",
+      "type_id",
+      "bedrooms",
+      "bathrooms",
+      "half_bathrooms",
+      "garage_spaces",
+      "area_total",
+      "area_built",
+      "frontage",
+      "furnished",
+      "floor_number",
+      "tax_registration",
+    ];
+
+    const allFilled = requiredFields.every((field) => {
+      const value = watchedValues[field];
+      return (
+        value !== undefined && value !== null && String(value).trim() !== ""
+      );
+    });
+
+    setIsFormComplete(allFilled);
+  }, [watchedValues]);
+  return (
+    <>
+      <NavigationBar urlAble={isFormComplete}></NavigationBar>
+      <Form
+        onSubmit={handleSubmit(submitData)}
+        className="flex flex-row flex-wrap gap-8"
+        title="Dados do Imóvel"
+        svg={<IconeCasa />}>
+        <Controller
+          name="title"
+          control={control}
+          defaultValue=""
+          render={({ field }) => (
+            <Input
+              value={field.value}
+              onChange={field.onChange}
+              label="Nome Fantasia"
+              id="title"
+              required
+              placeHolder="Nome para o imóvel"
+              type="text"
+              svg={<IconeNomeFantasia />}
+              tabIndex={1}
+            />
+          )}
+        />
+
+        <Controller
+          name="bedrooms"
+          control={control}
+          defaultValue=""
+          render={({ field }) => (
+            <Input
+              value={field.value}
+              onChange={field.onChange}
+              label="Quartos"
+              id="bedrooms"
+              required
+              placeHolder="Quantidade de quartos"
+              type="number"
+              svg={<IconeQuartos />}
+              tabIndex={2}
+            />
+          )}
+        />
+
+        <Controller
+          name="bathrooms"
+          control={control}
+          defaultValue=""
+          render={({ field }) => (
+            <Input
+              value={field.value}
+              onChange={field.onChange}
+              label="Banheiros"
+              id="bathrooms"
+              required
+              placeHolder="Quantidade de banheiros"
+              type="number"
+              svg={<IconeBanheiro />}
+              tabIndex={3}
+            />
+          )}
+        />
+
+        <Controller
+          name="half_bathrooms"
+          control={control}
+          defaultValue=""
+          render={({ field }) => (
+            <Input
+              value={field.value}
+              onChange={field.onChange}
+              label="Lavabos"
+              id="half_bathrooms"
+              required
+              placeHolder="Quantidade de Lavabos"
+              type="number"
+              svg={<IconeBanheiro />}
+              tabIndex={3}
+            />
+          )}
+        />
+
+        <Controller
+          name="garage_spaces"
+          control={control}
+          defaultValue=""
+          render={({ field }) => (
+            <Input
+              value={field.value}
+              onChange={field.onChange}
+              label="Vagas na Garagem"
+              id="garage_spaces"
+              required
+              placeHolder="Quantidade de vagas"
+              type="number"
+              svg={<IconeGaragem />}
+              tabIndex={4}
+            />
+          )}
+        />
+
+        <Controller
+          name="floor_number"
+          control={control}
+          defaultValue=""
+          render={({ field }) => (
+            <Input
+              value={field.value}
+              onChange={field.onChange}
+              label="Número do Andar"
+              id="floor_number"
+              required
+              placeHolder="Quantidade de andares"
+              type="number"
+              svg={<IconeAndares />}
+              tabIndex={6}
+            />
+          )}
+        />
+
+        <Controller
+          name="area_total"
+          control={control}
+          defaultValue=""
+          render={({ field }) => (
+            <Input
+              value={field.value}
+              onChange={field.onChange}
+              label="Área Total (m²)"
+              id="area_total"
+              required
+              placeHolder="Tamanho total do imóvel"
+              type="number"
+              svg={<IconeAreaPrivativa />}
+              tabIndex={5}
+            />
+          )}
+        />
+
+        <Controller
+          name="area_built"
+          control={control}
+          defaultValue=""
+          render={({ field }) => (
+            <Input
+              value={field.value}
+              onChange={field.onChange}
+              label="Área Construída (m²)"
+              id="area_built"
+              required
+              placeHolder="Tamanho construída do imóvel"
+              type="number"
+              svg={<IconeAreaPrivativa />}
+              tabIndex={5}
+            />
+          )}
+        />
+
+        <Controller
+          name="frontage"
+          control={control}
+          defaultValue=""
+          render={({ field }) => (
+            <Input
+              value={field.value}
+              onChange={field.onChange}
+              label="Testada (m)"
+              id="frontage"
+              required
+              placeHolder="Tamanho da frente do lote"
+              type="number"
+              svg={<IconeTestada />}
+              tabIndex={7}
+            />
+          )}
+        />
+
+        <Controller
+          name="tax_registration"
+          control={control}
+          defaultValue=""
+          render={({ field }) => (
+            <Input
+              value={field.value}
+              onChange={field.onChange}
+              label="Registro Fiscal"
+              id="tax_registration"
+              required
+              placeHolder="Informe o número do registro fiscal"
+              type="text"
+              svg={<IconeTestada />}
+              tabIndex={7}
+            />
+          )}
+        />
+
+        <Controller
+          name="owner_id"
+          control={control}
+          defaultValue={optionsProprietarios?.[0]?.value}
+          render={({ field }) => (
+            <Select
+              id="owner_id"
+              label="Proprietário"
+              required
+              options={optionsProprietarios ?? []}
+              svg={<IconeMobiliado />}
+              onChange={field.onChange}
+              defaultValue={field.value}
+              tabIndex={8}
+            />
+          )}
+        />
+
+        <Controller
+          name="type_id"
+          control={control}
+          defaultValue={optionsTiposImoveis?.[0]?.value}
+          render={({ field }) => (
+            <Select
+              id="type_id"
+              label="Tipo do imóvel"
+              required
+              options={optionsTiposImoveis ?? []}
+              svg={<IconeMobiliado />}
+              onChange={field.onChange}
+              defaultValue={field.value}
+              tabIndex={8}
+            />
+          )}
+        />
+
+        <Controller
+          name="furnished"
+          control={control}
+          defaultValue={optionsMobiliado[1].value}
+          render={({ field }) => (
+            <Select
+              id="furnished"
+              label="Mobiliado"
+              required
+              options={optionsMobiliado}
+              svg={<IconeMobiliado />}
+              onChange={field.onChange}
+              defaultValue={field.value}
+              tabIndex={8}
+            />
+          )}
+        />
+
+        <TextArea
+          {...register("notes")}
+          label="Observações"
+          id="notes"
+          placeHolder="Escreva detalalhes não expecificados anteriormente"
+          svg={<IconeObservacoes />}
+          tabIndex={9}
+        />
+
+        <button
+          type="submit"
+          className="flex justify-center gap-3 items-center max-w-[250px] w-full h-[50px] bg-gradient-to-r from-[#8B5CF6] to-[#6D28D9] rounded-lg text-[16px] font-medium text-[#fff] border border-[#8B5CF6] drop-shadow-purple-soft">
+          SALVAR
+        </button>
+      </Form>
+    </>
+  );
 }

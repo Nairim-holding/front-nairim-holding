@@ -7,8 +7,6 @@ export default function Layout({ children }: { children: React.ReactNode }){
     return(
         <Section title="Cadastrar Imóvel">
             <div className="mt-10 bg-[#fff] p-5 rounded-xl" style={{ boxShadow: '0px 4px 8px 3px rgba(0, 0, 0, 0.15)' }}>
-                <NavigationBar></NavigationBar>
-
                 {children}
             </div>
 

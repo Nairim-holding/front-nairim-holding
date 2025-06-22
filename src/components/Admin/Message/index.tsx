@@ -1,4 +1,5 @@
-import React from "react";
+'use client'
+import React, { useEffect } from "react";
 import { IoMdClose } from "react-icons/io"
 
 interface MessageProps {
@@ -10,9 +11,17 @@ interface MessageProps {
 }
 
 export default function Message({ message, success, error, visible, setVisible }: MessageProps){
-    setTimeout(() => {
-        setVisible(false)
-    }, 5000)
+    useEffect(() => {
+        if (!visible) return;
+
+        const timer = setTimeout(() => {
+            setVisible(false);
+        }, 5000);
+
+        return () => clearTimeout(timer); 
+    }, [visible, setVisible]);
+
+    if (!visible) return null;
     return(
         <div className="fixed bottom-5 z-[1000000] w-full flex items-center justify-center px-3">
             <div className={`flex flex-row items-center gap-3 ${success && 'bg-[#A9FF91] border-[#33893E]'} ${error && 'bg-[#FF8787] border-[#9F2323]'} border-2 rounded-lg px-3 py-5 max-w-[500px] w-full`}>

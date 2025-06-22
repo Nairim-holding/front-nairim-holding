@@ -1,17 +1,247 @@
+'use client'
 import Input from "@/components/Admin/Input";
-import NavigationButtons from "@/components/Admin/NavigationButtons";
 import Form from "@/components/Form";
 
+import IconeEndereco from "@/../public/icons/endereco.svg";
+import IconeCep from "@/../public/icons/cep.svg";
+import IconeRua from "@/../public/icons/rua.svg";
+import IconeNumero from "@/../public/icons/numero.svg";
+import IconeBairro from "@/../public/icons/predio.svg";
+import IconeCidade from "@/../public/icons/cidade.svg";
+import IconeEstado from "@/../public/icons/estado.svg";
+import NavigationBar from "@/components/Admin/NavigationBar";
+import { useEffect, useState } from "react";
+import { Controller, FieldValues, useForm } from "react-hook-form";
+import { useUIStore } from "@/stores/uiStore";
+import axios, { AxiosError } from "axios";
+
 export default function Page(){
-    return(
-        <Form className="flex flex-row flex-wrap gap-8" title="Endereço" svg={<svg width="22" height="27" viewBox="0 0 22 27" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.0007 13.5001C11.734 13.5001 12.3618 13.239 12.884 12.7167C13.4062 12.1945 13.6673 11.5667 13.6673 10.8334C13.6673 10.1001 13.4062 9.4723 12.884 8.95008C12.3618 8.42786 11.734 8.16675 11.0007 8.16675C10.2673 8.16675 9.63954 8.42786 9.11732 8.95008C8.5951 9.4723 8.33398 10.1001 8.33398 10.8334C8.33398 11.5667 8.5951 12.1945 9.11732 12.7167C9.63954 13.239 10.2673 13.5001 11.0007 13.5001ZM11.0007 23.3001C13.7118 20.8112 15.7229 18.5501 17.034 16.5167C18.3451 14.4834 19.0007 12.6779 19.0007 11.1001C19.0007 8.67786 18.2284 6.69453 16.684 5.15008C15.1395 3.60564 13.2451 2.83341 11.0007 2.83341C8.75621 2.83341 6.86176 3.60564 5.31732 5.15008C3.77287 6.69453 3.00065 8.67786 3.00065 11.1001C3.00065 12.6779 3.65621 14.4834 4.96732 16.5167C6.27843 18.5501 8.28954 20.8112 11.0007 23.3001ZM11.0007 26.8334C7.42287 23.789 4.75065 20.9612 2.98398 18.3501C1.21732 15.739 0.333984 13.3223 0.333984 11.1001C0.333984 7.76675 1.40621 5.11119 3.55065 3.13341C5.6951 1.15564 8.17843 0.166748 11.0007 0.166748C13.8229 0.166748 16.3062 1.15564 18.4507 3.13341C20.5951 5.11119 21.6673 7.76675 21.6673 11.1001C21.6673 13.3223 20.784 15.739 19.0173 18.3501C17.2507 20.9612 14.5784 23.789 11.0007 26.8334Z" fill="#4236C5"/></svg>}>
-            <Input label="CEP" id="cep" required placeHolder="00000-000" type="text" svg={<svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 17.5V19.5C14 19.7833 13.9042 20.0208 13.7125 20.2125C13.5208 20.4042 13.2833 20.5 13 20.5H1C0.716667 20.5 0.479167 20.4042 0.2875 20.2125C0.0958333 20.0208 0 19.7833 0 19.5V11.5C0 11.2167 0.0958333 10.9792 0.2875 10.7875C0.479167 10.5958 0.716667 10.5 1 10.5H4V6.5C4 4.83333 4.58333 3.41667 5.75 2.25C6.91667 1.08333 8.33333 0.5 10 0.5H14C15.6667 0.5 17.0833 1.08333 18.25 2.25C19.4167 3.41667 20 4.83333 20 6.5V20.5H18V17.5H14ZM14 15.5H18V6.5C18 5.4 17.6083 4.45833 16.825 3.675C16.0417 2.89167 15.1 2.5 14 2.5H10C8.9 2.5 7.95833 2.89167 7.175 3.675C6.39167 4.45833 6 5.4 6 6.5V10.5H13C13.2833 10.5 13.5208 10.5958 13.7125 10.7875C13.9042 10.9792 14 11.2167 14 11.5V15.5ZM8 8.5V6.5H16V8.5H8ZM7 15.35L12 12.5H2L7 15.35ZM7 17.1L2 14.25V18.5H12V14.25L7 17.1Z" fill="#111111" fillOpacity="0.7"/></svg>}></Input>
-            <Input disabled label="Rua" id="rua" placeHolder="Das Flores" type="text" svg={<svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 16.5V0.5H2V16.5H0ZM7 16.5V12.5H9V16.5H7ZM14 16.5V0.5H16V16.5H14ZM7 10.5V6.5H9V10.5H7ZM7 4.5V0.5H9V4.5H7Z" fill="#111111" fillOpacity="0.7"/></svg>}></Input>
-            <Input label="Número" id="numero" required placeHolder="Número" type="number" svg={<svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 14.5H11V4.5H7V6.5H9V14.5ZM2 18.5C1.45 18.5 0.979167 18.3042 0.5875 17.9125C0.195833 17.5208 0 17.05 0 16.5V2.5C0 1.95 0.195833 1.47917 0.5875 1.0875C0.979167 0.695833 1.45 0.5 2 0.5H16C16.55 0.5 17.0208 0.695833 17.4125 1.0875C17.8042 1.47917 18 1.95 18 2.5V16.5C18 17.05 17.8042 17.5208 17.4125 17.9125C17.0208 18.3042 16.55 18.5 16 18.5H2ZM2 16.5H16V2.5H2V16.5Z" fill="#111111" fillOpacity="0.7"/></svg>}></Input>
-            <Input disabled label="Bairro" id="bairro" required placeHolder="Tupinambá" type="text" svg={<svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 18.5V4.5H4V0.5H14V8.5H18V18.5H10V14.5H8V18.5H0ZM2 16.5H4V14.5H2V16.5ZM2 12.5H4V10.5H2V12.5ZM2 8.5H4V6.5H2V8.5ZM6 12.5H8V10.5H6V12.5ZM6 8.5H8V6.5H6V8.5ZM6 4.5H8V2.5H6V4.5ZM10 12.5H12V10.5H10V12.5ZM10 8.5H12V6.5H10V8.5ZM10 4.5H12V2.5H10V4.5ZM14 16.5H16V14.5H14V16.5ZM14 12.5H16V10.5H14V12.5Z" fill="#111111" fillOpacity="0.7"/></svg>}></Input>
-            <Input disabled label="Cidade" id="cidade" required placeHolder="Garça" type="text" svg={<svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 24.5V6.81579H8V4.28947L12 0.5L16 4.28947V11.8684H24V24.5H0ZM2.66667 21.9737H5.33333V19.4474H2.66667V21.9737ZM2.66667 16.9211H5.33333V14.3947H2.66667V16.9211ZM2.66667 11.8684H5.33333V9.3421H2.66667V11.8684ZM10.6667 21.9737H13.3333V19.4474H10.6667V21.9737ZM10.6667 16.9211H13.3333V14.3947H10.6667V16.9211ZM10.6667 11.8684H13.3333V9.3421H10.6667V11.8684ZM10.6667 6.81579H13.3333V4.28947H10.6667V6.81579ZM18.6667 21.9737H21.3333V19.4474H18.6667V21.9737ZM18.6667 16.9211H21.3333V14.3947H18.6667V16.9211Z" fill="#111111" fillOpacity="0.7"/></svg>}></Input>
-            <Input disabled label="Estado" id="estado" required placeHolder="SP" type="text" svg={<svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 18.5L6 16.4L1.35 18.2C1.01667 18.3333 0.708333 18.2958 0.425 18.0875C0.141667 17.8792 0 17.6 0 17.25V3.25C0 3.03333 0.0625 2.84167 0.1875 2.675C0.3125 2.50833 0.483333 2.38333 0.7 2.3L6 0.5L12 2.6L16.65 0.8C16.9833 0.666667 17.2917 0.704167 17.575 0.9125C17.8583 1.12083 18 1.4 18 1.75V15.75C18 15.9667 17.9375 16.1583 17.8125 16.325C17.6875 16.4917 17.5167 16.6167 17.3 16.7L12 18.5ZM11 16.05V4.35L7 2.95V14.65L11 16.05ZM13 16.05L16 15.05V3.2L13 4.35V16.05ZM2 15.8L5 14.65V2.95L2 3.95V15.8Z" fill="#111111" fillOpacity="0.7"/></svg>}></Input>
-            <NavigationButtons nextUrl="/dashboard/imoveis/cadastrar/valores-condicoes"></NavigationButtons>
+    const {
+        darkMode, setDarkMode,
+        successMessage, setSuccessMessage,
+        errorMessage, setErrorMessage,
+    } = useUIStore();
+    const { handleSubmit, control, register, reset, watch } = useForm();
+    const [isFormComplete, setIsFormComplete] = useState<boolean>(false);
+    const [cepResult, setCepResult] = useState({
+        street: '',
+        district: '',
+        city: '',
+        state: '',
+    });
+    const cep = watch("zip_code") as string;
+    useEffect(() => {
+        const fetchCEP = async () => {
+            if (!cep) return;
+            const numericCep = cep.replace(/\D/g, '');
+            if (cep && numericCep.length === 8) {
+                try {
+                    const response = await axios.get(`${process.env.NEXT_PUBLIC_URL_API}/cep/${cep}`);
+                    const { bairro, uf, localidade, logradouro } = response.data;
+
+                    if (response.status === 200) {
+                        setCepResult({ district: bairro, state: uf, city: localidade, street: logradouro });
+                    }
+
+                    if (cepResult.street ||cepResult.district ||cepResult.city ||cepResult.state) {
+                        reset((prev) => ({
+                            ...prev,
+                            street: cepResult.street,
+                            district: cepResult.district,
+                            city: cepResult.city,
+                            state: cepResult.state,
+                        }));
+                    }
+                } catch (error) {
+                    if (axios.isAxiosError(error)) {
+                        const message = error.response?.data?.error ?? 'Erro ao buscar CEP.';
+                        setErrorMessage({
+                            message,
+                            visible: true,
+                        });
+                        return;
+                    } 
+                    console.error('Erro inesperado:', error);
+                    setErrorMessage({
+                        message: 'Erro inesperado ao buscar o CEP.',
+                        visible: true,
+                    });
+                }
+            }
+        };
+
+        fetchCEP();
+    }, [cep]);
+
+    function submitData(data: FieldValues) {
+        localStorage.setItem("addressProperty", JSON.stringify(data));
+    }
+
+    useEffect(() => {
+        const saved = localStorage.getItem("addressProperty");
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          reset(parsed);
+        }
+    }, [reset]);
+
+    const watchedValues = watch();
+      useEffect(() => {
+        const requiredFields = [
+          "zip_code",
+          "number"
+        ];
+    
+        const allFilled = requiredFields.every((field) => {
+          const value = watchedValues[field];
+          return (
+            value !== undefined && value !== null && String(value).trim() !== ""
+          );
+        });
+    
+        setIsFormComplete(allFilled);
+    }, [watchedValues]);
+    return (
+      <>
+        <NavigationBar urlAble={isFormComplete}></NavigationBar>
+        <Form
+          onSubmit={handleSubmit(submitData)}
+          className="flex flex-row flex-wrap gap-8"
+          title="Endereço"
+          svg={<IconeEndereco />}>
+            <Controller
+                name="zip_code"
+                control={control}
+                defaultValue=""
+                render={({ field }) => (
+                <Input
+                    value={field.value}
+                    onChange={field.onChange}
+                    label="CEP"
+                    id="zip_code"
+                    required
+                    placeHolder="00000-000"
+                    type="text"
+                    tabIndex={1}
+                    svg={<IconeCep />}></Input>
+                )}
+            />
+
+            <Controller
+                name="street"
+                control={control}
+                defaultValue=""
+                render={({ field }) => (
+                <Input
+                    value={field.value}
+                    onChange={field.onChange}
+                    disabled
+                    label="Rua"
+                    id="street"
+                    placeHolder="Das Flores"
+                    type="text"
+                    svg={<IconeRua />}></Input>
+                )}
+            />
+
+            <Controller
+                name="number"
+                control={control}
+                defaultValue=""
+                render={({ field }) => (
+                    <Input
+                        value={field.value}
+                        onChange={field.onChange}
+                        label="Numero"
+                        id="number"
+                        placeHolder="numero"
+                        type="number"
+                        required
+                        tabIndex={2}
+                        svg={<IconeNumero />}>
+                    </Input>
+                )}
+            />
+
+            <Controller
+                name="district"
+                control={control}
+                defaultValue=""
+                render={({ field }) => (
+                <Input
+                    value={field.value}
+                    onChange={field.onChange}
+                    disabled
+                    label="Bairro"
+                    id="district"
+                    placeHolder="Tupinambá"
+                    type="text"
+                    svg={<IconeBairro />}>
+                </Input>
+                )}
+            />
+
+            <Controller
+                name="city"
+                control={control}
+                defaultValue=""
+                render={({ field }) => (
+                <Input
+                    value={field.value}
+                    onChange={field.onChange}
+                    disabled
+                    label="Cidade"
+                    id="city"
+                    placeHolder="Garça"
+                    type="text"
+                    svg={<IconeCidade />}>
+                </Input>
+                )}
+            />
+
+            <Controller
+                name="state"
+                control={control}
+                defaultValue=""
+                render={({ field }) => (
+                <Input
+                    value={field.value}
+                    onChange={field.onChange}
+                    disabled
+                    label="Estado"
+                    id="state"
+                    placeHolder="SP"
+                    type="text"
+                    svg={<IconeEstado />}>
+                </Input>
+                )}
+            />
+
+            <Controller
+                name="country"
+                control={control}
+                defaultValue="Brasil"
+                render={({ field }) => (
+                <Input
+                    value={field.value}
+                    onChange={field.onChange}
+                    disabled
+                    label="Pais"
+                    id="country"
+                    placeHolder="Brasil"
+                    type="text"
+                    svg={<IconeEstado />}>
+                </Input>
+                )}
+            />
+            <div className="block w-full">
+                <button
+                type="submit"
+                className="flex justify-center gap-3 items-center max-w-[250px] w-full h-[50px] bg-gradient-to-r from-[#8B5CF6] to-[#6D28D9] rounded-lg text-[16px] font-medium text-[#fff] border border-[#8B5CF6] drop-shadow-purple-soft">
+                SALVAR
+                </button>
+            </div>
         </Form>
-    )
+      </>
+    );
 }
