@@ -13,7 +13,7 @@ export default async function Page(){
         <Section title="Meus Imóveis">
             <SectionTop textAdd="Adicionar novo Imóvel" hrefAdd="/dashboard/imoveis/cadastrar/dados-imovel"></SectionTop>
 
-            <TableInformations data={data}></TableInformations>
+            <TableInformations data={data ?? []}></TableInformations>
 
             <Pagination></Pagination>
         </Section>
