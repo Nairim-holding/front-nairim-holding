@@ -6,9 +6,12 @@ import TableInformations from "@/components/Admin/TableInformations";
 import SectionTop from "@/components/Admin/SectionTop";
 
 export default async function Page(){
-    const response = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/property`);
+    const response = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/property`, {
+        next: { revalidate: 0 },
+    });
+    console.log(response)
     const data = await response.json() as Property[];
-
+    console.log(data)
     return(
         <Section title="Meus Imóveis">
             <SectionTop textAdd="Adicionar novo Imóvel" hrefAdd="/dashboard/imoveis/cadastrar/dados-imovel"></SectionTop>
