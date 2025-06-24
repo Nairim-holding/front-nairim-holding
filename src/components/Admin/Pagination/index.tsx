@@ -3,15 +3,25 @@ import Link from "next/link";
 export default function Pagination() {
   return (
     <div className="mt-10 flex justify-between items-center relative flex-wrap">
-      <p className="text-[16px] font-normal text-[#111111B2] absolute left-0 z-[0] laptop:relative tablet:text-center tablet:w-full">
+      <p className="text-[16px] font-normal text-[#111111B2] laptop:relative tablet:text-center tablet:w-full">
         Exibindo 1 a 10 de 10 registros
       </p>
 
-      <div className="flex justify-center flex-1">
+      <div className="flex items-center gap-2">
+        <p className="text-[14px] font-normal text-[#111111B2]">Exibir</p>
+        <select className="border text-[14px] font-normal text-[#111111B2] p-3 rounded-lg border-[#CCCCCC] outline-none">
+          <option className="border text-[14px] font-normal text-[#111111B2]">
+            10
+          </option>
+        </select>
+        <p className="text-[14px] font-normal text-[#111111B2]">registros</p>
+      </div>
+
+      <div className="flex justify-center">
         <div className="flex items-center gap-3">
           <Link
             href="#"
-            className="w-[45px] h-[45px] flex items-center justify-center border border-2 border-[#111111B2] rounded-full">
+            className="w-[40px] h-[40px] flex items-center justify-center border border-2 border-[#111111B2] rounded-full">
             <svg
               width="16"
               height="16"

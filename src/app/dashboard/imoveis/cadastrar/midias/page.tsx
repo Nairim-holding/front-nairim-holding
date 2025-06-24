@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import { Controller, FieldValues, useForm } from "react-hook-form";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { useUIStore } from "@/stores/uiStore";
 
 // Utilitários
 const fileToBase64 = (file: File): Promise<string> => {
@@ -41,6 +42,10 @@ interface FileStorageData {
 const STORAGE_KEY = 'midiasProperty';
 
 export default function Page() {
+  const {
+    successMessage, setSuccessMessage,
+    errorMessage, setErrorMessage,
+  } = useUIStore();
   const { handleSubmit, control, reset, watch } = useForm();
   const router = useRouter();
 
@@ -115,11 +120,17 @@ async function submitData(data: FieldValues) {
         valuesProperty
      });
 
+    const result = await response.data;
+
     if(response.status == 200){
       router.push('/dashboard/imoveis');
+      setSuccessMessage({
+        visible: true,
+        message: result.message ? result.message : 'O imóvel foi criado com sucesso!'
+      })
       localStorage.clear();
     }
-    const result = await response.data;
+    
     console.log("Resposta da API:", result);
   } catch (error) {
     console.error("Erro no envio dos arquivos:", error);

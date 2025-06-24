@@ -1,3 +1,6 @@
+import Owner from "./owner";
+import propertyTypes from './propertyTypes';
+
 export default interface Property {
     id: number;
     owner_id: number;
@@ -16,6 +19,8 @@ export default interface Property {
     notes: string | null;
     created_at: string;
     updated_at: string;
-    values: Array<any>;
-    addresses: Array<any>;
+    values?: Array<any>;
+    addresses?: Array<any>;
+    owner?: Owner
+    type?: propertyTypes
 }

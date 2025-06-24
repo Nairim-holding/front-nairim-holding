@@ -11,9 +11,9 @@ import IconeCidade from "@/../public/icons/cidade.svg";
 import IconeEstado from "@/../public/icons/estado.svg";
 import NavigationBar from "@/components/Admin/NavigationBar";
 import { useEffect, useState } from "react";
-import { Controller, FieldValues, useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useUIStore } from "@/stores/uiStore";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 
 export default function Page(){
     const {
@@ -73,10 +73,6 @@ export default function Page(){
         fetchCEP();
     }, [cep]);
 
-    function submitData(data: FieldValues) {
-        localStorage.setItem("addressProperty", JSON.stringify(data));
-    }
-
     useEffect(() => {
         const saved = localStorage.getItem("addressProperty");
         if (saved) {
@@ -101,11 +97,16 @@ export default function Page(){
     
         setIsFormComplete(allFilled);
     }, [watchedValues]);
+
+    useEffect(() => {
+        if (isFormComplete) {
+        localStorage.setItem("addressProperty", JSON.stringify(watchedValues));
+        }
+    }, [isFormComplete, watchedValues]);
     return (
       <>
         <NavigationBar urlAble={isFormComplete}></NavigationBar>
         <Form
-          onSubmit={handleSubmit(submitData)}
           className="flex flex-row flex-wrap gap-8"
           title="Endereço"
           svg={<IconeEndereco />}>
@@ -234,13 +235,6 @@ export default function Page(){
                 </Input>
                 )}
             />
-            <div className="block w-full">
-                <button
-                type="submit"
-                className="flex justify-center gap-3 items-center max-w-[250px] w-full h-[50px] bg-gradient-to-r from-[#8B5CF6] to-[#6D28D9] rounded-lg text-[16px] font-medium text-[#fff] border border-[#8B5CF6] drop-shadow-purple-soft">
-                SALVAR
-                </button>
-            </div>
         </Form>
       </>
     );

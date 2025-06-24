@@ -54,10 +54,6 @@ export default function Page() {
     { label: "Sim", value: "true" },
   ];
 
-  function submitData(data: FieldValues) {
-    localStorage.setItem("dataPropertys", JSON.stringify(data));
-  }
-
   useEffect(() => {
     const saved = localStorage.getItem("dataPropertys");
     if (saved) {
@@ -94,11 +90,16 @@ export default function Page() {
 
     setIsFormComplete(allFilled);
   }, [watchedValues]);
+
+  useEffect(() => {
+    if (isFormComplete) {
+      localStorage.setItem("dataPropertys", JSON.stringify(watchedValues));
+    }
+  }, [isFormComplete, watchedValues]);
   return (
     <>
       <NavigationBar urlAble={isFormComplete}></NavigationBar>
       <Form
-        onSubmit={handleSubmit(submitData)}
         className="flex flex-row flex-wrap gap-8"
         title="Dados do Imóvel"
         svg={<IconeCasa />}>
@@ -350,16 +351,11 @@ export default function Page() {
           {...register("notes")}
           label="Observações"
           id="notes"
-          placeHolder="Escreva detalalhes não expecificados anteriormente"
+          placeHolder="Escreva detalhes não especificados anteriormente"
           svg={<IconeObservacoes />}
           tabIndex={9}
         />
 
-        <button
-          type="submit"
-          className="flex justify-center gap-3 items-center max-w-[250px] w-full h-[50px] bg-gradient-to-r from-[#8B5CF6] to-[#6D28D9] rounded-lg text-[16px] font-medium text-[#fff] border border-[#8B5CF6] drop-shadow-purple-soft">
-          SALVAR
-        </button>
       </Form>
     </>
   );

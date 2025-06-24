@@ -14,7 +14,7 @@ import IconeStatusAtual from "@/../public/icons/aviso.svg";
 import IconeObservacoes from "@/../public/icons/martelo.svg";
 import NavigationBar from "@/components/Admin/NavigationBar";
 import { useEffect, useState } from "react";
-import { Controller, FieldValues, useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 
 export default function Page(){
     const options = [
@@ -24,10 +24,6 @@ export default function Page(){
 
     const { handleSubmit, control, register, reset, watch } = useForm();
     const [isFormComplete, setIsFormComplete] = useState<boolean>(false);
-
-    function submitData(data: FieldValues) {
-        localStorage.setItem("valuesProperty", JSON.stringify(data));
-    }
 
     useEffect(() => {
         const saved = localStorage.getItem("valuesProperty");
@@ -62,11 +58,16 @@ export default function Page(){
     
         setIsFormComplete(allFilled);
     }, [watchedValues]);
+
+    useEffect(() => {
+      if (isFormComplete) {
+        localStorage.setItem("valuesProperty", JSON.stringify(watchedValues));
+      }
+    }, [isFormComplete, watchedValues]);
     return (
       <>
         <NavigationBar urlAble={isFormComplete}></NavigationBar>
         <Form
-          onSubmit={handleSubmit(submitData)}
           className="flex flex-row flex-wrap gap-8"
           title="Valores e Condições"
           svg={<IconeCifrao />}>
@@ -189,6 +190,7 @@ export default function Page(){
                 id="sale_value"
                 placeHolder="R$ 220.000,00"
                 type="number"
+                required
                 svg={<IconeValorImovel />}
               />
             )}
@@ -206,6 +208,7 @@ export default function Page(){
                 id="sale_date"
                 type="date"
                 placeHolder="12/06/2024"
+                required
                 svg={<IconeDataCompra />}
               />
             )}
@@ -223,6 +226,7 @@ export default function Page(){
                 id="extra_charges"
                 type="number"
                 placeHolder="R$ 1.000,00"
+                required
                 svg={<IconeValorImovel />}
               />
             )}
@@ -233,6 +237,7 @@ export default function Page(){
             placeHolder="Regras específicas para a venda"
             label="Regras de Venda"
             id="sale_rules"
+            required
             svg={<IconeObservacoes />}
           />
 
@@ -241,6 +246,7 @@ export default function Page(){
             placeHolder="Escreva detalalhes não expecificados anteriormente"
             label="Regras de Locação"
             id="lease_rules"
+            required
             svg={<IconeObservacoes></IconeObservacoes>}
           />
 
@@ -251,12 +257,6 @@ export default function Page(){
             id="notes"
             svg={<IconeObservacoes />}
           />
-
-          <button
-            type="submit"
-            className="flex justify-center gap-3 items-center max-w-[250px] w-full h-[50px] bg-gradient-to-r from-[#8B5CF6] to-[#6D28D9] rounded-lg text-[16px] font-medium text-[#fff] border border-[#8B5CF6] drop-shadow-purple-soft">
-            SALVAR
-          </button>
         </Form>
       </>
     );

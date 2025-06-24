@@ -1,8 +1,17 @@
+import React, { Dispatch, SetStateAction } from 'react';
 import { create } from 'zustand';
 
 interface MessageState {
   visible: boolean;
   message: string;
+}
+
+interface PopupDelete {
+  title: string;
+  subtitle: React.ReactNode;
+  visible: boolean;
+  setVisible: any;
+  onConfirm: any;
 }
 
 interface UIState {
@@ -14,6 +23,9 @@ interface UIState {
 
   errorMessage: MessageState;
   setErrorMessage: (value: MessageState) => void;
+
+  popUpDelete: PopupDelete;
+  setPopUpDelete: (value: PopupDelete) => void;
 }
 
 export const useUIStore = create<UIState>((set) => ({
@@ -32,4 +44,13 @@ export const useUIStore = create<UIState>((set) => ({
     message: '',
   },
   setErrorMessage: (value) => set({ errorMessage: value }),
+
+  popUpDelete: {
+    title: '',
+    subtitle: '',
+    visible: false,
+    onConfirm: async () => {},
+    setVisible: () => {},
+  },
+  setPopUpDelete: (value) => set({ popUpDelete: value }),
 }));

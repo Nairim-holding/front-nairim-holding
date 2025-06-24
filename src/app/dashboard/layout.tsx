@@ -6,6 +6,7 @@ import { token } from '@/types/token';
 import Aside from '@/components/Admin/Aside';
 import Message from '@/components/Admin/Message';
 import { useUIStore } from '@/stores/uiStore';
+import Popup from '@/components/Admin/Popup';
 
 
 export default function Layout({ children }: {children: React.ReactNode}){
@@ -13,6 +14,7 @@ export default function Layout({ children }: {children: React.ReactNode}){
         darkMode, setDarkMode,
         successMessage, setSuccessMessage,
         errorMessage, setErrorMessage,
+        popUpDelete, setPopUpDelete,
     } = useUIStore();
 
     const [name, setName] = useState<string>();
@@ -22,7 +24,6 @@ export default function Layout({ children }: {children: React.ReactNode}){
         const token = jwt.decode(cookie) as token;
         setName(token?.name);
     }, []);
-
     return (
       <>
         {successMessage.visible && (
@@ -43,6 +44,16 @@ export default function Layout({ children }: {children: React.ReactNode}){
             }
             visible={errorMessage.visible}></Message>
         )}
+
+          {popUpDelete.visible && (
+            <Popup
+              title={popUpDelete.title}
+              subtitle={popUpDelete.subtitle}
+              visible={popUpDelete.visible}
+              setVisible={popUpDelete.setVisible}
+              onConfirm={popUpDelete.onConfirm}
+            />
+          )}
         <Aside
           darkMode={darkMode}
           setDarkMode={setDarkMode}
