@@ -94,7 +94,7 @@ export default function Input({
           tabIndex={tabIndex}
           className={`
             w-full
-            border-2
+            border
             rounded-lg
             h-[40px]
             outline-none

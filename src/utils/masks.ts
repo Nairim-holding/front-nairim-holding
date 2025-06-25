@@ -32,22 +32,24 @@ export const maskPhone = (value: string) => {
 
 export const maskMoney = (value: string) => {
   const numeric = value.replace(/\D/g, "");
-  return (Number(numeric) / 100).toLocaleString("pt-BR", {
-    style: "currency",
-    currency: "BRL",
+  const number = Number(numeric) / 100;
+
+  return number.toLocaleString("pt-BR", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
   });
 };
 
 export const maskMeters = (value: string): string => {
   const onlyDigits = value.replace(/\D/g, "").slice(0, 5); 
   const numeric = (Number(onlyDigits) / 10).toFixed(1); 
-  return `${numeric} m`;
+  return `${numeric}`;
 };
 
 export const maskSquareMeters = (value: string): string => {
   const onlyDigits = value.replace(/\D/g, "").slice(0, 6); 
   const numeric = (Number(onlyDigits) / 100).toFixed(2);  
-  return `${numeric} m²`;
+  return `${numeric}`;
 };
 
 export const unmask = (value: string) => {

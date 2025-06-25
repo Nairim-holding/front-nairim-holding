@@ -87,6 +87,7 @@ export default function Page(){
                     value={field.value}
                     onChange={field.onChange}
                     type="text"
+                    mask="money"
                     label="Valor do Imóvel (Compra)"
                     id="purchase_value"
                     required
@@ -126,7 +127,8 @@ export default function Page(){
                     id="property_tax"
                     required
                     placeHolder="R$ 1.440,00"
-                    type="number"
+                    type="text"
+                    mask="money"
                     svg={<IconeValorIptu />}>
                     </Input>
                 )}
@@ -144,7 +146,8 @@ export default function Page(){
                     id="rental_value"
                     required
                     placeHolder="R$ 900,00"
-                    type="number"
+                    type="text"
+                    mask="money"
                     svg={<IconeAluguel />}>
                 </Input>
                 )}
@@ -162,7 +165,8 @@ export default function Page(){
                     id="condo_fee"
                     required
                     placeHolder="R$ 320,00"
-                    type="number"
+                    type="text"
+                    mask="money"
                     svg={<IconeValorCondominio />}>
                 </Input>
                 )}
@@ -196,7 +200,8 @@ export default function Page(){
                 label="Valor de Venda"
                 id="sale_value"
                 placeHolder="R$ 220.000,00"
-                type="number"
+                type="text"
+                mask="money"
                 required
                 svg={<IconeValorImovel />}
               />
@@ -231,7 +236,8 @@ export default function Page(){
                 onChange={field.onChange}
                 label="Encargos / Custos Extras"
                 id="extra_charges"
-                type="number"
+                type="text"
+                mask="money"
                 placeHolder="R$ 1.000,00"
                 required
                 svg={<IconeValorImovel />}

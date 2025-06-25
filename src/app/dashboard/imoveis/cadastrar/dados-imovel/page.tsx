@@ -3,7 +3,7 @@ import Input from "@/components/Admin/Input";
 import Select from "@/components/Admin/Select";
 import TextArea from "@/components/Admin/TextArea";
 import Form from "@/components/Form";
-import { Controller, FieldValues, useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 
 import IconeCasa from "@/../public/icons/casa.svg";
@@ -19,7 +19,6 @@ import IconeNomeFantasia from "@/../public/icons/nome-fantasia.svg";
 import NavigationBar from "@/components/Admin/NavigationBar";
 import axios from "axios";
 import Owner from "@/types/owner";
-import { label } from "framer-motion/client";
 import propertyTypes from "@/types/propertyTypes";
 
 export default function Page() {
@@ -237,8 +236,8 @@ export default function Page() {
               id="area_total"
               required
               placeHolder="Tamanho total do imóvel"
-              type="number"
-              mask="money"
+              type="text"
+              mask="metros2"
               svg={<IconeAreaPrivativa />}
               tabIndex={5}
             />
@@ -257,7 +256,8 @@ export default function Page() {
               id="area_built"
               required
               placeHolder="Tamanho construída do imóvel"
-              type="number"
+              type="text"
+              mask="metros2"
               svg={<IconeAreaPrivativa />}
               tabIndex={5}
             />
@@ -276,7 +276,8 @@ export default function Page() {
               id="frontage"
               required
               placeHolder="Tamanho da frente do lote"
-              type="number"
+              type="text"
+              mask="metros"
               svg={<IconeTestada />}
               tabIndex={7}
             />

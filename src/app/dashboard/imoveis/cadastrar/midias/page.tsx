@@ -105,13 +105,13 @@ async function submitData(data: FieldValues) {
       formData.append(key, file, file.name);
     });
   });
-    for (const [key, value] of formData.entries()) {
+  for (const [key, value] of formData.entries()) {
     if (value instanceof File) {
         console.log(key, value.name, value.size, value.type);
     } else {
         console.log(key, value);
     }
-    }
+  }
 
   try {
      const response = await axios.post(`${process.env.NEXT_PUBLIC_URL_API}/property`, {
@@ -123,12 +123,12 @@ async function submitData(data: FieldValues) {
     const result = await response.data;
 
     if(response.status == 200){
-      router.push('/dashboard/imoveis');
-      setSuccessMessage({
-        visible: true,
-        message: result.message ? result.message : 'O imóvel foi criado com sucesso!'
-      })
-      localStorage.clear();
+      // router.push('/dashboard/imoveis');
+      // setSuccessMessage({
+      //   visible: true,
+      //   message: result.message ? result.message : 'O imóvel foi criado com sucesso!'
+      // })
+      // localStorage.clear();
     }
     
     console.log("Resposta da API:", result);
