@@ -23,6 +23,7 @@ export default function Page(){
     } = useUIStore();
     const { handleSubmit, control, register, reset, watch } = useForm();
     const [isFormComplete, setIsFormComplete] = useState<boolean>(false);
+    const [item, setItem] = useState<boolean>(false);
     const [cepResult, setCepResult] = useState({
         street: '',
         district: '',
@@ -33,10 +34,10 @@ export default function Page(){
     useEffect(() => {
         const fetchCEP = async () => {
             if (!cep) return;
-            const numericCep = cep.replace(/\D/g, '');
-            if (cep && numericCep.length === 8) {
+            if (cep && cep.length === 9) {
                 try {
                     const response = await axios.get(`${process.env.NEXT_PUBLIC_URL_API}/cep/${cep}`);
+                                        console.log(response)
                     const { bairro, uf, localidade, logradouro } = response.data;
 
                     if (response.status === 200) {
@@ -53,6 +54,7 @@ export default function Page(){
                         }));
                     }
                 } catch (error) {
+                    console.log(error)
                     if (axios.isAxiosError(error)) {
                         const message = error.response?.data?.error ?? 'Erro ao buscar CEP.';
                         setErrorMessage({
@@ -100,12 +102,18 @@ export default function Page(){
 
     useEffect(() => {
         if (isFormComplete) {
-        localStorage.setItem("addressProperty", JSON.stringify(watchedValues));
+            localStorage.setItem("addressProperty", JSON.stringify(watchedValues));
+            setItem(true);
+        }
+
+        if(!isFormComplete){
+            localStorage.removeItem("addressProperty");
+            setItem(false);
         }
     }, [isFormComplete, watchedValues]);
     return (
       <>
-        <NavigationBar urlAble={isFormComplete}></NavigationBar>
+        <NavigationBar formComplete={item}></NavigationBar>
         <Form
           className="flex flex-row flex-wrap gap-8"
           title="Endereço"
@@ -118,6 +126,7 @@ export default function Page(){
                 <Input
                     value={field.value}
                     onChange={field.onChange}
+                    mask="cep"
                     label="CEP"
                     id="zip_code"
                     required

@@ -1,9 +1,9 @@
-'use client'
+'use client';
 
-import localFont from "next/font/local";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import localFont from 'next/font/local';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 const poppinsFont = localFont({
   src: '../../../fonts/Poppins-Medium.ttf',
@@ -13,82 +13,63 @@ const poppinsFont = localFont({
 });
 
 const steps = [
-  "/dashboard/imoveis/cadastrar/dados-imovel",
-  "/dashboard/imoveis/cadastrar/endereco",
-  "/dashboard/imoveis/cadastrar/valores-condicoes",
-  "/dashboard/imoveis/cadastrar/midias",
+  { path: '/dashboard/imoveis/cadastrar/dados-imovel', label: 'Dados do Imóvel', key: 'dataPropertys' },
+  { path: '/dashboard/imoveis/cadastrar/endereco', label: 'Endereço', key: 'addressProperty' },
+  { path: '/dashboard/imoveis/cadastrar/valores-condicoes', label: 'Valores e Condições', key: 'valuesProperty' },
+  { path: '/dashboard/imoveis/cadastrar/midias', label: 'Mídias', key: 'midiasProperty' },
 ];
 
-export default function NavigationBar({ urlAble, allAble }: { urlAble?: boolean; allAble?: boolean }) {
+export default function NavigationBar({ formComplete }: {formComplete?: boolean}) {
   const pathname = usePathname();
   const [activeStep, setActiveStep] = useState<number>(0);
+  const [enabledSteps, setEnabledSteps] = useState<boolean[]>([false, false, false, false]);
 
   useEffect(() => {
-    const currentIndex = steps.indexOf(pathname);
+    const currentIndex = steps.findIndex(step => step.path === pathname);
     setActiveStep(currentIndex >= 0 ? currentIndex : 0);
-  }, [pathname]);
+
+    const loadedSteps = steps.map((step, index) => {
+      const hasLocal = !!localStorage.getItem(step.key);
+      const isCurrent = index === currentIndex;
+
+      return hasLocal || isCurrent;
+    });
+
+    if (localStorage.getItem(steps[currentIndex]?.key) && currentIndex + 1 < steps.length) {
+      loadedSteps[currentIndex + 1] = true;
+    }
+
+    setEnabledSteps(loadedSteps);
+  }, [formComplete]);
 
   return (
     <div className="flex border-b-2 pb-6 border-[#11111180]">
       <ul className="flex items-center gap-3 flex-wrap">
-        {steps.map((step, index) => (
-          <li key={step}>
-            <Link
-              href={getLinkHref(step, index, activeStep, urlAble!, allAble!)}
-              className={getLinkClass(index, activeStep, urlAble!, allAble!)}
-            >
-              {renderIcon(index, index === activeStep)}
-              <p className={`text-[18px] font-medium ${poppinsFont.className}`}>
-                {getStepLabel(index)}
-              </p>
-            </Link>
-          </li>
-        ))}
+        {steps.map((step, index) => {
+          const isActive = index === activeStep;
+          const isEnabled = enabledSteps[index];
+
+          return (
+            <li key={step.path}>
+              <Link
+                href={isEnabled ? step.path : '#'}
+                className={`flex items-center gap-2 px-5 py-3 border border-[#E0E0E0] rounded-xl drop-shadow-custom-black
+                  ${isActive
+                    ? 'bg-gradient-to-r from-[#8B5CF6] to-[#6D28D9] drop-shadow-purple-soft text-white'
+                    : 'bg-[#F0F0F0] text-[#666666]'}
+                  ${!isEnabled ? 'pointer-events-none opacity-50 cursor-not-allowed' : ''}`}
+              >
+                {renderIcon(index, isActive)}
+                <p className={`text-[18px] font-medium ${poppinsFont.className}`}>
+                  {step.label}
+                </p>
+              </Link>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
-}
-
-function getLinkHref(
-  path: string,
-  index: number,
-  activeStep: number,
-  urlAble: boolean,
-  allAble: boolean
-) {
-  if (allAble) return path;
-  if (urlAble) return index <= activeStep + 1 ? path : "";
-  return index <= activeStep ? path : "";
-}
-
-function getLinkClass(
-  index: number,
-  activeStep: number,
-  urlAble: boolean,
-  allAble: boolean
-) {
-  const isActive = index === activeStep;
-  const isEnabled = allAble
-    ? true
-    : urlAble
-    ? index <= activeStep + 1
-    : index <= activeStep;
-
-  return `flex items-center gap-2 px-5 py-3 border border-[#E0E0E0] rounded-xl drop-shadow-custom-black
-    ${isActive
-      ? 'bg-gradient-to-r from-[#8B5CF6] to-[#6D28D9] drop-shadow-purple-soft text-white'
-      : 'bg-[#F0F0F0] text-[#666666]'}
-    ${!isEnabled ? 'pointer-events-none opacity-50 cursor-not-allowed' : ''}`;
-}
-
-function getStepLabel(index: number) {
-  const labels = [
-    "Dados do Imóvel",
-    "Endereço",
-    "Valores e Condições",
-    "Mídias"
-  ];
-  return labels[index] || "Etapa";
 }
 
 function renderIcon(index: number, isActive: boolean) {

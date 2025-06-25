@@ -24,6 +24,7 @@ export default function Page(){
 
     const { handleSubmit, control, register, reset, watch } = useForm();
     const [isFormComplete, setIsFormComplete] = useState<boolean>(false);
+    const [item, setItem] = useState<boolean>(false);
 
     useEffect(() => {
         const saved = localStorage.getItem("valuesProperty");
@@ -62,11 +63,17 @@ export default function Page(){
     useEffect(() => {
       if (isFormComplete) {
         localStorage.setItem("valuesProperty", JSON.stringify(watchedValues));
+        setItem(true)
+      }
+
+      if (!isFormComplete){
+        localStorage.removeItem("valuesProperty");
+        setItem(false)
       }
     }, [isFormComplete, watchedValues]);
     return (
       <>
-        <NavigationBar urlAble={isFormComplete}></NavigationBar>
+        <NavigationBar formComplete={item}></NavigationBar>
         <Form
           className="flex flex-row flex-wrap gap-8"
           title="Valores e Condições"

@@ -139,7 +139,7 @@ async function submitData(data: FieldValues) {
 
   return (
     <>
-      <NavigationBar allAble />
+      <NavigationBar />
       <Form title="Mídias" svg={<IconeMideas />} onSubmit={handleSubmit(submitData)}>
         <Controller
           name="arquivosImagens"

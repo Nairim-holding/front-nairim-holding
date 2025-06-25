@@ -25,6 +25,7 @@ import propertyTypes from "@/types/propertyTypes";
 export default function Page() {
   const [proprietarios, setProprietarios] = useState<[Owner]>();
   const [tipoImovel, setTipoImovel] = useState<[propertyTypes]>();
+  const [item, setItem] = useState<boolean>(false);
   useEffect(() => {
     async function getItens(){
       const responseProprietarios = await axios.get(`${process.env.NEXT_PUBLIC_URL_API}/owner`);
@@ -94,11 +95,18 @@ export default function Page() {
   useEffect(() => {
     if (isFormComplete) {
       localStorage.setItem("dataPropertys", JSON.stringify(watchedValues));
+      setItem(true)
+    }
+
+
+    if (!isFormComplete){
+      localStorage.removeItem("dataPropertys");
+      setItem(false);
     }
   }, [isFormComplete, watchedValues]);
   return (
     <>
-      <NavigationBar urlAble={isFormComplete}></NavigationBar>
+      <NavigationBar formComplete={item}></NavigationBar>
       <Form
         className="flex flex-row flex-wrap gap-8"
         title="Dados do Imóvel"
@@ -230,6 +238,7 @@ export default function Page() {
               required
               placeHolder="Tamanho total do imóvel"
               type="number"
+              mask="money"
               svg={<IconeAreaPrivativa />}
               tabIndex={5}
             />

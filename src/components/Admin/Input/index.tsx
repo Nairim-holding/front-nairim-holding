@@ -2,6 +2,7 @@
 import React from "react";
 import IncrementDecrementButtons from "./IncrementDecrementButton";
 import Label from "../Label";
+import { maskCEP, maskCNPJ, maskCPF, maskMeters, maskMoney, maskPhone, maskSquareMeters } from "@/utils/masks";
 
 interface InputProps {
   id: string;
@@ -14,7 +15,29 @@ interface InputProps {
   svg?: React.ReactNode;
   disabled?: boolean;
   tabIndex?: number;
+  mask?: string;
 }
+
+const applyMask = (type: string, value: string): string => {
+  switch (type) {
+    case "cpf":
+      return maskCPF(value);
+    case "cnpj":
+      return maskCNPJ(value);
+    case "cep":
+      return maskCEP(value);
+    case "telefone":
+      return maskPhone(value);
+    case "money":
+      return maskMoney(value);
+    case "metros":
+      return maskMeters(value);
+    case "metros2":
+      return maskSquareMeters(value);
+    default:
+      return value;
+  }
+};
 
 export default function Input({
   id,
@@ -26,7 +49,8 @@ export default function Input({
   placeHolder,
   svg,
   disabled,
-  tabIndex
+  tabIndex,
+  mask
 }: InputProps) {
   const handleIncrement = () => {
     const newValue = (parseFloat(value || "0") || 0) + 1;
@@ -40,11 +64,9 @@ export default function Input({
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputVal = e.target.value;
-    const parsed = parseFloat(inputVal);
-
-    if (parsed < 1 || inputVal.startsWith("0") || inputVal.startsWith("-")) return;
-    onChange?.(e);
+    const rawValue = e.target.value;
+    const maskedValue = mask ? applyMask(mask, rawValue) : rawValue;
+    onChange?.({ target: { value: maskedValue } } as React.ChangeEvent<HTMLInputElement>);
   };
 
   return (
@@ -64,7 +86,7 @@ export default function Input({
           name={id}
           type={type}
           value={value}
-          onChange={type === "number" ? handleInputChange : onChange}
+          onChange={mask || type === "number" ? handleInputChange : onChange}
           placeholder={placeHolder}
           required={required}
           min={1}
