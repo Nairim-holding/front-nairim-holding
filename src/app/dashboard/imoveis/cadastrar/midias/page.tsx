@@ -123,12 +123,12 @@ async function submitData(data: FieldValues) {
     const result = await response.data;
 
     if(response.status == 200){
-      // router.push('/dashboard/imoveis');
-      // setSuccessMessage({
-      //   visible: true,
-      //   message: result.message ? result.message : 'O imóvel foi criado com sucesso!'
-      // })
-      // localStorage.clear();
+      router.push('/dashboard/imoveis');
+      setSuccessMessage({
+        visible: true,
+        message: result.message ? result.message : 'O imóvel foi criado com sucesso!'
+      });
+      localStorage.clear();
     }
     
     console.log("Resposta da API:", result);
