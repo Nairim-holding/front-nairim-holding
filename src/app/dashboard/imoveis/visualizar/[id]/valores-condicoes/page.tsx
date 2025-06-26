@@ -15,65 +15,50 @@ import IconeObservacoes from "@/../public/icons/martelo.svg";
 import NavigationBar from "@/components/Admin/NavigationBar";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { useParams } from "next/navigation";
+import axios from "axios";
+import Property from "@/types/property";
 
 export default function Page(){
-    const options = [
-        {label: 'Disponível', value: 'AVAILABLE'},
-        {label: 'Ocupado', value: 'OCCUPIED'},
-    ]
+    const formatDate = (isoDate?: string) =>
+      isoDate ? isoDate.slice(0, 10) : '';
+    const { control, reset, register } = useForm();
 
-    const { handleSubmit, control, register, reset, watch } = useForm();
-    const [isFormComplete, setIsFormComplete] = useState<boolean>(false);
-    const [item, setItem] = useState<boolean>(false);
+    const [data,setData] = useState<'AVAILABLE' | 'OCCUPIED'>();
 
-    useEffect(() => {
-        const saved = localStorage.getItem("valuesProperty");
-        if (saved) {
-          const parsed = JSON.parse(saved);
-          reset(parsed);
-        }
-    }, [reset]);
-
-    const watchedValues = watch();
-      useEffect(() => {
-        const requiredFields = [
-          "purchase_value",
-          "purchase_date",
-          "property_tax",
-          "rental_value",
-          "condo_fee",
-          "current_status",
-          "sale_value",
-          "sale_date",
-          "extra_charges",
-          "sale_rules",
-          "lease_rules"
-        ];
+    const params = useParams();
+    const id = params?.id;
     
-        const allFilled = requiredFields.every((field) => {
-          const value = watchedValues[field];
-          return (
-            value !== undefined && value !== null && String(value).trim() !== ""
-          );
-        });
-    
-        setIsFormComplete(allFilled);
-    }, [watchedValues]);
-
     useEffect(() => {
-      if (isFormComplete) {
-        localStorage.setItem("valuesProperty", JSON.stringify(watchedValues));
-        setItem(true)
-      }
+    async function getPropertyById() {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_URL_API}/property/${id}`);
+      const propertyData = response.data;
 
-      if (!isFormComplete){
-        localStorage.removeItem("valuesProperty");
-        setItem(false)
-      }
-    }, [isFormComplete, watchedValues]);
+      const values = propertyData?.values?.[0];
+
+      reset({
+        purchase_value: values?.purchase_value || '',
+        purchase_date: formatDate(values?.purchase_date) || '',
+        property_tax: values?.property_tax || '',
+        rental_value: values?.rental_value || '',
+        condo_fee: values?.condo_fee || '',
+        current_status: values?.current_status || '',
+        sale_value: values?.sale_value || '',
+        sale_date: formatDate(values?.sale_date) || '',
+        extra_charges: values?.extra_charges || '',
+        sale_rules: values?.sale_rules || '',
+        lease_rules: values?.lease_rules || '',
+        notes: values?.notes || '',
+      });
+      setData(values?.current_status);
+    }
+
+    getPropertyById();
+  }, []);
+        console.log(data)
     return (
       <>
-        <NavigationBar formComplete={item} path="cadastrar"></NavigationBar>
+        <NavigationBar allEnabled path="visualizar" id={id}></NavigationBar>
         <Form
           className="flex flex-row flex-wrap gap-8"
           title="Valores e Condições"
@@ -92,6 +77,7 @@ export default function Page(){
                     id="purchase_value"
                     required
                     placeHolder="R$ 180.000,00"
+                    disabled
                     svg={<IconeValorImovel />}>
                 </Input>
                 )}
@@ -109,6 +95,7 @@ export default function Page(){
                     label="Data Compra"
                     id="purchase_date"
                     required
+                    disabled
                     placeHolder="12/05/2021"
                     svg={<IconeDataCompra />}>
                 </Input>
@@ -126,6 +113,7 @@ export default function Page(){
                     label="Valor IPTU"
                     id="property_tax"
                     required
+                    disabled
                     placeHolder="R$ 1.440,00"
                     type="text"
                     mask="money"
@@ -148,6 +136,7 @@ export default function Page(){
                     placeHolder="R$ 900,00"
                     type="text"
                     mask="money"
+                    disabled
                     svg={<IconeAluguel />}>
                 </Input>
                 )}
@@ -167,6 +156,7 @@ export default function Page(){
                     placeHolder="R$ 320,00"
                     type="text"
                     mask="money"
+                    disabled
                     svg={<IconeValorCondominio />}>
                 </Input>
                 )}
@@ -183,7 +173,8 @@ export default function Page(){
                     label="Status Atual"
                     required
                     id="current_status"
-                    options={options}
+                    options={[{value: data == 'OCCUPIED' ? 'Ocupado' : 'Disponível' , label: data == 'OCCUPIED' ? 'Ocupado' : 'Disponível' }]}
+                    disabled
                     svg={<IconeStatusAtual />}>
                 </Select>
                 )}
@@ -203,6 +194,7 @@ export default function Page(){
                 type="text"
                 mask="money"
                 required
+                disabled
                 svg={<IconeValorImovel />}
               />
             )}
@@ -221,6 +213,7 @@ export default function Page(){
                 type="date"
                 placeHolder="12/06/2024"
                 required
+                disabled
                 svg={<IconeDataCompra />}
               />
             )}
@@ -240,6 +233,7 @@ export default function Page(){
                 mask="money"
                 placeHolder="R$ 1.000,00"
                 required
+                disabled
                 svg={<IconeValorImovel />}
               />
             )}
@@ -247,6 +241,7 @@ export default function Page(){
 
           <TextArea
             {...register("sale_rules")}
+            disabled
             placeHolder="Regras específicas para a venda"
             label="Regras de Venda"
             id="sale_rules"
@@ -256,6 +251,7 @@ export default function Page(){
 
           <TextArea
             {...register("lease_rules")}
+            disabled
             placeHolder="Escreva detalalhes não expecificados anteriormente"
             label="Regras de Locação"
             id="lease_rules"
@@ -265,6 +261,7 @@ export default function Page(){
 
           <TextArea
             {...register("notes")}
+            disabled
             placeHolder="Anotações adicionais sobre o imóvel"
             label="Observações Gerais"
             id="notes"

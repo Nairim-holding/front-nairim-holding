@@ -4,7 +4,6 @@ import Select from "@/components/Admin/Select";
 import TextArea from "@/components/Admin/TextArea";
 import Form from "@/components/Form";
 import { Controller, useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
 
 import IconeCasa from "@/../public/icons/casa.svg";
 import IconeObservacoes from "@/../public/icons/observacoes.svg";
@@ -17,95 +16,48 @@ import IconeBanheiro from "@/../public/icons/banheiro.svg";
 import IconeQuartos from "@/../public/icons/quartos.svg";
 import IconeNomeFantasia from "@/../public/icons/nome-fantasia.svg";
 import NavigationBar from "@/components/Admin/NavigationBar";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import Owner from "@/types/owner";
-import propertyTypes from "@/types/propertyTypes";
+import Property from "@/types/property";
 
 export default function Page() {
-  const [proprietarios, setProprietarios] = useState<[Owner]>();
-  const [tipoImovel, setTipoImovel] = useState<[propertyTypes]>();
-  const [item, setItem] = useState<boolean>(false);
-  useEffect(() => {
-    async function getItens(){
-      const responseProprietarios = await axios.get(`${process.env.NEXT_PUBLIC_URL_API}/owner`);
-      const responseTipoImovel = await axios.get(`${process.env.NEXT_PUBLIC_URL_API}/property-type`);
+  const params = useParams();
+  const id = params?.id;
 
-      if(responseProprietarios.status == 200)
-        setProprietarios(responseProprietarios.data)
-      
-      if(responseTipoImovel.status == 200)
-        setTipoImovel(responseTipoImovel.data)
-    }
-    getItens();
-  }, []);
+  const [data, setData] = useState<Property>();
 
-  const { handleSubmit, control, register, reset, watch } = useForm();
+  const { control, register, reset } = useForm();
 
-  const optionsProprietarios = proprietarios?.map((e) => ({
-    label: e.name, value: e.id.toString()
-  }))
-
-  const optionsTiposImoveis = tipoImovel?.map((e) => ({
-    label: e.description, value: e.id.toString()
-  }))
-
-  const optionsMobiliado = [
-    { label: "Não", value: "false" },
-    { label: "Sim", value: "true" },
-  ];
-
-  useEffect(() => {
-    const saved = localStorage.getItem("dataPropertys");
-    if (saved) {
-      const parsed = JSON.parse(saved);
-      reset(parsed);
-    }
-  }, [reset]);
-
-  const [isFormComplete, setIsFormComplete] = useState<boolean>(false);
-  const watchedValues = watch();
-  useEffect(() => {
-    const requiredFields = [
-      "title",
-      "owner_id",
-      "type_id",
-      "bedrooms",
-      "bathrooms",
-      "half_bathrooms",
-      "garage_spaces",
-      "area_total",
-      "area_built",
-      "frontage",
-      "furnished",
-      "floor_number",
-      "tax_registration",
-    ];
-
-    const allFilled = requiredFields.every((field) => {
-      const value = watchedValues[field];
-      return (
-        value !== undefined && value !== null && String(value).trim() !== ""
-      );
+useEffect(() => {
+  async function getPropertyById() {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_URL_API}/property/${id}`);
+    const propertyData = response.data;
+    setData(propertyData);
+    reset({
+      title: propertyData.title || '',
+      bedrooms: propertyData.bedrooms || '',
+      bathrooms: propertyData.bathrooms || '',
+      half_bathrooms: propertyData.half_bathrooms || '',
+      garage_spaces: propertyData.garage_spaces || '',
+      area_total: propertyData.area_total || '',
+      area_built: propertyData.area_built || '',
+      frontage: propertyData.frontage || '',
+      tax_registration: propertyData.tax_registration || '',
+      owner_id: propertyData.owner_id || '',
+      type_id: propertyData.type_id || '',
+      furnished: propertyData.furnished ?? '',
+      floor_text: propertyData.floor_number || '',
+      notes: propertyData.notes || '',
     });
+  }
 
-    setIsFormComplete(allFilled);
-  }, [watchedValues]);
+  getPropertyById();
+}, [id, reset]);
 
-  useEffect(() => {
-    if (isFormComplete) {
-      localStorage.setItem("dataPropertys", JSON.stringify(watchedValues));
-      setItem(true)
-    }
-
-
-    if (!isFormComplete){
-      localStorage.removeItem("dataPropertys");
-      setItem(false);
-    }
-  }, [isFormComplete, watchedValues]);
   return (
     <>
-      <NavigationBar formComplete={item} path="cadastrar"></NavigationBar>
+      <NavigationBar allEnabled path="visualizar" id={id}></NavigationBar>
       <Form
         className="flex flex-row flex-wrap gap-8"
         title="Dados do Imóvel"
@@ -124,6 +76,7 @@ export default function Page() {
               placeHolder="Nome para o imóvel"
               type="text"
               svg={<IconeNomeFantasia />}
+              disabled
               tabIndex={1}
             />
           )}
@@ -141,8 +94,9 @@ export default function Page() {
               id="bedrooms"
               required
               placeHolder="Quantidade de quartos"
-              type="number"
+              type="text"
               svg={<IconeQuartos />}
+              disabled
               tabIndex={2}
             />
           )}
@@ -160,8 +114,9 @@ export default function Page() {
               id="bathrooms"
               required
               placeHolder="Quantidade de banheiros"
-              type="number"
+              type="text"
               svg={<IconeBanheiro />}
+              disabled
               tabIndex={3}
             />
           )}
@@ -179,8 +134,9 @@ export default function Page() {
               id="half_bathrooms"
               required
               placeHolder="Quantidade de Lavabos"
-              type="number"
+              type="text"
               svg={<IconeBanheiro />}
+              disabled
               tabIndex={3}
             />
           )}
@@ -198,15 +154,16 @@ export default function Page() {
               id="garage_spaces"
               required
               placeHolder="Quantidade de vagas"
-              type="number"
+              type="text"
               svg={<IconeGaragem />}
+              disabled
               tabIndex={4}
             />
           )}
         />
 
         <Controller
-          name="floor_number"
+          name="floor_text"
           control={control}
           defaultValue=""
           render={({ field }) => (
@@ -214,11 +171,12 @@ export default function Page() {
               value={field.value}
               onChange={field.onChange}
               label="Número do Andar"
-              id="floor_number"
+              id="floor_text"
               required
               placeHolder="Quantidade de andares"
-              type="number"
+              type="text"
               svg={<IconeAndares />}
+              disabled
               tabIndex={6}
             />
           )}
@@ -239,6 +197,7 @@ export default function Page() {
               type="text"
               mask="metros2"
               svg={<IconeAreaPrivativa />}
+              disabled
               tabIndex={5}
             />
           )}
@@ -259,6 +218,7 @@ export default function Page() {
               type="text"
               mask="metros2"
               svg={<IconeAreaPrivativa />}
+              disabled
               tabIndex={5}
             />
           )}
@@ -279,6 +239,7 @@ export default function Page() {
               type="text"
               mask="metros"
               svg={<IconeTestada />}
+              disabled
               tabIndex={7}
             />
           )}
@@ -298,6 +259,7 @@ export default function Page() {
               placeHolder="Informe o número do registro fiscal"
               type="text"
               svg={<IconeTestada />}
+              disabled
               tabIndex={7}
             />
           )}
@@ -306,17 +268,18 @@ export default function Page() {
         <Controller
           name="owner_id"
           control={control}
-          defaultValue={optionsProprietarios?.[0]?.value}
+          defaultValue={''}
           render={({ field }) => (
             <Select
               id="owner_id"
               label="Proprietário"
               required
-              options={optionsProprietarios ?? []}
+              options={[{value: data?.owner?.name ?? '', 'label': data?.owner?.name ?? ''}]}
               svg={<IconeMobiliado />}
               onChange={field.onChange}
               defaultValue={field.value}
               tabIndex={8}
+              disabled
             />
           )}
         />
@@ -324,17 +287,18 @@ export default function Page() {
         <Controller
           name="type_id"
           control={control}
-          defaultValue={optionsTiposImoveis?.[0]?.value}
+          defaultValue={''}
           render={({ field }) => (
             <Select
               id="type_id"
               label="Tipo do imóvel"
               required
-              options={optionsTiposImoveis ?? []}
+              options={[{value: data?.type?.description ?? '', 'label': data?.type?.description ?? ''}]}
               svg={<IconeMobiliado />}
               onChange={field.onChange}
               defaultValue={field.value}
               tabIndex={8}
+              disabled
             />
           )}
         />
@@ -342,17 +306,18 @@ export default function Page() {
         <Controller
           name="furnished"
           control={control}
-          defaultValue={optionsMobiliado[1].value}
+          defaultValue={''}
           render={({ field }) => (
             <Select
               id="furnished"
               label="Mobiliado"
               required
-              options={optionsMobiliado}
+              options={[{value: data?.furnished ? 'Sim' : 'Não', 'label': data?.furnished ? 'Sim' : 'Não'}]}
               svg={<IconeMobiliado />}
               onChange={field.onChange}
               defaultValue={field.value}
               tabIndex={8}
+              disabled
             />
           )}
         />
@@ -364,6 +329,7 @@ export default function Page() {
           placeHolder="Escreva detalhes não especificados anteriormente"
           svg={<IconeObservacoes />}
           tabIndex={9}
+          disabled
         />
 
       </Form>

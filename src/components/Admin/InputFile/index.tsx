@@ -11,6 +11,7 @@ interface InputFileProps {
   required?: boolean;
   svg?: React.ReactNode;
   textButton?: string;
+  disabled?: boolean;
 }
 
 interface FilePreview {
@@ -27,7 +28,8 @@ export default function InputFile({
   accept,
   id,
   required,
-  svg
+  svg,
+  disabled
 }: InputFileProps) {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [previews, setPreviews] = useState<FilePreview[]>([]);
@@ -129,7 +131,7 @@ export default function InputFile({
   return (
     <div className="w-full">
       <Label id={id} label={label} required={required} svg={svg} />
-      <div className="flex flex-col items-start w-full p-5 border-2 border-dashed border-[#CCCCCC] rounded-lg">
+      <div className={`${disabled && 'bg-[#EDEDED]'} flex flex-col items-start w-full p-5 border-2 border-dashed border-[#CCCCCC] rounded-lg`}>
         <button
           type="button"
           onClick={handleButtonClick}
@@ -145,6 +147,7 @@ export default function InputFile({
           accept={accept}
           className="hidden"
           multiple
+          disabled={disabled}
         />
 
         {previews.length > 0 && (

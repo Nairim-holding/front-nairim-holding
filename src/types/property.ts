@@ -20,7 +20,7 @@ export default interface Property {
     created_at: string;
     updated_at: string;
     values?: Array<any>;
-    addresses?: Array<any>;
+    addresses?: any[];
     owner?: Owner
     type?: propertyTypes
 }
