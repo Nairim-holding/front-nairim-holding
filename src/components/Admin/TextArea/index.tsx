@@ -6,10 +6,11 @@ interface TextAreaProps{
     onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
     placeHolder: string;
     svg?: React.ReactNode;
-    tabIndex?: number
+    tabIndex?: number;
+    disabled?: boolean;
 }
 
-export default function TextArea({id, label, required, value, onChange, placeHolder, svg, tabIndex, ...props}: TextAreaProps){
+export default function TextArea({id, label, required, value, onChange, placeHolder, svg, tabIndex, disabled, ...props}: TextAreaProps){
     return(
         <div className="flex flex-col font-poppins w-full">
             <label htmlFor={id} className="flex items-center gap-4 pl-2 mb-1 max-h-[20px]">
@@ -23,7 +24,7 @@ export default function TextArea({id, label, required, value, onChange, placeHol
                 onChange={onChange}
                 placeholder={placeHolder}
                 required={required}
-                className="w-full border-2 border-[#CCCCCC] rounded-lg h-[100px] max-h-[100px] outline-none px-5 py-4 text-[#111111B2] text-[14px] font-normal placeholder-[#111111B2] resize-none"
+                className={`w-full border-2 border-[#CCCCCC] rounded-lg h-[100px] max-h-[100px] outline-none px-5 py-4 text-[#111111B2] text-[14px] font-normal placeholder-[#111111B2] resize-none ${disabled && 'bg-[#EDEDED] cursor-not-allowed'}`}
                 {...props}
                 tabIndex={tabIndex}
             />

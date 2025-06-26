@@ -16,9 +16,10 @@ interface CustomSelectProps {
   required?: boolean;
   svg?: React.ReactNode;
   tabIndex?: number;
+  disabled?: boolean;
 }
 
-export default function Select({ options, defaultValue, onChange, label, required, svg, id, tabIndex, ...props }: CustomSelectProps) {
+export default function Select({ options, defaultValue, onChange, label, required, svg, id, tabIndex, disabled, ...props }: CustomSelectProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState<string>(defaultValue || options[0]?.value || '');
   const [selectedLabel, setSelectedLabel] = useState<string>(
@@ -86,12 +87,12 @@ export default function Select({ options, defaultValue, onChange, label, require
 
       <Label id={id} label={label} required={required} svg={svg}></Label>
       <div
-        className="bg-white border border-[#CCCCCC] rounded-lg py-2 px-4 flex justify-between items-center cursor-pointer relative text-[14px] text-[#111111B2] h-[40px]"
-        onClick={toggleSelect}
+        className={`${disabled ? 'bg-[#EDEDED] cursor-not-allowed' : 'bg-white border border-[#CCCCCC] cursor-pointer'} rounded-lg py-2 px-4 flex justify-between items-center relative text-[14px] text-[#111111B2] h-[40px]`}
+        onClick={!disabled ? toggleSelect : () => null}
       >
         <span>{selectedLabel}</span>
         <svg
-          className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+          className={`w-4 h-4 transition-transform ${isOpen && !disabled ? 'rotate-180' : ''}`}
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"

@@ -1,5 +1,6 @@
 'use client';
 
+import { ParamValue } from 'next/dist/server/request/params';
 import localFont from 'next/font/local';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -12,14 +13,16 @@ const poppinsFont = localFont({
   variable: '--font-poppins',
 });
 
-const steps = [
-  { path: '/dashboard/imoveis/cadastrar/dados-imovel', label: 'Dados do Imóvel', key: 'dataPropertys' },
-  { path: '/dashboard/imoveis/cadastrar/endereco', label: 'Endereço', key: 'addressProperty' },
-  { path: '/dashboard/imoveis/cadastrar/valores-condicoes', label: 'Valores e Condições', key: 'valuesProperty' },
-  { path: '/dashboard/imoveis/cadastrar/midias', label: 'Mídias', key: 'midiasProperty' },
-];
+export default function NavigationBar({ formComplete, allEnabled = false, path = 'cadastrar', id  }: {formComplete?: boolean; allEnabled?: boolean; path: 'cadastrar' | 'visualizar' | 'editar'; id?: ParamValue}) {
+  const isEditOrView = path === 'visualizar' || path === 'editar';
 
-export default function NavigationBar({ formComplete }: {formComplete?: boolean}) {
+  const steps = [
+    { path: `/dashboard/imoveis/${isEditOrView ? `${path}/${id}` : path}/dados-imovel`, label: 'Dados do Imóvel', key: 'dataPropertys' },
+    { path: `/dashboard/imoveis/${isEditOrView ? `${path}/${id}` : path}/endereco`, label: 'Endereço', key: 'addressProperty' },
+    { path: `/dashboard/imoveis/${isEditOrView ? `${path}/${id}` : path}/valores-condicoes`, label: 'Valores e Condições', key: 'valuesProperty' },
+    { path: `/dashboard/imoveis/${isEditOrView ? `${path}/${id}` : path}/midias`, label: 'Mídias', key: 'midiasProperty' },
+  ];
+
   const pathname = usePathname();
   const [activeStep, setActiveStep] = useState<number>(0);
   const [enabledSteps, setEnabledSteps] = useState<boolean[]>([false, false, false, false]);
@@ -28,10 +31,14 @@ export default function NavigationBar({ formComplete }: {formComplete?: boolean}
     const currentIndex = steps.findIndex(step => step.path === pathname);
     setActiveStep(currentIndex >= 0 ? currentIndex : 0);
 
+    if (allEnabled) {
+      setEnabledSteps(new Array(steps.length).fill(true));
+      return;
+    }
+
     const loadedSteps = steps.map((step, index) => {
       const hasLocal = !!localStorage.getItem(step.key);
       const isCurrent = index === currentIndex;
-
       return hasLocal || isCurrent;
     });
 
@@ -40,7 +47,7 @@ export default function NavigationBar({ formComplete }: {formComplete?: boolean}
     }
 
     setEnabledSteps(loadedSteps);
-  }, [formComplete]);
+  }, [formComplete, allEnabled]);
 
   return (
     <div className="flex border-b-2 pb-6 border-[#11111180]">

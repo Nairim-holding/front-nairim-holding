@@ -14,6 +14,8 @@ import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useUIStore } from "@/stores/uiStore";
 import axios from "axios";
+import { useParams } from "next/navigation";
+import Property from "@/types/property";
 
 export default function Page(){
     const {
@@ -21,98 +23,33 @@ export default function Page(){
         successMessage, setSuccessMessage,
         errorMessage, setErrorMessage,
     } = useUIStore();
-    const { handleSubmit, control, register, reset, watch } = useForm();
-    const [isFormComplete, setIsFormComplete] = useState<boolean>(false);
-    const [item, setItem] = useState<boolean>(false);
-    const [cepResult, setCepResult] = useState({
-        street: '',
-        district: '',
-        city: '',
-        state: '',
-    });
-    const cep = watch("zip_code") as string;
-    useEffect(() => {
-        const fetchCEP = async () => {
-            if (!cep) return;
-            if (cep && cep.length === 9) {
-                try {
-                    const response = await axios.get(`${process.env.NEXT_PUBLIC_URL_API}/cep/${cep}`);
-                    const { bairro, uf, localidade, logradouro } = response.data;
-
-                    if (response.status === 200) {
-                        const { bairro, uf, localidade, logradouro } = response.data;
-
-                        setCepResult({ district: bairro, state: uf, city: localidade, street: logradouro });
-
-                        reset((prev) => ({
-                            ...prev,
-                            street: logradouro,
-                            district: bairro,
-                            city: localidade,
-                            state: uf,
-                        }));
-                    }
-                } catch (error) {
-                    console.log(error)
-                    if (axios.isAxiosError(error)) {
-                        const message = error.response?.data?.error ?? 'Erro ao buscar CEP.';
-                        setErrorMessage({
-                            message,
-                            visible: true,
-                        });
-                        return;
-                    } 
-                    console.error('Erro inesperado:', error);
-                    setErrorMessage({
-                        message: 'Erro inesperado ao buscar o CEP.',
-                        visible: true,
-                    });
-                }
-            }
-        };
-
-        fetchCEP();
-    }, [cep]);
+    const { control, reset } = useForm();
 
     useEffect(() => {
-        const saved = localStorage.getItem("addressProperty");
-        if (saved) {
-          const parsed = JSON.parse(saved);
-          reset(parsed);
-        }
-    }, [reset]);
+    async function getPropertyById() {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_URL_API}/property/${id}`);
+        const propertyData = response.data as Property;
+        const address = propertyData?.addresses?.[0]?.address;
 
-    const watchedValues = watch();
-      useEffect(() => {
-        const requiredFields = [
-          "zip_code",
-          "number"
-        ];
-    
-        const allFilled = requiredFields.every((field) => {
-          const value = watchedValues[field];
-          return (
-            value !== undefined && value !== null && String(value).trim() !== ""
-          );
+        reset({
+            zip_code: address?.zip_code || '',
+            street: address?.street || '',
+            number: address?.number || '',
+            district: address?.district || '',
+            city: address?.city || '',
+            state: address?.state || '',
+            country: address?.country || 'Brasil',
         });
+    }
+
+    getPropertyById();
+    }, [reset]);
     
-        setIsFormComplete(allFilled);
-    }, [watchedValues]);
-
-    useEffect(() => {
-        if (isFormComplete) {
-            localStorage.setItem("addressProperty", JSON.stringify(watchedValues));
-            setItem(true);
-        }
-
-        if(!isFormComplete){
-            localStorage.removeItem("addressProperty");
-            setItem(false);
-        }
-    }, [isFormComplete, watchedValues]);
+    const params = useParams();
+    const id = params?.id;
     return (
       <>
-        <NavigationBar formComplete={item} path="cadastrar"></NavigationBar>
+        <NavigationBar allEnabled path="visualizar" id={id}></NavigationBar>
         <Form
           className="flex flex-row flex-wrap gap-8"
           title="Endereço"
@@ -132,6 +69,7 @@ export default function Page(){
                     placeHolder="00000-000"
                     type="text"
                     tabIndex={1}
+                    disabled
                     svg={<IconeCep />}></Input>
                 )}
             />
@@ -149,7 +87,6 @@ export default function Page(){
                     id="street"
                     placeHolder="Das Flores"
                     type="text"
-                    tabIndex={2}
                     svg={<IconeRua />}></Input>
                 )}
             />
@@ -165,9 +102,10 @@ export default function Page(){
                         label="Numero"
                         id="number"
                         placeHolder="numero"
-                        type="number"
+                        type="text"
                         required
-                        tabIndex={3}
+                        tabIndex={2}
+                        disabled
                         svg={<IconeNumero />}>
                     </Input>
                 )}
@@ -186,7 +124,6 @@ export default function Page(){
                     id="district"
                     placeHolder="Tupinambá"
                     type="text"
-                    tabIndex={4}
                     svg={<IconeBairro />}>
                 </Input>
                 )}
@@ -205,7 +142,6 @@ export default function Page(){
                     id="city"
                     placeHolder="Garça"
                     type="text"
-                    tabIndex={5}
                     svg={<IconeCidade />}>
                 </Input>
                 )}
@@ -224,7 +160,6 @@ export default function Page(){
                     id="state"
                     placeHolder="SP"
                     type="text"
-                    tabIndex={6}
                     svg={<IconeEstado />}>
                 </Input>
                 )}
@@ -243,7 +178,6 @@ export default function Page(){
                     id="country"
                     placeHolder="Brasil"
                     type="text"
-                    tabIndex={7}
                     svg={<IconeEstado />}>
                 </Input>
                 )}
