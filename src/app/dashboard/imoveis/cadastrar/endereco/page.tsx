@@ -150,6 +150,7 @@ export default function Page(){
                     id="street"
                     placeHolder="Das Flores"
                     type="text"
+                    tabIndex={2}
                     svg={<IconeRua />}></Input>
                 )}
             />
@@ -167,7 +168,7 @@ export default function Page(){
                         placeHolder="numero"
                         type="number"
                         required
-                        tabIndex={2}
+                        tabIndex={3}
                         svg={<IconeNumero />}>
                     </Input>
                 )}
@@ -186,6 +187,7 @@ export default function Page(){
                     id="district"
                     placeHolder="Tupinambá"
                     type="text"
+                    tabIndex={4}
                     svg={<IconeBairro />}>
                 </Input>
                 )}
@@ -204,6 +206,7 @@ export default function Page(){
                     id="city"
                     placeHolder="Garça"
                     type="text"
+                    tabIndex={5}
                     svg={<IconeCidade />}>
                 </Input>
                 )}
@@ -222,6 +225,7 @@ export default function Page(){
                     id="state"
                     placeHolder="SP"
                     type="text"
+                    tabIndex={6}
                     svg={<IconeEstado />}>
                 </Input>
                 )}
@@ -240,6 +244,7 @@ export default function Page(){
                     id="country"
                     placeHolder="Brasil"
                     type="text"
+                    tabIndex={7}
                     svg={<IconeEstado />}>
                 </Input>
                 )}

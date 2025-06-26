@@ -87,6 +87,7 @@ export default function Page(){
                     value={field.value}
                     onChange={field.onChange}
                     type="text"
+                    tabIndex={1}
                     mask="money"
                     label="Valor do Imóvel (Compra)"
                     id="purchase_value"
@@ -106,6 +107,7 @@ export default function Page(){
                     value={field.value}
                     onChange={field.onChange}
                     type="date"
+                    tabIndex={2}
                     label="Data Compra"
                     id="purchase_date"
                     required
@@ -128,6 +130,7 @@ export default function Page(){
                     required
                     placeHolder="R$ 1.440,00"
                     type="text"
+                    tabIndex={3}
                     mask="money"
                     svg={<IconeValorIptu />}>
                     </Input>
@@ -147,6 +150,7 @@ export default function Page(){
                     required
                     placeHolder="R$ 900,00"
                     type="text"
+                    tabIndex={4}
                     mask="money"
                     svg={<IconeAluguel />}>
                 </Input>
@@ -166,6 +170,7 @@ export default function Page(){
                     required
                     placeHolder="R$ 320,00"
                     type="text"
+                    tabIndex={5}
                     mask="money"
                     svg={<IconeValorCondominio />}>
                 </Input>
@@ -201,6 +206,7 @@ export default function Page(){
                 id="sale_value"
                 placeHolder="R$ 220.000,00"
                 type="text"
+                tabIndex={6}
                 mask="money"
                 required
                 svg={<IconeValorImovel />}
@@ -219,6 +225,7 @@ export default function Page(){
                 label="Data da Venda"
                 id="sale_date"
                 type="date"
+                tabIndex={7}
                 placeHolder="12/06/2024"
                 required
                 svg={<IconeDataCompra />}
@@ -237,6 +244,7 @@ export default function Page(){
                 label="Encargos / Custos Extras"
                 id="extra_charges"
                 type="text"
+                tabIndex={8}
                 mask="money"
                 placeHolder="R$ 1.000,00"
                 required

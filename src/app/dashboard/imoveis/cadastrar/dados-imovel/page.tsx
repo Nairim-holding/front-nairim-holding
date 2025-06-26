@@ -181,7 +181,7 @@ export default function Page() {
               placeHolder="Quantidade de Lavabos"
               type="number"
               svg={<IconeBanheiro />}
-              tabIndex={3}
+              tabIndex={4}
             />
           )}
         />
@@ -200,7 +200,7 @@ export default function Page() {
               placeHolder="Quantidade de vagas"
               type="number"
               svg={<IconeGaragem />}
-              tabIndex={4}
+              tabIndex={5}
             />
           )}
         />
@@ -239,7 +239,7 @@ export default function Page() {
               type="text"
               mask="metros2"
               svg={<IconeAreaPrivativa />}
-              tabIndex={5}
+              tabIndex={7}
             />
           )}
         />
@@ -259,7 +259,7 @@ export default function Page() {
               type="text"
               mask="metros2"
               svg={<IconeAreaPrivativa />}
-              tabIndex={5}
+              tabIndex={8}
             />
           )}
         />
@@ -279,7 +279,7 @@ export default function Page() {
               type="text"
               mask="metros"
               svg={<IconeTestada />}
-              tabIndex={7}
+              tabIndex={9}
             />
           )}
         />
@@ -298,7 +298,7 @@ export default function Page() {
               placeHolder="Informe o número do registro fiscal"
               type="text"
               svg={<IconeTestada />}
-              tabIndex={7}
+              tabIndex={10}
             />
           )}
         />
@@ -316,7 +316,7 @@ export default function Page() {
               svg={<IconeMobiliado />}
               onChange={field.onChange}
               defaultValue={field.value}
-              tabIndex={8}
+              tabIndex={11}
             />
           )}
         />
@@ -334,7 +334,7 @@ export default function Page() {
               svg={<IconeMobiliado />}
               onChange={field.onChange}
               defaultValue={field.value}
-              tabIndex={8}
+              tabIndex={12}
             />
           )}
         />
@@ -352,7 +352,7 @@ export default function Page() {
               svg={<IconeMobiliado />}
               onChange={field.onChange}
               defaultValue={field.value}
-              tabIndex={8}
+              tabIndex={13}
             />
           )}
         />
@@ -363,7 +363,7 @@ export default function Page() {
           id="notes"
           placeHolder="Escreva detalhes não especificados anteriormente"
           svg={<IconeObservacoes />}
-          tabIndex={9}
+          tabIndex={14}
         />
 
       </Form>
