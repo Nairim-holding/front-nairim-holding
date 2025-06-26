@@ -27,7 +27,7 @@ export default function List({
         <RxDashboard size={25} color={`${darkMode ? "#fff" : "#000"}`} />
         {openAside && (
           <span className={`${darkMode ? "text-white" : "text-black"}`}>
-            Dashboard
+            Resumo
           </span>
         )}
       </Link>
@@ -79,7 +79,7 @@ export default function List({
         } flex justify-center gap-3`}>
         <CiSettings size={30} color={`${darkMode ? "#fff" : "#000"}`} />
         {openAside && (
-          <p className={`${darkMode ? "text-white" : "text-black"}`}>Setting</p>
+          <p className={`${darkMode ? "text-white" : "text-black"}`}>Configurações</p>
         )}
       </Link>
 
