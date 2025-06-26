@@ -53,7 +53,7 @@ export default function ListActions({ id, name, route }: {id: number; name: stri
               <Link href={`imoveis/visualizar/${id}/dados-imovel`}>
                 <IoEyeOutline size={23} color="#111111B2" />
               </Link>
-              <Link href={"#"}>
+              <Link href={`imoveis/editar/${id}/dados-imovel`}>
                 <GoPencil size={20} color="#111111B2" />
               </Link>
               <button onClick={() => setVisible(!visible)}>

@@ -43,8 +43,6 @@ useEffect(() => {
                     transition: 'opacity 75ms ease-in-out',
                 }
             };
-
-            console.log("Imagem gerada:", newImage.src);
             setBrainImageList((prev) => [...prev, newImage]);
         }, 100);
     };

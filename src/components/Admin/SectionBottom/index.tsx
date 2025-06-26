@@ -1,18 +1,31 @@
 import Link from "next/link";
+import { Dispatch, SetStateAction } from "react";
 
-export default function Pagination() {
+interface SectionBottomProps {
+  count: number;
+  limit: number;
+  setLimit: Dispatch<SetStateAction<number>>;
+}
+
+export default function SectionBottom({ count, limit, setLimit }: SectionBottomProps) {
   return (
     <div className="mt-10 flex justify-between items-center relative flex-wrap">
       <p className="text-[16px] font-normal text-[#111111B2] laptop:relative tablet:text-center tablet:w-full">
-        Exibindo 1 a 10 de 10 registros
+        Exibindo 1 a {limit} de {count} registros
       </p>
 
       <div className="flex items-center gap-2">
         <p className="text-[14px] font-normal text-[#111111B2]">Exibir</p>
-        <select className="border text-[14px] font-normal text-[#111111B2] p-3 rounded-lg border-[#CCCCCC] outline-none">
-          <option className="border text-[14px] font-normal text-[#111111B2]">
-            10
-          </option>
+        <select
+          value={limit}
+          onChange={(e) => setLimit(Number(e.target.value))}
+          className="border text-[14px] font-normal text-[#111111B2] p-3 rounded-lg border-[#CCCCCC] outline-none"
+        >
+          {[10, 20, 30, 40, 50].map((option) => (
+            <option key={option} value={option} className="border text-[14px] font-normal text-[#111111B2]">
+              {option}
+            </option>
+          ))}
         </select>
         <p className="text-[14px] font-normal text-[#111111B2]">registros</p>
       </div>

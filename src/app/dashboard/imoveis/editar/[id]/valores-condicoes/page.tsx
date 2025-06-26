@@ -16,48 +16,98 @@ import NavigationBar from "@/components/Admin/NavigationBar";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useParams } from "next/navigation";
-import axios from "axios";
-import Property from "@/types/property";
 import formatDate from "@/utils/formatDate";
+import axios from "axios";
 
 export default function Page(){
-    const { control, reset, register } = useForm();
+    const options = [
+        {label: 'Disponível', value: 'AVAILABLE'},
+        {label: 'Ocupado', value: 'OCCUPIED'},
+    ]
 
-    const [data,setData] = useState<'AVAILABLE' | 'OCCUPIED'>();
+    const { control, register, reset, watch } = useForm();
+    const [loadedFromStorage, setLoadedFromStorage] = useState(false);
+
+    const [hasLoaded, setHasLoaded] = useState(false);
 
     const params = useParams();
     const id = params?.id;
+
+  useEffect(() => {
+    const loadData = async () => {
+      const stored = localStorage.getItem("valuesPropertyEdit");
+
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        reset(parsed);
+        setHasLoaded(true);
+        setLoadedFromStorage(true);
+        return;
+      }
+
+      try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_URL_API}/property/${id}`);
+        const values = response.data?.values?.[0];
+
+        if (values) {
+          reset({
+            purchase_value: values?.purchase_value || '',
+            purchase_date: formatDate(values?.purchase_date) || '',
+            property_tax: values?.property_tax || '',
+            rental_value: values?.rental_value || '',
+            condo_fee: values?.condo_fee || '',
+            current_status: values?.current_status || '',
+            sale_value: values?.sale_value || '',
+            sale_date: formatDate(values?.sale_date) || '',
+            extra_charges: values?.extra_charges || '',
+            sale_rules: values?.sale_rules || '',
+            lease_rules: values?.lease_rules || '',
+            notes: values?.notes || '',
+          });
+        }
+      } catch (error) {
+        console.error("Erro ao buscar dados da API:", error);
+      }
+
+      setHasLoaded(true);
+    };
+
+    loadData();
+  }, [id, reset]);
+
+    const watchedValues = watch();
+      useEffect(() => {
+        if (!hasLoaded) return;
+        const requiredFields = [
+          "purchase_value",
+          "purchase_date",
+          "property_tax",
+          "rental_value",
+          "condo_fee",
+          "current_status",
+          "sale_value",
+          "sale_date",
+          "extra_charges",
+          "sale_rules",
+          "lease_rules"
+        ];
     
-    useEffect(() => {
-    async function getPropertyById() {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_URL_API}/property/${id}`);
-      const propertyData = response.data;
+        const allFilled = requiredFields.every((field) => {
+        const value = watchedValues[field];
+        return value !== undefined && value !== null && String(value).trim() !== '';
+        });
 
-      const values = propertyData?.values?.[0];
-
-      reset({
-        purchase_value: values?.purchase_value || '',
-        purchase_date: formatDate(values?.purchase_date) || '',
-        property_tax: values?.property_tax || '',
-        rental_value: values?.rental_value || '',
-        condo_fee: values?.condo_fee || '',
-        current_status: values?.current_status || '',
-        sale_value: values?.sale_value || '',
-        sale_date: formatDate(values?.sale_date) || '',
-        extra_charges: values?.extra_charges || '',
-        sale_rules: values?.sale_rules || '',
-        lease_rules: values?.lease_rules || '',
-        notes: values?.notes || '',
-      });
-      setData(values?.current_status);
-    }
-
-    getPropertyById();
-  }, []);
+        if (allFilled) {
+            localStorage.setItem('valuesPropertyEdit', JSON.stringify(watchedValues));
+        } else if (!loadedFromStorage) {
+            localStorage.removeItem('valuesPropertyEdit');
+        }
+    
+    }, [watchedValues]);
 
     return (
       <>
-        <NavigationBar allEnabled path="visualizar" id={id}></NavigationBar>
+        <NavigationBar allEnabled path="editar" id={id}></NavigationBar>
         <Form
           className="flex flex-row flex-wrap gap-8"
           title="Valores e Condições"
@@ -71,12 +121,12 @@ export default function Page(){
                     value={field.value}
                     onChange={field.onChange}
                     type="text"
+                    tabIndex={1}
                     mask="money"
                     label="Valor do Imóvel (Compra)"
                     id="purchase_value"
                     required
                     placeHolder="R$ 180.000,00"
-                    disabled
                     svg={<IconeValorImovel />}>
                 </Input>
                 )}
@@ -91,10 +141,10 @@ export default function Page(){
                     value={field.value}
                     onChange={field.onChange}
                     type="date"
+                    tabIndex={2}
                     label="Data Compra"
                     id="purchase_date"
                     required
-                    disabled
                     placeHolder="12/05/2021"
                     svg={<IconeDataCompra />}>
                 </Input>
@@ -112,9 +162,9 @@ export default function Page(){
                     label="Valor IPTU"
                     id="property_tax"
                     required
-                    disabled
                     placeHolder="R$ 1.440,00"
                     type="text"
+                    tabIndex={3}
                     mask="money"
                     svg={<IconeValorIptu />}>
                     </Input>
@@ -134,8 +184,8 @@ export default function Page(){
                     required
                     placeHolder="R$ 900,00"
                     type="text"
+                    tabIndex={4}
                     mask="money"
-                    disabled
                     svg={<IconeAluguel />}>
                 </Input>
                 )}
@@ -154,8 +204,8 @@ export default function Page(){
                     required
                     placeHolder="R$ 320,00"
                     type="text"
+                    tabIndex={5}
                     mask="money"
-                    disabled
                     svg={<IconeValorCondominio />}>
                 </Input>
                 )}
@@ -172,8 +222,7 @@ export default function Page(){
                     label="Status Atual"
                     required
                     id="current_status"
-                    options={[{value: data == 'OCCUPIED' ? 'Ocupado' : 'Disponível' , label: data == 'OCCUPIED' ? 'Ocupado' : 'Disponível' }]}
-                    disabled
+                    options={options}
                     svg={<IconeStatusAtual />}>
                 </Select>
                 )}
@@ -191,9 +240,9 @@ export default function Page(){
                 id="sale_value"
                 placeHolder="R$ 220.000,00"
                 type="text"
+                tabIndex={6}
                 mask="money"
                 required
-                disabled
                 svg={<IconeValorImovel />}
               />
             )}
@@ -210,9 +259,9 @@ export default function Page(){
                 label="Data da Venda"
                 id="sale_date"
                 type="date"
+                tabIndex={7}
                 placeHolder="12/06/2024"
                 required
-                disabled
                 svg={<IconeDataCompra />}
               />
             )}
@@ -229,10 +278,10 @@ export default function Page(){
                 label="Encargos / Custos Extras"
                 id="extra_charges"
                 type="text"
+                tabIndex={8}
                 mask="money"
                 placeHolder="R$ 1.000,00"
                 required
-                disabled
                 svg={<IconeValorImovel />}
               />
             )}
@@ -240,7 +289,6 @@ export default function Page(){
 
           <TextArea
             {...register("sale_rules")}
-            disabled
             placeHolder="Regras específicas para a venda"
             label="Regras de Venda"
             id="sale_rules"
@@ -250,7 +298,6 @@ export default function Page(){
 
           <TextArea
             {...register("lease_rules")}
-            disabled
             placeHolder="Escreva detalalhes não expecificados anteriormente"
             label="Regras de Locação"
             id="lease_rules"
@@ -260,7 +307,6 @@ export default function Page(){
 
           <TextArea
             {...register("notes")}
-            disabled
             placeHolder="Anotações adicionais sobre o imóvel"
             label="Observações Gerais"
             id="notes"

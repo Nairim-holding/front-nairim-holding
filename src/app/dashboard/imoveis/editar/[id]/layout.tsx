@@ -1,0 +1,14 @@
+import NavigationBar from "@/components/Admin/NavigationBar";
+import Section from "@/components/Admin/Section";
+import Link from "next/link";
+import React from "react";
+
+export default function Layout({ children }: { children: React.ReactNode }){
+    return(
+        <Section title="Editar Imóvel">
+            <div className="mt-10 bg-[#fff] p-5 rounded-xl" style={{ boxShadow: '0px 4px 8px 3px rgba(0, 0, 0, 0.15)' }}>
+                {children}
+            </div>
+        </Section>
+    )
+}
