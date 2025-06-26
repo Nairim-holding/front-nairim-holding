@@ -17,6 +17,7 @@ export default function Page() {
     const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
     const brainImages = Array.from({ length: 11 }, (_, i) => `/brainrot/image${i + 1}.jpg`);
+    const brainGifs = Array.from({ length: 11 }, (_, i) => `/brainrot/gif${i + 1}.gif`);
 
     const handleClick = async () => {
         const nextState = !transcender;
@@ -50,13 +51,16 @@ export default function Page() {
                 audioRef.current.play();
 
                 intervalRef.current = setInterval(() => {
-                    const randIndex = Math.floor(Math.random() * brainImages.length);
+                    const useGif = Math.random() < 0.9;
+                    const list = useGif ? brainGifs : brainImages;
+                    const randIndex = Math.floor(Math.random() * list.length);
+
                     const randomTop = Math.floor(Math.random() * 80);
                     const randomLeft = Math.floor(Math.random() * 80);
                     const randomSize = 200 + Math.floor(Math.random() * 300);
 
                     const newImage: BrainImage = {
-                        src: brainImages[randIndex],
+                        src: list[randIndex],
                         style: {
                             position: 'absolute',
                             top: `${randomTop}%`,
@@ -65,7 +69,7 @@ export default function Page() {
                             height: `${randomSize}px`,
                             zIndex: 10,
                             opacity: 0.9,
-                            transition: 'opacity 75ms ease-in-out'
+                            transition: 'opacity 75ms ease-in-out',
                         }
                     };
 
@@ -87,15 +91,7 @@ export default function Page() {
 
     return (
         <div className="relative w-full h-screen overflow-hidden bg-black text-white">
-            {/* Todas as imagens acumuladas */}
-            {transcender && brainImageList.map((img, idx) => (
-                <img key={idx} src={img.src} alt="brainrot" style={img.style} />
-            ))}
-
-            {transcender && brainImageList.map((img, idx) => (
-                <img key={idx} src={img.src} alt="brainrot" style={img.style} />
-            ))}
-
+            {/* Elementos visuais flutuantes (imagens + gifs) */}
             {transcender && brainImageList.map((img, idx) => (
                 <img key={idx} src={img.src} alt="brainrot" style={img.style} />
             ))}
