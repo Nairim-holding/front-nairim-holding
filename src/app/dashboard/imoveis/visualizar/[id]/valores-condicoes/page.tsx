@@ -68,6 +68,7 @@ export default function Page(){
                 defaultValue=""
                 render={({ field }) => (
                 <Input
+                    autoFocus
                     value={field.value}
                     onChange={field.onChange}
                     type="text"
@@ -192,7 +193,6 @@ export default function Page(){
                 placeHolder="R$ 220.000,00"
                 type="text"
                 mask="money"
-                required
                 disabled
                 svg={<IconeValorImovel />}
               />
@@ -211,7 +211,6 @@ export default function Page(){
                 id="sale_date"
                 type="date"
                 placeHolder="12/06/2024"
-                required
                 disabled
                 svg={<IconeDataCompra />}
               />
@@ -231,7 +230,6 @@ export default function Page(){
                 type="text"
                 mask="money"
                 placeHolder="R$ 1.000,00"
-                required
                 disabled
                 svg={<IconeValorImovel />}
               />
@@ -244,7 +242,6 @@ export default function Page(){
             placeHolder="Regras específicas para a venda"
             label="Regras de Venda"
             id="sale_rules"
-            required
             svg={<IconeObservacoes />}
           />
 
@@ -254,7 +251,6 @@ export default function Page(){
             placeHolder="Escreva detalalhes não expecificados anteriormente"
             label="Regras de Locação"
             id="lease_rules"
-            required
             svg={<IconeObservacoes></IconeObservacoes>}
           />
 

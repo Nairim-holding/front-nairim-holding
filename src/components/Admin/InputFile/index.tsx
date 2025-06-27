@@ -1,6 +1,7 @@
 'use client';
 import React, { useEffect, useRef, useState } from 'react';
 import Label from '../Label';
+import { IoIosCloseCircleOutline } from 'react-icons/io';
 
 interface InputFileProps {
   label: string;
@@ -31,6 +32,9 @@ export default function InputFile({
   svg,
   disabled
 }: InputFileProps) {
+  const [modalImage, setModalImage] = useState<string | null>(null);
+  const openModal = (url: string) => setModalImage(url);
+  const closeModal = () => setModalImage(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [previews, setPreviews] = useState<FilePreview[]>([]);
 
@@ -130,6 +134,20 @@ export default function InputFile({
 
   return (
     <div className="w-full">
+      {modalImage && (
+        <div
+          onClick={closeModal}
+          className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center z-[1000] cursor-pointer"
+        >
+          <img
+            src={modalImage}
+            alt="Imagem ampliada"
+            className="max-w-full max-h-full rounded shadow-lg"
+            onClick={e => e.stopPropagation()}
+          />
+          <button className="absolute top-[20px] right-[40px]" onClick={closeModal}><IoIosCloseCircleOutline color="#fff" size={40} /></button>
+        </div>
+      )}
       <Label id={id} label={label} required={required} svg={svg} />
       <div className={`${disabled && 'bg-[#EDEDED]'} flex flex-col items-start w-full p-5 border-2 border-dashed border-[#CCCCCC] rounded-lg`}>
         <button
@@ -162,6 +180,7 @@ export default function InputFile({
                     src={file.url}
                     alt={file.name}
                     className="w-full h-32 object-cover rounded"
+                    onClick={() => openModal(file.url)}
                   />
                 ) : (
                   <div className="flex flex-col items-start gap-2">

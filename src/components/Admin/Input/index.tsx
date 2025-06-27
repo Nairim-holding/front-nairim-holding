@@ -1,8 +1,8 @@
 'use client'
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import IncrementDecrementButtons from "./IncrementDecrementButton";
 import Label from "../Label";
-import { maskCEP, maskCNPJ, maskCPF, maskMeters, maskMoney, maskPhone, maskSquareMeters } from "@/utils/masks";
+import { maskCEP, maskCNPJ, maskCPF, maskMoney, maskPhone, maskSquareMeters } from "@/utils/masks";
 
 interface InputProps {
   id: string;
@@ -16,6 +16,7 @@ interface InputProps {
   disabled?: boolean;
   tabIndex?: number;
   mask?: string;
+  autoFocus?: boolean;
 }
 
 const applyMask = (type: string, value: string): string => {
@@ -30,8 +31,6 @@ const applyMask = (type: string, value: string): string => {
       return maskPhone(value);
     case "money":
       return maskMoney(value);
-    case "metros":
-      return maskMeters(value);
     case "metros2":
       return maskSquareMeters(value);
     default:
@@ -50,7 +49,8 @@ export default function Input({
   svg,
   disabled,
   tabIndex,
-  mask
+  mask,
+  autoFocus
 }: InputProps) {
   const handleIncrement = () => {
     const newValue = (parseFloat(value || "0") || 0) + 1;
@@ -69,6 +69,13 @@ export default function Input({
     onChange?.({ target: { value: maskedValue } } as React.ChangeEvent<HTMLInputElement>);
   };
 
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (autoFocus && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [autoFocus]);
   return (
     <div className="flex flex-col font-poppins max-w-[250px] w-full">
       <Label id={id} label={label} required={required} svg={svg}></Label>
@@ -83,6 +90,7 @@ export default function Input({
 
         <input
           id={id}
+          ref={inputRef}
           name={id}
           type={type}
           value={value}
@@ -103,8 +111,8 @@ export default function Input({
             font-normal
             no-spinner
             border-[#CCCCCC]
-            placeholder-[#111111B2]
             text-[#111111B2]
+            placeholder-[#CCC]
             ${disabled && 'bg-[#EDEDED] cursor-not-allowed'}
           `}
         />

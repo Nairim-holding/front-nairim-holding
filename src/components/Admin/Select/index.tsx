@@ -89,6 +89,7 @@ export default function Select({ options, defaultValue, onChange, label, require
       <div
         className={`${disabled ? 'bg-[#EDEDED] cursor-not-allowed' : 'bg-white border border-[#CCCCCC] cursor-pointer'} rounded-lg py-2 px-4 flex justify-between items-center relative text-[14px] text-[#111111B2] h-[40px]`}
         onClick={!disabled ? toggleSelect : () => null}
+        tabIndex={tabIndex}
       >
         <span>{selectedLabel}</span>
         <svg

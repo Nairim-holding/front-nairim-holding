@@ -85,11 +85,6 @@ export default function Page(){
           "rental_value",
           "condo_fee",
           "current_status",
-          "sale_value",
-          "sale_date",
-          "extra_charges",
-          "sale_rules",
-          "lease_rules"
         ];
     
         const allFilled = requiredFields.every((field) => {
@@ -122,6 +117,7 @@ export default function Page(){
                     onChange={field.onChange}
                     type="text"
                     tabIndex={1}
+                    autoFocus
                     mask="money"
                     label="Valor do Imóvel (Compra)"
                     id="purchase_value"
@@ -242,7 +238,6 @@ export default function Page(){
                 type="text"
                 tabIndex={6}
                 mask="money"
-                required
                 svg={<IconeValorImovel />}
               />
             )}
@@ -261,7 +256,6 @@ export default function Page(){
                 type="date"
                 tabIndex={7}
                 placeHolder="12/06/2024"
-                required
                 svg={<IconeDataCompra />}
               />
             )}
@@ -281,7 +275,6 @@ export default function Page(){
                 tabIndex={8}
                 mask="money"
                 placeHolder="R$ 1.000,00"
-                required
                 svg={<IconeValorImovel />}
               />
             )}
@@ -292,7 +285,6 @@ export default function Page(){
             placeHolder="Regras específicas para a venda"
             label="Regras de Venda"
             id="sale_rules"
-            required
             svg={<IconeObservacoes />}
           />
 
@@ -301,7 +293,6 @@ export default function Page(){
             placeHolder="Escreva detalalhes não expecificados anteriormente"
             label="Regras de Locação"
             id="lease_rules"
-            required
             svg={<IconeObservacoes></IconeObservacoes>}
           />
 

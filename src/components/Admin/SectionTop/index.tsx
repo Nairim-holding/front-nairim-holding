@@ -10,7 +10,7 @@ interface SectionTopProps {
 
 export default function SectionTop({ textAdd, hrefAdd, search, setSearch }: SectionTopProps) {
   return (
-    <div className="flex justify-between items-center flex-wrap mb-8 mt-5">
+    <div className="flex justify-between items-center flex-wrap mb-4 mt-2">
       <div className="flex border py-2 px-3 rounded-lg border-[#CCCCCC] max-w-[420px] w-full gap-3">
         <input
           className="border-none outline-none w-full text-[14px] font-normal text-[#111111B2]"

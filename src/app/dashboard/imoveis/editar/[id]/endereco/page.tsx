@@ -159,6 +159,7 @@ export default function Page(){
                     placeHolder="00000-000"
                     type="text"
                     tabIndex={1}
+                    autoFocus
                     svg={<IconeCep />}></Input>
                 )}
             />

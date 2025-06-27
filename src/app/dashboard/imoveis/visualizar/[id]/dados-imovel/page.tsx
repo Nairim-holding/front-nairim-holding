@@ -78,6 +78,7 @@ useEffect(() => {
               svg={<IconeNomeFantasia />}
               disabled
               tabIndex={1}
+              autoFocus
             />
           )}
         />
@@ -237,7 +238,7 @@ useEffect(() => {
               required
               placeHolder="Tamanho da frente do lote"
               type="text"
-              mask="metros"
+              mask="metros2"
               svg={<IconeTestada />}
               disabled
               tabIndex={7}

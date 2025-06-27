@@ -165,6 +165,7 @@ export default function Page() {
               type="text"
               svg={<IconeNomeFantasia />}
               tabIndex={1}
+              autoFocus
             />
           )}
         />
@@ -317,7 +318,7 @@ export default function Page() {
               required
               placeHolder="Tamanho da frente do lote"
               type="text"
-              mask="metros"
+              mask="metros2"
               svg={<IconeTestada />}
               tabIndex={9}
             />

@@ -18,7 +18,7 @@ export default function Form({
   svg,
 }: Form) {
   return (
-    <div className="flex flex-col py-5">
+    <div className="flex flex-col py-3">
       {title && (
         <h1 className="flex items-center gap-2 mb-5 text-[#4236C5] text-[24px] font-poppins">
           {svg && svg}

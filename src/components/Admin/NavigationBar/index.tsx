@@ -50,7 +50,7 @@ export default function NavigationBar({ formComplete, allEnabled = false, path =
   }, [formComplete, allEnabled]);
 
   return (
-    <div className="flex border-b-2 pb-6 border-[#11111180]">
+    <div className="flex border-b-2 pb-3 border-[#11111180]">
       <ul className="flex items-center gap-3 flex-wrap">
         {steps.map((step, index) => {
           const isActive = index === activeStep;

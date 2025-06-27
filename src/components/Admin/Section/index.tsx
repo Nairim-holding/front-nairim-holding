@@ -17,8 +17,8 @@ interface SectionProps {
 export default function Section({ children, title }: SectionProps ) {
   return (
     <section style={{ boxShadow: '0px 4px 8px 3px rgba(0, 0, 0, 0.15)' }}
-      className={`${poppins.variable} m-5 p-10 bg-white flex flex-col rounded-xl drop-shadow-section-2`}>
-        <h1 className="text-[24px] pl-7">{title}</h1>
+      className={`${poppins.variable} m-4 p-5 bg-white flex flex-col rounded-xl drop-shadow-section-2`}>
+        <h1 className="text-[24px]">{title}</h1>
         {children}
     </section>
   );
