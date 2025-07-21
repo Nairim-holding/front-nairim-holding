@@ -90,6 +90,11 @@ export default function Input({
 
         <input
           id={id}
+          onKeyDown={(e) => {
+            if (type === "number" && e.key === "-") {
+              e.preventDefault();
+            }
+          }}
           ref={inputRef}
           name={id}
           type={type}

@@ -5,11 +5,10 @@ import React from "react";
 
 export default function Layout({ children }: { children: React.ReactNode }){
     return(
-        <Section title="Cadastrar Imóvel">
+        <Section title="Cadastrar Imóvel" href="/dashboard/imoveis" hrefText="Voltar para dashboard">
             <div className="mt-3 bg-[#fff] p-5 rounded-xl" style={{ boxShadow: '0px 4px 8px 3px rgba(0, 0, 0, 0.15)' }}>
                 {children}
             </div>
-
         </Section>
     )
 }

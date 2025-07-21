@@ -26,22 +26,26 @@ import Property from "@/types/property";
 export default function Page() {
   const [proprietarios, setProprietarios] = useState<[Owner]>();
   const [tipoImovel, setTipoImovel] = useState<[propertyTypes]>();
-  
-  useEffect(() => {
-    async function getItens(){
-      const responseProprietarios = await axios.get(`${process.env.NEXT_PUBLIC_URL_API}/owner`);
-      const responseTipoImovel = await axios.get(`${process.env.NEXT_PUBLIC_URL_API}/property-type`);
 
-      if(responseProprietarios.status == 200)
-        setProprietarios(responseProprietarios.data)
-      
-      if(responseTipoImovel.status == 200)
-        setTipoImovel(responseTipoImovel.data)
+  useEffect(() => {
+    async function getItens() {
+      const responseProprietarios = await axios.get(
+        `${process.env.NEXT_PUBLIC_URL_API}/owner`
+      );
+      const responseTipoImovel = await axios.get(
+        `${process.env.NEXT_PUBLIC_URL_API}/property-type`
+      );
+
+      if (responseProprietarios.status == 200)
+        setProprietarios(responseProprietarios.data);
+
+      if (responseTipoImovel.status == 200)
+        setTipoImovel(responseTipoImovel.data);
     }
     getItens();
   }, []);
 
-  const { control, register, reset, watch } = useForm();
+  const { control, register, reset, watch, handleSubmit } = useForm();
 
   const [hasLoaded, setHasLoaded] = useState(false);
   const [loadedFromStorage, setLoadedFromStorage] = useState(false);
@@ -49,7 +53,7 @@ export default function Page() {
   const id = params?.id;
   useEffect(() => {
     const loadData = async () => {
-      const stored = localStorage.getItem('dataPropertysEdit');
+      const stored = localStorage.getItem("dataPropertysEdit");
       if (stored) {
         const parsed = JSON.parse(stored);
         reset(parsed);
@@ -66,24 +70,57 @@ export default function Page() {
 
         if (propertyData) {
           reset({
-            title: propertyData.title || '',
-            bedrooms: propertyData.bedrooms || '',
-            bathrooms: propertyData.bathrooms || '',
-            half_bathrooms: propertyData.half_bathrooms || '',
-            garage_spaces: propertyData.garage_spaces || '',
-            area_total: propertyData.area_total || '',
-            area_built: propertyData.area_built || '',
-            frontage: propertyData.frontage || '',
-            tax_registration: propertyData.tax_registration || '',
-            owner_id: propertyData.owner_id || '',
-            type_id: propertyData.type_id || '',
-            furnished: propertyData.furnished ?? '',
-            floor_number: propertyData.floor_number || '',
-            notes: propertyData.notes || '',
+            title: propertyData.title || "",
+            bedrooms: propertyData.bedrooms || "",
+            bathrooms: propertyData.bathrooms || "",
+            half_bathrooms: propertyData.half_bathrooms || "",
+            garage_spaces: propertyData.garage_spaces || "",
+            area_total: propertyData.area_total || "",
+            area_built: propertyData.area_built || "",
+            frontage: propertyData.frontage || "",
+            tax_registration: propertyData.tax_registration || "",
+            owner_id: propertyData.owner_id || "",
+            type_id: propertyData.type_id || "",
+            furnished: propertyData.furnished ?? "",
+            floor_number: propertyData.floor_number || "",
+            notes: propertyData.notes || "",
           });
         }
+
+        const address = propertyData?.addresses?.[0]?.address;
+        if (address) {
+          const addressValues = {
+            zip_code: address.zip_code || "",
+            street: address.street || "",
+            number: address.number || "",
+            district: address.district || "",
+            city: address.city || "",
+            state: address.state || "",
+            country: address.country || "Brasil",
+          };
+          localStorage.setItem("addressPropertyEdit", JSON.stringify(addressValues));
+        }
+
+        const values = propertyData?.values?.[0];
+        if (values) {
+          const valueData = {
+            purchase_value: values.purchase_value || "",
+            purchase_date: values.purchase_date || "",
+            property_tax: values.property_tax || "",
+            rental_value: values.rental_value || "",
+            condo_fee: values.condo_fee || "",
+            current_status: values.current_status || "",
+            sale_value: values.sale_value || "",
+            sale_date: values.sale_date || "",
+            extra_charges: values.extra_charges || "",
+            sale_rules: values.sale_rules || "",
+            lease_rules: values.lease_rules || "",
+            notes: values.notes || "",
+          };
+          localStorage.setItem("valuesPropertyEdit", JSON.stringify(valueData));
+        }
       } catch (error) {
-        console.error('Erro ao buscar dados da API:', error);
+        console.error("Erro ao buscar dados da API:", error);
       }
 
       setHasLoaded(true);
@@ -93,12 +130,14 @@ export default function Page() {
   }, [id, reset]);
 
   const optionsProprietarios = proprietarios?.map((e) => ({
-    label: e.name, value: e.id.toString()
-  }))
+    label: e.name,
+    value: e.id.toString(),
+  }));
 
   const optionsTiposImoveis = tipoImovel?.map((e) => ({
-    label: e.description, value: e.id.toString()
-  }))
+    label: e.description,
+    value: e.id.toString(),
+  }));
 
   const optionsMobiliado = [
     { label: "Não", value: "false" },
@@ -113,36 +152,56 @@ export default function Page() {
     }
   }, [reset]);
 
+  const [isFormComplete, setIsFormComplete] = useState<boolean>(false);
+  const requiredFields = [
+    "title",
+    "owner_id",
+    "type_id",
+    "bedrooms",
+    "bathrooms",
+    "half_bathrooms",
+    "garage_spaces",
+    "area_total",
+    "area_built",
+    "frontage",
+    "furnished",
+    "floor_number",
+    "tax_registration",
+  ];
   const watchedValues = watch();
-  useEffect(() => {
-    if (!hasLoaded) return;
-    const requiredFields = [
-      "title",
-      "owner_id",
-      "type_id",
-      "bedrooms",
-      "bathrooms",
-      "half_bathrooms",
-      "garage_spaces",
-      "area_total",
-      "area_built",
-      "frontage",
-      "furnished",
-      "floor_number",
-      "tax_registration",
-    ];
+  const handleSave = () => {
+    const values = watchedValues;
 
     const allFilled = requiredFields.every((field) => {
-      const value = watchedValues[field];
-      return value !== undefined && value !== null && String(value).trim() !== '';
+      const value = values[field];
+      return (
+        value !== undefined && value !== null && String(value).trim() !== ""
+      );
     });
 
     if (allFilled) {
-      localStorage.setItem('dataPropertysEdit', JSON.stringify(watchedValues));
-    } else if (!loadedFromStorage) {
-      localStorage.removeItem('dataPropertysEdit');
+      localStorage.setItem("dataPropertysEdit", JSON.stringify(values));
+      alert("Dados salvos com sucesso!");
     }
-  }, [watchedValues]);
+  };
+  useEffect(() => {
+    if (!hasLoaded) return;
+
+    const isComplete = requiredFields.every((field) => {
+      const value = watchedValues[field];
+      return (
+        value !== undefined && value !== null && String(value).trim() !== ""
+      );
+    });
+
+    setIsFormComplete(isComplete);
+
+    if (isComplete) {
+      localStorage.setItem("dataPropertysEdit", JSON.stringify(watchedValues));
+    } else if (!loadedFromStorage) {
+      localStorage.removeItem("dataPropertysEdit");
+    }
+  }, [watchedValues, hasLoaded, loadedFromStorage]);
   return (
     <>
       <NavigationBar allEnabled path="editar" id={id}></NavigationBar>
@@ -406,7 +465,18 @@ export default function Page() {
           svg={<IconeObservacoes />}
           tabIndex={14}
         />
-
+        <div className="w-full flex justify-end mt-4">
+          <button
+            type="button"
+            onClick={handleSave}
+            className={`max-w-[200px] w-full h-[40px] bg-gradient-to-r from-[#8B5CF6] to-[#6D28D9] text-[#fff] rounded-lg text-[16px] font-normal border-[#8B5CF6] drop-shadow-purple-soft ${
+              !isFormComplete ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+            disabled={!isFormComplete}
+            tabIndex={15}>
+            Salvar
+          </button>
+        </div>
       </Form>
     </>
   );

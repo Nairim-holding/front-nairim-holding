@@ -99,17 +99,13 @@ export default function Page(){
         setIsFormComplete(allFilled);
     }, [watchedValues]);
 
-    useEffect(() => {
+    const handleSave = () => {
         if (isFormComplete) {
             localStorage.setItem("addressProperty", JSON.stringify(watchedValues));
             setItem(true);
-        }
-
-        if(!isFormComplete){
-            localStorage.removeItem("addressProperty");
-            setItem(false);
-        }
-    }, [isFormComplete, watchedValues]);
+            alert("Dados salvos com sucesso.");
+        } 
+    };
     return (
       <>
         <NavigationBar formComplete={item} path="cadastrar"></NavigationBar>
@@ -249,6 +245,21 @@ export default function Page(){
                 </Input>
                 )}
             />
+
+            <div className="w-full flex justify-end mt-4">
+                <button
+                    type="button"
+                    onClick={handleSave}
+                    className={`max-w-[200px] w-full h-[40px] bg-gradient-to-r from-[#8B5CF6] to-[#6D28D9] text-[#fff] rounded-lg text-[16px] font-normal border-[#8B5CF6] drop-shadow-purple-soft ${
+                    !isFormComplete ? "opacity-50 cursor-not-allowed" : ""
+                    }`}
+                    disabled={!isFormComplete}
+                    tabIndex={15}
+                    
+                >
+                    Salvar
+                </button>
+            </div>
         </Form>
       </>
     );
