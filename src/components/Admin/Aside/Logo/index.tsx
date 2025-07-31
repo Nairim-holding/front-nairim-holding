@@ -1,4 +1,5 @@
 import PropsDarkMode from "@/types/propsDarkMode";
+import { useEffect, useState } from "react";
 
 interface PropsLogoAside extends PropsDarkMode {
   openAside: boolean;
@@ -9,7 +10,17 @@ export default function Logo({
   setDarkMode,
   openAside,
 }: PropsLogoAside) {
-  return openAside ? (
+  const [openAsideDelay, setOpenAsideDelay] = useState(openAside);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setOpenAsideDelay(openAside);
+    }, 100);
+
+    return () => clearTimeout(timeout); 
+  }, [openAside]);
+
+  return openAsideDelay ? (
     <svg
       width="131"
       height="46"

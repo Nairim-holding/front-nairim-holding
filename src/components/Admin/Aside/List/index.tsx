@@ -1,10 +1,10 @@
-import { useState } from "react";
-import { RxDashboard } from "react-icons/rx";
-import { MdOutlineHomeWork } from "react-icons/md";
-import { CiSettings } from "react-icons/ci";
+import { useEffect, useRef, useState } from "react";
+import { RxExit } from "react-icons/rx";
 import Link from "next/link";
 import PropsDarkMode from "@/types/propsDarkMode";
 import ButtonToggle from "../ButtonToggle";
+import NavItem from "../NavItem";
+import { usePathname } from "next/navigation";
 
 interface PropsButtonToggle extends PropsDarkMode {
   openAside: boolean;
@@ -16,77 +16,282 @@ export default function List({
   openAside,
 }: PropsButtonToggle) {
   const [showSublist, setShowSublist] = useState(false);
-  
+  const [openAsideDelay, setOpenAsideDelay] = useState(openAside);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setOpenAsideDelay(openAside);
+    }, 100);
+
+    return () => clearTimeout(timeout);
+  }, [openAside]);
+
+  useEffect(() => {
+    if (!openAside) setShowSublist(false);
+  }, [openAside]);
+
+  const sublistRef = useRef<HTMLAnchorElement>(null);
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        sublistRef.current &&
+        !sublistRef.current.contains(event.target as Node)
+      ) {
+        setShowSublist(false);
+      }
+    }
+
+    if (showSublist) {
+      document.addEventListener("click", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [showSublist]);
+
+  function openMenu() {
+    setShowSublist((prev) => !prev);
+  }
+
+  const pathname = usePathname();
+
+  const submenuPaths = [
+    "/dashboard/imoveis",
+    "/dashboard/imobiliarias",
+    "/dashboard/usuarios",
+  ];
+  const [activeCadastro, setActiveCadastro] = useState(false);
+  useEffect(() => {
+    const isSubmenuPath = submenuPaths.some((path) =>
+      pathname.startsWith(path)
+    );
+    setActiveCadastro(isSubmenuPath);
+  }, [pathname]);
+
   return (
-    <ul className="flex flex-col gap-5 items-start justify-start w-full">
-      <Link
-        href="/dashboard"
-        className={`mt-5 ${
-          openAside ? "w-auto" : "w-full"
-        } flex gap-3 justify-center`}>
-        <RxDashboard size={25} color={`${darkMode ? "#fff" : "#000"}`} />
-        {openAside && (
-          <span className={`${darkMode ? "text-white" : "text-black"}`}>
+    <nav className="w-full h-full flex flex-col justify-between">
+      <ul className={`flex flex-col gap-3 items-start w-full overflow-hidden`}>
+        <NavItem
+          href="/dashboard"
+          title="Ir para a página inicial da dashboard">
+          <div className="w-[25px] flex justify-center">
+            <svg
+              width="25"
+              height="25"
+              viewBox="0 0 25 25"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg">
+              <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M4.12386 0.800049H4.03155C3.60878 0.800049 3.24509 0.800049 2.92386 0.875735C2.42657 0.994554 1.97189 1.24872 1.61019 1.61006C1.24849 1.9714 0.993903 2.42582 0.874627 2.92296C0.800781 3.24417 0.800781 3.60599 0.800781 4.03057V8.6456C0.800781 9.06834 0.800781 9.432 0.876474 9.75321C0.995301 10.2505 1.24948 10.7051 1.61085 11.0668C1.97223 11.4284 2.42668 11.683 2.92386 11.8023C3.24509 11.8761 3.60694 11.8761 4.03155 11.8761H8.64693C9.0697 11.8761 9.4334 11.8761 9.75463 11.8004C10.2519 11.6816 10.7066 11.4275 11.0683 11.0661C11.43 10.7048 11.6846 10.2503 11.8039 9.75321C11.8777 9.432 11.8777 9.07018 11.8777 8.6456V4.03057C11.8777 3.60783 11.8777 3.24417 11.802 2.92296C11.6832 2.42571 11.429 1.97107 11.0676 1.6094C10.7063 1.24773 10.2518 0.993156 9.75463 0.873889C9.4334 0.800049 9.07155 0.800049 8.64693 0.800049H4.12386ZM3.35401 2.6719C3.4334 2.65344 3.55709 2.64606 4.12386 2.64606H8.55463C9.12324 2.64606 9.24509 2.6516 9.32447 2.6719C9.49031 2.71156 9.64193 2.79637 9.7625 2.91694C9.88307 3.0375 9.96789 3.1891 10.0076 3.35493C10.026 3.43246 10.0316 3.5543 10.0316 4.12287V8.5533C10.0316 9.12187 10.026 9.24371 10.0057 9.32308C9.96605 9.48891 9.88123 9.64051 9.76065 9.76108C9.64008 9.88164 9.48847 9.96645 9.32263 10.0061C9.24694 10.0227 9.12509 10.0301 8.55463 10.0301H4.12386C3.55524 10.0301 3.4334 10.0246 3.35401 10.0043C3.18817 9.96461 3.03656 9.8798 2.91599 9.75923C2.79541 9.63867 2.71059 9.48707 2.67094 9.32124C2.65432 9.24555 2.64694 9.12372 2.64694 8.5533V4.12287C2.64694 3.5543 2.65247 3.43246 2.67278 3.35308C2.71244 3.18726 2.79726 3.03565 2.91783 2.91509C3.0384 2.79453 3.19002 2.70971 3.35586 2.67006L3.35401 2.6719ZM17.0469 0.800049H16.9546C16.5319 0.800049 16.1682 0.800049 15.8469 0.875735C15.3496 0.994554 14.895 1.24872 14.5333 1.61006C14.1716 1.9714 13.917 2.42582 13.7977 2.92296C13.7239 3.24417 13.7239 3.60599 13.7239 4.03057V8.6456C13.7239 9.06834 13.7239 9.432 13.7996 9.75321C13.9184 10.2505 14.1726 10.7051 14.5339 11.0668C14.8953 11.4284 15.3498 11.683 15.8469 11.8023C16.1682 11.8761 16.53 11.8761 16.9546 11.8761H21.57C21.9928 11.8761 22.3565 11.8761 22.6777 11.8004C23.175 11.6816 23.6297 11.4275 23.9914 11.0661C24.3531 10.7048 24.6077 10.2503 24.7269 9.75321C24.8008 9.432 24.8008 9.07018 24.8008 8.6456V4.03057C24.8008 3.60783 24.8008 3.24417 24.7251 2.92296C24.6063 2.42571 24.3521 1.97107 23.9907 1.6094C23.6293 1.24773 23.1749 0.993156 22.6777 0.873889C22.3565 0.800049 21.9946 0.800049 21.57 0.800049H17.0469ZM16.2771 2.6719C16.3565 2.65344 16.4802 2.64606 17.0469 2.64606H21.4777C22.0463 2.64606 22.1682 2.6516 22.2475 2.6719C22.4134 2.71156 22.565 2.79637 22.6856 2.91694C22.8062 3.0375 22.891 3.1891 22.9306 3.35493C22.9491 3.43246 22.9546 3.5543 22.9546 4.12287V8.5533C22.9546 9.12187 22.9472 9.24371 22.9288 9.32308C22.8891 9.48891 22.8043 9.64051 22.6837 9.76108C22.5632 9.88164 22.4115 9.96645 22.2457 10.0061C22.1682 10.0246 22.0463 10.0301 21.4777 10.0301H17.0469C16.4783 10.0301 16.3565 10.0246 16.2771 10.0043C16.1112 9.96461 15.9596 9.8798 15.8391 9.75923C15.7185 9.63867 15.6337 9.48707 15.594 9.32124C15.5774 9.24555 15.57 9.12372 15.57 8.5533V4.12287C15.57 3.5543 15.5756 3.43246 15.5959 3.35308C15.6355 3.18726 15.7203 3.03565 15.8409 2.91509C15.9615 2.79453 16.1131 2.70971 16.2789 2.67006L16.2771 2.6719ZM4.03155 13.7221H8.64693C9.0697 13.7221 9.4334 13.7221 9.75463 13.7978C10.2519 13.9166 10.7066 14.1708 11.0683 14.5321C11.43 14.8935 11.6846 15.3479 11.8039 15.845C11.8777 16.1663 11.8777 16.5281 11.8777 16.9527V21.5677C11.8777 21.9904 11.8777 22.3541 11.802 22.6753C11.6832 23.1725 11.429 23.6272 11.0676 23.9889C10.7063 24.3505 10.2518 24.6051 9.75463 24.7244C9.4334 24.7982 9.07155 24.7982 8.64693 24.7982H4.03155C3.60878 24.7982 3.24509 24.7982 2.92386 24.7225C2.42657 24.6037 1.97189 24.3495 1.61019 23.9882C1.24849 23.6268 0.993903 23.1724 0.874627 22.6753C0.800781 22.3541 0.800781 21.9923 0.800781 21.5677V16.9527C0.800781 16.5299 0.800781 16.1663 0.876474 15.845C0.995301 15.3478 1.24948 14.8931 1.61085 14.5315C1.97223 14.1698 2.42668 13.9152 2.92386 13.796C3.24509 13.7221 3.60694 13.7221 4.03155 13.7221ZM4.12386 15.5681C3.55524 15.5681 3.4334 15.5737 3.35401 15.594C3.18817 15.6336 3.03656 15.7185 2.91599 15.839C2.79541 15.9596 2.71059 16.1112 2.67094 16.277C2.65432 16.3527 2.64694 16.4745 2.64694 17.045V21.4754C2.64694 22.044 2.65247 22.1658 2.67278 22.2452C2.71244 22.411 2.79726 22.5626 2.91783 22.6832C3.0384 22.8037 3.19002 22.8885 3.35586 22.9282C3.4334 22.9467 3.55524 22.9522 4.12386 22.9522H8.55463C9.12324 22.9522 9.24509 22.9448 9.32447 22.9263C9.49031 22.8867 9.64193 22.8019 9.7625 22.6813C9.88307 22.5608 9.96789 22.4091 10.0076 22.2433C10.026 22.1658 10.0316 22.044 10.0316 21.4754V17.045C10.0316 16.4764 10.026 16.3545 10.0057 16.2752C9.96605 16.1093 9.88123 15.9577 9.76065 15.8372C9.64008 15.7166 9.48847 15.6318 9.32263 15.5921C9.24694 15.5755 9.12509 15.5681 8.55463 15.5681H4.12386ZM17.0469 13.7221H16.9546C16.5319 13.7221 16.1682 13.7221 15.8469 13.7978C15.3496 13.9166 14.895 14.1708 14.5333 14.5321C14.1716 14.8935 13.917 15.3479 13.7977 15.845C13.7239 16.1663 13.7239 16.5281 13.7239 16.9527V21.5677C13.7239 21.9904 13.7239 22.3541 13.7996 22.6753C13.9184 23.1725 14.1726 23.6272 14.5339 23.9889C14.8953 24.3505 15.3498 24.6051 15.8469 24.7244C16.1682 24.8 16.5319 24.8 16.9546 24.8H21.57C21.9928 24.8 22.3565 24.8 22.6777 24.7244C23.1747 24.6052 23.6289 24.3509 23.9903 23.9896C24.3516 23.6283 24.606 23.174 24.7251 22.6771C24.8008 22.3559 24.8008 21.9923 24.8008 21.5695V16.9527C24.8008 16.5299 24.8008 16.1663 24.7251 15.845C24.6063 15.3478 24.3521 14.8931 23.9907 14.5315C23.6293 14.1698 23.1749 13.9152 22.6777 13.796C22.3565 13.7221 21.9946 13.7221 21.57 13.7221H17.0469ZM16.2771 15.594C16.3565 15.5755 16.4802 15.5681 17.0469 15.5681H21.4777C22.0463 15.5681 22.1682 15.5737 22.2475 15.594C22.4134 15.6336 22.565 15.7185 22.6856 15.839C22.8062 15.9596 22.891 16.1112 22.9306 16.277C22.9491 16.3545 22.9546 16.4764 22.9546 17.045V21.4754C22.9546 22.044 22.9472 22.1658 22.9288 22.2452C22.8891 22.411 22.8043 22.5626 22.6837 22.6832C22.5632 22.8037 22.4115 22.8885 22.2457 22.9282C22.1682 22.9467 22.0463 22.9522 21.4777 22.9522H17.0469C16.4783 22.9522 16.3565 22.9448 16.2771 22.9263C16.1112 22.8867 15.9596 22.8019 15.8391 22.6813C15.7185 22.5608 15.6337 22.4091 15.594 22.2433C15.5774 22.1676 15.57 22.0458 15.57 21.4754V17.045C15.57 16.4764 15.5756 16.3545 15.5959 16.2752C15.6355 16.1093 15.7203 15.9577 15.8409 15.8372C15.9615 15.7166 16.1131 15.6318 16.2789 15.5921L16.2771 15.594Z"
+                fill="#666666"
+              />
+            </svg>
+          </div>
+          <p
+            className={`
+                  text-[#666666] normal transition-all duration-200 ease-in-out
+                  ${
+                    openAside
+                      ? "opacity-100 translate-x-0"
+                      : "opacity-0 -translate-x-2"
+                  }
+                  ${openAsideDelay ? "visible" : "invisible"}
+                  whitespace-nowrap
+                `}>
             Resumo
-          </span>
-        )}
-      </Link>
+          </p>
+        </NavItem>
 
-      {/* Cadastrar com sublista */}
-      <div
-        onClick={() => setShowSublist(!showSublist)}
-        className={`${openAside ? "w-auto" : "w-full"} cursor-pointer flex flex-col gap-2`}
-      >
-      <p
-        className={`${
-          openAside ? "w-auto" : "w-full"
-        } flex justify-center gap-3 mr-10`}>
-        <MdOutlineHomeWork size={25} color={`${darkMode ? "#fff" : "#000"}`} />
-        {openAside && (
-          <span className={`${darkMode ? "text-white" : "text-black"}`}>Cadastrar</span>
-        )}
-      </p>
+        <li
+          className={`li-hover rounded-lg w-full bg-gradient-to-r hover:from-[#8B5CF6] hover:to-[#6D28D9] hover:text-[#fff] ${
+            showSublist &&
+            openAside &&
+            "li-active from-[#8B5CF6] to-[#6D28D9] text-[#fff]"
+          } ${
+            activeCadastro &&
+            "li-active from-[#8B5CF6] to-[#6D28D9] text-[#fff]"
+          }`}>
+          <Link
+            href={"#"}
+            onClick={() => openMenu()}
+            title="Abrir o menu de cadastro"
+            className="flex gap-5 justify-start w-full py-3 px-3"
+            ref={sublistRef}>
+            <div className="w-[25px] flex justify-center">
+              <svg
+                width="25"
+                height="25"
+                viewBox="0 0 27 27"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M19.125 10.125H21.375V7.875H19.125V10.125ZM19.125 14.625H21.375V12.375H19.125V14.625ZM19.125 19.125H21.375V16.875H19.125V19.125ZM19.125 23.625V21.375H23.625V5.625H13.5V7.2L11.25 5.56875V3.375H25.875V23.625H19.125ZM1.125 23.625V12.375L9 6.75L16.875 12.375V23.625H10.125V18H7.875V23.625H1.125ZM3.375 21.375H5.625V15.75H12.375V21.375H14.625V13.5L9 9.50625L3.375 13.5V21.375Z"
+                  fill="#666666"
+                />
+              </svg>
+            </div>
+            <p
+              className={`
+                text-[#666666] normal transition-all duration-200 ease-in-out
+                ${
+                  openAside
+                    ? "opacity-100 translate-x-0"
+                    : "opacity-0 -translate-x-2"
+                }
+                ${openAsideDelay ? "visible" : "invisible"}
+                whitespace-nowrap
+              `}>
+              Cadastrar
+            </p>
+          </Link>
+        </li>
 
-        {/* Sublista */}
-        {openAside && showSublist && (
-          <ul className="flex flex-col gap-2">
-            <li className="flex gap-5 flex-row ml-5 items-center">
-              <MdOutlineHomeWork size={25} color={`${darkMode ? "#fff" : "#000"}`} />
-              <Link href="/dashboard/usuarios" className="text-sm text-gray-500 hover:text-blue-500">
-                <p className={`${darkMode ? "text-white" : "text-black"}`}>Usuario</p>
-              </Link>
-            </li>
-            <li className="flex gap-5 flex-row ml-5 items-center">
-              <MdOutlineHomeWork size={25} color={`${darkMode ? "#fff" : "#000"}`} />
-              <Link href="/dashboard/imobiliarias" className="text-sm text-gray-500 hover:text-blue-500">
-                <p className={`${darkMode ? "text-white" : "text-black"}`}>Imobiliária</p>
-              </Link>
-            </li>
-            <li className="flex gap-5 flex-row ml-5 items-center">
-              <MdOutlineHomeWork size={25} color={`${darkMode ? "#fff" : "#000"}`} />
-              <Link href="/dashboard/imoveis" className="text-sm text-gray-500 hover:text-blue-500">
-                <p className={`${darkMode ? "text-white" : "text-black"}`}>Imovéis</p>
-              </Link>
-            </li>
-          </ul>
+        {showSublist && openAside && (
+          <div className="absolute left-[300px] top-[18%] pl-3">
+            <ul className=" bg-white aside-shadow max-w-[300px] min-w-[300px] p-4 rounded-lg gap-2 flex flex-col">
+              <NavItem
+                href="/dashboard/imoveis"
+                title="Ir para a página de imoveis">
+                <div className="w-[25px] flex justify-center">
+                  <svg
+                    width="25"
+                    height="25"
+                    viewBox="0 0 27 27"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M19.125 10.125H21.375V7.875H19.125V10.125ZM19.125 14.625H21.375V12.375H19.125V14.625ZM19.125 19.125H21.375V16.875H19.125V19.125ZM19.125 23.625V21.375H23.625V5.625H13.5V7.2L11.25 5.56875V3.375H25.875V23.625H19.125ZM1.125 23.625V12.375L9 6.75L16.875 12.375V23.625H10.125V18H7.875V23.625H1.125ZM3.375 21.375H5.625V15.75H12.375V21.375H14.625V13.5L9 9.50625L3.375 13.5V21.375Z"
+                      fill="#666666"
+                    />
+                  </svg>
+                </div>
+                <p
+                  className={`
+                    text-[#666666] normal transition-all duration-200 ease-in-out
+                    whitespace-nowrap
+                  `}>
+                  Imóvel
+                </p>
+              </NavItem>
+
+              <NavItem
+                href="/dashboard/imobiliarias"
+                title="Ir para a página de imobiliarias">
+                <div className="w-[25px] flex justify-center">
+                  <svg
+                    width="25"
+                    height="25"
+                    viewBox="0 0 27 27"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M19.125 10.125H21.375V7.875H19.125V10.125ZM19.125 14.625H21.375V12.375H19.125V14.625ZM19.125 19.125H21.375V16.875H19.125V19.125ZM19.125 23.625V21.375H23.625V5.625H13.5V7.2L11.25 5.56875V3.375H25.875V23.625H19.125ZM1.125 23.625V12.375L9 6.75L16.875 12.375V23.625H10.125V18H7.875V23.625H1.125ZM3.375 21.375H5.625V15.75H12.375V21.375H14.625V13.5L9 9.50625L3.375 13.5V21.375Z"
+                      fill="#666666"
+                    />
+                  </svg>
+                </div>
+                <p
+                  className={`
+                    text-[#666666] normal transition-all duration-200 ease-in-out
+                    whitespace-nowrap
+                  `}>
+                  Imobiliária
+                </p>
+              </NavItem>
+
+              <NavItem
+                href="/dashboard/usuarios"
+                title="Ir para a página de usuarios">
+                <div className="w-[25px] flex justify-center">
+                  <svg
+                    width="25"
+                    height="25"
+                    viewBox="0 0 27 27"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M19.125 10.125H21.375V7.875H19.125V10.125ZM19.125 14.625H21.375V12.375H19.125V14.625ZM19.125 19.125H21.375V16.875H19.125V19.125ZM19.125 23.625V21.375H23.625V5.625H13.5V7.2L11.25 5.56875V3.375H25.875V23.625H19.125ZM1.125 23.625V12.375L9 6.75L16.875 12.375V23.625H10.125V18H7.875V23.625H1.125ZM3.375 21.375H5.625V15.75H12.375V21.375H14.625V13.5L9 9.50625L3.375 13.5V21.375Z"
+                      fill="#666666"
+                    />
+                  </svg>
+                </div>
+                <p
+                  className={`
+                    text-[#666666] normal transition-all duration-200 ease-in-out
+                    whitespace-nowrap
+                  `}>
+                  Usuário
+                </p>
+              </NavItem>
+            </ul>
+          </div>
         )}
-      </div>
-      
-      <Link
-        href="#"
-        className={`${
-          openAside ? "w-auto" : "w-full"
-        } flex justify-center gap-3`}>
-        <CiSettings size={30} color={`${darkMode ? "#fff" : "#000"}`} />
-        {openAside && (
-          <p className={`${darkMode ? "text-white" : "text-black"}`}>Configurações</p>
-        )}
-      </Link>
+
+        <NavItem
+          href="/dashboard/configuracoes"
+          title="Ir para a página de configurações">
+          <div className="w-[25px] flex justify-center">
+            <svg
+              width="25"
+              height="25"
+              viewBox="0 0 25 25"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M22.127 13.0404C21.9311 12.8214 21.8232 12.5399 21.8232 12.2485C21.8232 11.957 21.9311 11.6755 22.127 11.4566L23.6904 9.72882C23.8627 9.54004 23.9697 9.30252 23.996 9.05032C24.0223 8.79811 23.9667 8.5442 23.837 8.32501L21.3941 4.17357C21.2657 3.95463 21.0703 3.78108 20.8356 3.67766C20.6009 3.57425 20.339 3.54625 20.0872 3.59765L17.7908 4.05359C17.4986 4.11289 17.1945 4.06509 16.9357 3.91921C16.6769 3.77332 16.4814 3.53944 16.3862 3.2617L15.6411 1.06599C15.5592 0.827682 15.403 0.620693 15.1948 0.474286C14.9866 0.327878 14.7368 0.249457 14.4807 0.250106H9.59495C9.32859 0.236449 9.065 0.30881 8.84445 0.456135C8.62389 0.60346 8.45849 0.817652 8.3735 1.06599L7.68949 3.2617C7.59422 3.53944 7.39875 3.77332 7.13998 3.91921C6.88121 4.06509 6.57702 4.11289 6.28483 4.05359L3.92744 3.59765C3.68871 3.56451 3.44534 3.60152 3.22798 3.704C3.01062 3.80649 2.829 3.96987 2.706 4.17357L0.263108 8.32501C0.130166 8.54176 0.0703911 8.79425 0.0923288 9.04638C0.114267 9.29851 0.216794 9.53737 0.385252 9.72882L1.93649 11.4566C2.13231 11.6755 2.2403 11.957 2.2403 12.2485C2.2403 12.5399 2.13231 12.8214 1.93649 13.0404L0.385252 14.7681C0.216794 14.9596 0.114267 15.1984 0.0923288 15.4506C0.0703911 15.7027 0.130166 15.9552 0.263108 16.1719L2.706 20.3234C2.83437 20.5423 3.02983 20.7159 3.26451 20.8193C3.49919 20.9227 3.76111 20.9507 4.01294 20.8993L6.30926 20.4434C6.60145 20.3841 6.90563 20.4319 7.16441 20.5777C7.42318 20.7236 7.61865 20.9575 7.71392 21.2353L8.459 23.431C8.54399 23.6793 8.70939 23.8935 8.92995 24.0408C9.15051 24.1881 9.41409 24.2605 9.68045 24.2468H14.5662C14.8223 24.2475 15.0721 24.1691 15.2803 24.0227C15.4885 23.8763 15.6447 23.6693 15.7266 23.431L16.4717 21.2353C16.567 20.9575 16.7624 20.7236 17.0212 20.5777C17.28 20.4319 17.5842 20.3841 17.8763 20.4434L20.1727 20.8993C20.4245 20.9507 20.6864 20.9227 20.9211 20.8193C21.1558 20.7159 21.3512 20.5423 21.4796 20.3234L23.9225 16.1719C24.0522 15.9527 24.1078 15.6988 24.0815 15.4466C24.0552 15.1944 23.9482 14.9569 23.7759 14.7681L22.127 13.0404ZM20.307 14.6481L21.2842 15.728L19.7207 18.3916L18.2794 18.1037C17.3997 17.927 16.4846 18.0738 15.7078 18.5162C14.931 18.9585 14.3465 19.6657 14.0654 20.5033L13.6013 21.8472H10.4744L10.0347 20.4794C9.75356 19.6417 9.16913 18.9345 8.39232 18.4922C7.61551 18.0498 6.70039 17.903 5.82068 18.0797L4.37938 18.3676L2.7915 15.716L3.76865 14.6361C4.36955 13.9762 4.70176 13.1219 4.70176 12.2365C4.70176 11.3511 4.36955 10.4967 3.76865 9.8368L2.7915 8.75695L4.35495 6.11731L5.79625 6.40527C6.67596 6.58191 7.59108 6.43512 8.36789 5.99276C9.1447 5.5504 9.72913 4.84327 10.0102 4.00559L10.4744 2.64978H13.6013L14.0654 4.01759C14.3465 4.85527 14.931 5.5624 15.7078 6.00476C16.4846 6.44712 17.3997 6.59391 18.2794 6.41727L19.7207 6.12931L21.2842 8.79294L20.307 9.8728C19.7129 10.5312 19.3848 11.3806 19.3848 12.2605C19.3848 13.1403 19.7129 13.9897 20.307 14.6481ZM12.0378 7.44913C11.0715 7.44913 10.1269 7.7306 9.32344 8.25796C8.51998 8.78532 7.89376 9.53488 7.52396 10.4118C7.15417 11.2888 7.05742 12.2538 7.24593 13.1848C7.43445 14.1158 7.89978 14.9709 8.58307 15.6421C9.26636 16.3133 10.1369 16.7704 11.0847 16.9556C12.0324 17.1408 13.0148 17.0457 13.9075 16.6825C14.8003 16.3192 15.5634 15.7041 16.1002 14.9148C16.6371 14.1256 16.9236 13.1977 16.9236 12.2485C16.9236 10.9756 16.4089 9.75487 15.4926 8.85482C14.5763 7.95477 13.3336 7.44913 12.0378 7.44913ZM12.0378 14.6481C11.5547 14.6481 11.0824 14.5074 10.6806 14.2437C10.2789 13.98 9.9658 13.6053 9.7809 13.1668C9.596 12.7283 9.54763 12.2458 9.64189 11.7803C9.73615 11.3148 9.96881 10.8872 10.3105 10.5516C10.6521 10.216 11.0874 9.9875 11.5613 9.89491C12.0351 9.80232 12.5263 9.84984 12.9727 10.0315C13.4191 10.2131 13.8006 10.5207 14.069 10.9153C14.3375 11.3099 14.4807 11.7739 14.4807 12.2485C14.4807 12.8849 14.2233 13.4953 13.7652 13.9453C13.3071 14.3953 12.6857 14.6481 12.0378 14.6481Z"
+                fill="#666666"
+              />
+            </svg>
+          </div>
+          <p
+            className={`
+                text-[#666666] normal transition-all duration-200 ease-in-out
+                ${
+                  openAside
+                    ? "opacity-100 translate-x-0"
+                    : "opacity-0 -translate-x-2"
+                }
+                ${openAsideDelay ? "visible" : "invisible"}
+                whitespace-nowrap
+              `}>
+            Configurações
+          </p>
+        </NavItem>
+
+        <li
+          className={`li-hover rounded-lg w-full hover:bg-gradient-to-r hover:from-[#8B5CF6] hover:to-[#6D28D9] hover:text-[#fff]`}>
+          <Link
+            href={"#"}
+            title="Sair da sessão atual"
+            className="flex gap-5 justify-start w-full py-3 px-3">
+            <div className="w-[25px] flex justify-center">
+              <RxExit color="#666" size={25} className="rotate-[180deg]" />
+            </div>
+            <p
+              className={`
+                text-[#666666] normal transition-all duration-200 ease-in-out
+                ${
+                  openAside
+                    ? "opacity-100 translate-x-0"
+                    : "opacity-0 -translate-x-2"
+                }
+                ${openAsideDelay ? "visible" : "invisible"}
+                whitespace-nowrap
+              `}>
+              Sair
+            </p>
+          </Link>
+        </li>
+      </ul>
 
       <ButtonToggle
         darkMode={darkMode}
         setDarkMode={setDarkMode}
-        openAside={openAside}></ButtonToggle>
-    </ul>
+        openAside={openAside}
+        openAsideDelay={openAsideDelay}></ButtonToggle>
+    </nav>
   );
 }

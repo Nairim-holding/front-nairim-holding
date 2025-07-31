@@ -19,9 +19,9 @@ body {
   background-color: rgb(147, 128, 255);
 }
 
-.main-home{
+.main-home {
   height: 100%;
-  padding-top: 80px; 
+  padding-top: 80px;
   min-height: 50vh;
 }
 
@@ -53,7 +53,7 @@ input[type="search"]::-webkit-search-results-decoration {
   display: none;
 }
 
-.custom-pagination{
+.custom-pagination {
   width: auto !important;
   margin: 0;
 }
@@ -70,15 +70,15 @@ input[type="search"]::-webkit-search-results-decoration {
   @apply bg-[#4B40BC] opacity-100;
 }
 
-.font-bebasNeue{
+.font-bebasNeue {
   font-family: var(--font-bebasNeue);
 }
 
-.font-poppins{
+.font-poppins {
   font-family: var(--font-poppins);
 }
 
-.main-dashboard{
+.main-dashboard {
   padding-left: 90px;
 }
 
@@ -90,6 +90,7 @@ input[type="search"]::-webkit-search-results-decoration {
   0% {
     filter: brightness(1) drop-shadow(0 0 0px white);
   }
+
   100% {
     filter: brightness(1.5) drop-shadow(0 0 20px white);
   }
@@ -102,7 +103,7 @@ input[type="search"]::-webkit-search-results-decoration {
 }
 
 .no-spinner {
-  -moz-appearance: textfield; 
+  -moz-appearance: textfield;
 }
 
 input[type="number"]::-webkit-outer-spin-button,
@@ -112,25 +113,56 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 input[type="number"] {
-  -moz-appearance: textfield; /* Firefox */
+  -moz-appearance: textfield;
+  /* Firefox */
 }
 
 .loader {
-    width: 30px;
-    height: 30px;
-    border: 5px solid #FFF;
-    border-bottom-color: transparent;
-    border-radius: 50%;
-    display: inline-block;
-    box-sizing: border-box;
-    animation: rotation 1s linear infinite;
-    }
+  width: 30px;
+  height: 30px;
+  border: 5px solid #FFF;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
 
-    @keyframes rotation {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
-    } 
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+.aside-shadow {
+  box-shadow: 1px 5px 5px 0px #00000040;
+}
+
+.li-active {
+  box-shadow: 0px 4px 10px 0px #8B5CF666;
+}
+
+.li-active p {
+  color: #fff;
+}
+
+.li-active svg path {
+  fill: #fff;
+}
+
+.li-hover:hover {
+  box-shadow: 0px 4px 10px 0px #8B5CF666;
+}
+
+.li-hover:hover p {
+  color: #fff;
+}
+
+.li-hover:hover svg path {
+  fill: #fff;
+}
