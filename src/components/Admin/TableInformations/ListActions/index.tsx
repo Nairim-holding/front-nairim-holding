@@ -22,11 +22,12 @@ export default function ListActions({ id, name, route }: {id: number; name: stri
       try {
         const response = await axios.delete(`${process.env.NEXT_PUBLIC_URL_API}/${route}/${id}`);
         if (response.status == 200){
-          setVisible(!visible);
+          setVisible(!visible); 
           setSuccessMessage({
             message: response.data.message ? response.data.message : 'Registro deletado com sucesso',
             visible: true
           });
+          window.location.reload()
         }
       } catch (error) {
         setVisible(!visible);
