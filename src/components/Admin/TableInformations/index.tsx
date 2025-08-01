@@ -167,6 +167,8 @@ export default function TableInformations({ data }: TableInformationsProps) {
       </table>
     </div>
   ) : (
-    "Não foi encontrado nenhum registro."
+    <div className="flex justify-center items-center my-3">
+      <p className="bg-[#D9D9D9] py-2 px-5 rounded-sm">Não foi encontrado nenhum registro.</p>
+    </div>
   );
 }
