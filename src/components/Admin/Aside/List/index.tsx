@@ -5,6 +5,7 @@ import PropsDarkMode from "@/types/propsDarkMode";
 import ButtonToggle from "../ButtonToggle";
 import NavItem from "../NavItem";
 import { usePathname } from "next/navigation";
+import Logout from "../Logout";
 
 interface PropsButtonToggle extends PropsDarkMode {
   openAside: boolean;
@@ -261,30 +262,7 @@ export default function List({
           </p>
         </NavItem>
 
-        <li
-          className={`li-hover rounded-lg w-full hover:bg-gradient-to-r hover:from-[#8B5CF6] hover:to-[#6D28D9] hover:text-[#fff]`}>
-          <Link
-            href={"#"}
-            title="Sair da sessão atual"
-            className="flex gap-5 justify-start w-full py-3 px-3">
-            <div className="w-[25px] flex justify-center">
-              <RxExit color="#666" size={25} className="rotate-[180deg]" />
-            </div>
-            <p
-              className={`
-                text-[#666666] normal transition-all duration-200 ease-in-out
-                ${
-                  openAside
-                    ? "opacity-100 translate-x-0"
-                    : "opacity-0 -translate-x-2"
-                }
-                ${openAsideDelay ? "visible" : "invisible"}
-                whitespace-nowrap
-              `}>
-              Sair
-            </p>
-          </Link>
-        </li>
+        <Logout openAside={openAside} openAsideDelay={openAsideDelay}></Logout>
       </ul>
 
       <ButtonToggle

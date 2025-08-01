@@ -12,12 +12,18 @@ export default function Page() {
   const [response, setResponse] = useState<any>();
   const [search, setSearch] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [page, setPage] = useState<number>(1);
+  
+  useEffect(() => {
+    setPage(1);
+  }, [search]);
+
   useEffect(() => {
     async function getProperty() {
       setIsLoading(true);
       try {
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_URL_API}/property?limit=${limit}&search=${search}`
+          `${process.env.NEXT_PUBLIC_URL_API}/property?limit=${limit}&search=${search}&page=${page}`
         );
         setResponse(response);
       } catch (error) {
@@ -28,7 +34,7 @@ export default function Page() {
     }
 
     getProperty();
-  }, [limit, search]);
+  }, [limit, search, page]);
 
   return (
     <Section title="Meus Imóveis">
@@ -47,7 +53,11 @@ export default function Page() {
       <SectionBottom
         limit={limit}
         setLimit={setLimit}
-        count={response?.data?.count}></SectionBottom>
+        count={response?.data?.count}
+        setPage={setPage}
+        currentPage={response?.data?.currentPage}
+        totalPage={response?.data?.totalPages}
+        ></SectionBottom>
     </Section>
   );
 }
