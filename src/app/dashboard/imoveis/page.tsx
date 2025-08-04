@@ -1,63 +1,56 @@
-"use client";
-import Section from "@/components/Admin/Section";
+import { Suspense } from "react";
+import { notFound } from "next/navigation";
 import TableInformations from "@/components/Admin/TableInformations";
 import SectionTop from "@/components/Admin/SectionTop";
-import axios from "axios";
-import { use, useEffect, useState } from "react";
+import Section from "@/components/Admin/Section";
 import SectionBottom from "@/components/Admin/SectionBottom";
 import { SkeletonTable } from "@/components/Admin/SkeletonTable";
 
-export default function Page() {
-  const [limit, setLimit] = useState<number>(10);
-  const [response, setResponse] = useState<any>();
-  const [search, setSearch] = useState<string>("");
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [page, setPage] = useState<number>(1);
-  
-  useEffect(() => {
-    setPage(1);
-  }, [search]);
+interface PageProps {
+  searchParams: Promise<{
+    page?: string;
+    limit?: string;
+    search?: string;
+  }>;
+}
 
-  useEffect(() => {
-    async function getProperty() {
-      setIsLoading(true);
-      try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_URL_API}/property?limit=${limit}&search=${search}&page=${page}`
-        );
-        setResponse(response);
-      } catch (error) {
-        console.error("Erro ao buscar imóveis", error);
-      } finally {
-        setIsLoading(false);
-      }
-    }
+export default async function Page({ searchParams }: PageProps) {
+  const params = await searchParams;
 
-    getProperty();
-  }, [limit, search, page]);
+  const page = Number(params.page ?? "1");
+  const limit = Number(params.limit ?? "10");
+  const search = params.search ?? "";
+
+  const url = new URL(`${process.env.NEXT_PUBLIC_URL_API}/property`);
+  url.searchParams.set("page", page.toString());
+  url.searchParams.set("limit", limit.toString());
+  url.searchParams.set("search", search);
+
+  const res = await fetch(url.toString(), { cache: "no-store" });
+
+  if (!res.ok) return notFound();
+
+  const data = await res.json();
 
   return (
     <Section title="Meus Imóveis">
       <SectionTop
         search={search}
-        setSearch={setSearch}
         textAdd="Adicionar novo Imóvel"
-        hrefAdd="/dashboard/imoveis/cadastrar/dados-imovel"></SectionTop>
-
-      {isLoading ? (
-        <SkeletonTable rows={8} columns={10} />
-      ) : (
-        <TableInformations data={response?.data?.data ?? []} />
-      )}
-
+        hrefAdd="/dashboard/imoveis/cadastrar/dados-imovel"
+      />
+      <Suspense fallback={<SkeletonTable />}>
+        <TableInformations data={data.data} />
+      </Suspense>
       <SectionBottom
+        count={data.count}
+        currentPage={data.currentPage}
+        totalPage={data.totalPages}
         limit={limit}
-        setLimit={setLimit}
-        count={response?.data?.count}
-        setPage={setPage}
-        currentPage={response?.data?.currentPage}
-        totalPage={response?.data?.totalPages}
-        ></SectionBottom>
+        search={search}
+      />
     </Section>
   );
 }
+
+

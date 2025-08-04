@@ -29,31 +29,31 @@ export default function Page(){
     const id = params?.id;
     
     useEffect(() => {
-    async function getPropertyById() {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_URL_API}/property/${id}`);
-      const propertyData = response.data;
+      async function getPropertyById() {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_URL_API}/property/${id}`);
+        const propertyData = response.data;
 
-      const values = propertyData?.values?.[0];
+        const values = propertyData?.values?.[0];
 
-      reset({
-        purchase_value: values?.purchase_value || '',
-        purchase_date: formatDate(values?.purchase_date) || '',
-        property_tax: values?.property_tax || '',
-        rental_value: values?.rental_value || '',
-        condo_fee: values?.condo_fee || '',
-        current_status: values?.current_status || '',
-        sale_value: values?.sale_value || '',
-        sale_date: formatDate(values?.sale_date) || '',
-        extra_charges: values?.extra_charges || '',
-        sale_rules: values?.sale_rules || '',
-        lease_rules: values?.lease_rules || '',
-        notes: values?.notes || '',
-      });
-      setData(values?.current_status);
-    }
+        reset({
+          purchase_value: values?.purchase_value || '',
+          purchase_date: formatDate(values?.purchase_date) || '',
+          property_tax: values?.property_tax || '',
+          rental_value: values?.rental_value || '',
+          condo_fee: values?.condo_fee || '',
+          current_status: values?.current_status || '',
+          sale_value: values?.sale_value || '',
+          sale_date: formatDate(values?.sale_date) || '',
+          extra_charges: values?.extra_charges || '',
+          sale_rules: values?.sale_rules || '',
+          lease_rules: values?.lease_rules || '',
+          notes: values?.notes || '',
+        });
+        setData(values?.current_status);
+      }
 
-    getPropertyById();
-  }, []);
+      getPropertyById();
+    }, []);
 
     return (
       <>

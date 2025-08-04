@@ -1,61 +1,73 @@
 'use client';
+
 import InputFile from "@/components/Admin/InputFile";
-import NavigationButtons from "@/components/Admin/NavigationButtons";
 import Form from "@/components/Form";
 import NavigationBar from "@/components/Admin/NavigationBar";
-
 import IconeMideas from "@/../public/icons/mideas.svg";
 import IconeDocumento from "@/../public/icons/documento.svg";
 
 import { useEffect } from "react";
-import { Controller, FieldValues, useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import axios from "axios";
-import { useParams, useRouter } from "next/navigation";
-import { useUIStore } from "@/stores/uiStore";
+import { useParams } from "next/navigation";
 import Link from "next/link";
 
-// Utilitários
-const fileToBase64 = (file: File): Promise<string> => {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result as string);
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
-};
-
-const base64ToFile = (base64: string, name: string, mimeType: string): File => {
-  const byteString = atob(base64.split(',')[1]);
-  const ab = new ArrayBuffer(byteString.length);
-  const ia = new Uint8Array(ab);
-  for (let i = 0; i < byteString.length; i++) {
-    ia[i] = byteString.charCodeAt(i);
-  }
-  return new File([ab], name, { type: mimeType });
-};
-
-interface FileStorageData {
-  name: string;
-  type: string;
-  base64: string;
+interface DocumentData {
+  id: number;
+  file_path: string;  // URL completa da imagem/documento
+  file_type: string;
+  description: string;
 }
 
-const STORAGE_KEY = 'midiasProperty';
+// Converte URL para File para popular InputFile
+async function urlToFile(url: string, fileName: string, mimeType: string): Promise<File> {
+  const res = await fetch(url);
+  const blob = await res.blob();
+  return new File([blob], fileName, { type: mimeType });
+}
 
 export default function Page() {
-  const {
-    successMessage, setSuccessMessage,
-    errorMessage, setErrorMessage,
-  } = useUIStore();
-  const { control } = useForm();
-  const router = useRouter();
+  const { control, reset } = useForm();
+  const params = useParams();
+  const id = params?.id;
 
-    const params = useParams();
-    const id = params?.id;
+  useEffect(() => {
+    async function getPropertyById() {
+      try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_URL_API}/property/${id}`);
+        const property = response.data;
+
+        if (property?.documents?.length) {
+          // Agrupa os arquivos por 'description'
+          const filesByKey: Record<string, File[]> = {};
+
+          for (const doc of property.documents) {
+            if (!doc.file_path) continue;
+
+            const fileName = doc.file_path.split("/").pop() || "arquivo";
+            const file = await urlToFile(doc.file_path, fileName, doc.file_type);
+
+            if (!filesByKey[doc.description]) {
+              filesByKey[doc.description] = [];
+            }
+            filesByKey[doc.description].push(file);
+          }
+
+          // Popula o formulário com os arquivos convertidos
+          reset(filesByKey);
+        }
+      } catch (error) {
+        console.error("Erro ao buscar imóvel:", error);
+      }
+    }
+    getPropertyById();
+  }, [id, reset]);
+
   return (
     <>
-      <NavigationBar path="visualizar" allEnabled id={id}/>
+      <NavigationBar path="visualizar" allEnabled id={id} />
       <Form title="Mídias" svg={<IconeMideas />}>
+        {/* Imagens */}
         <Controller
           name="arquivosImagens"
           control={control}
@@ -63,7 +75,7 @@ export default function Page() {
           render={({ field }) => (
             <InputFile
               label="Imagens"
-              accept=".png,.jpg"
+              accept=".png,.jpg,.jpeg"
               id="arquivosImagens"
               textButton="Selecionar Imagens"
               value={field.value}
@@ -74,6 +86,7 @@ export default function Page() {
           )}
         />
 
+        {/* Documentos */}
         <div className="flex flex-row gap-5 flex-wrap">
           {[
             { name: "arquivosMatricula", label: "Matricula" },
@@ -102,11 +115,14 @@ export default function Page() {
         </div>
 
         <div className="flex items-center gap-5 mt-8 border-t-2 pt-6 border-[#11111180] w-full justify-end">
-          <Link href={'/dashboard/imoveis'} className="flex justify-center gap-3 items-center max-w-[250px] w-full h-[50px] bg-gradient-to-r from-[#8B5CF6] to-[#6D28D9] rounded-lg text-[16px] font-medium text-[#fff] border border-[#8B5CF6] drop-shadow-purple-soft">Voltar a Dashboard</Link>
+          <Link
+            href="/dashboard/imoveis"
+            className="flex justify-center gap-3 items-center max-w-[250px] w-full h-[50px] bg-gradient-to-r from-[#8B5CF6] to-[#6D28D9] rounded-lg text-[16px] font-medium text-[#fff] border border-[#8B5CF6] drop-shadow-purple-soft"
+          >
+            Voltar à Dashboard
+          </Link>
         </div>
-      
       </Form>
     </>
   );
 }
- 

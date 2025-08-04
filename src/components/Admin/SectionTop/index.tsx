@@ -1,22 +1,45 @@
+"use client";
+
 import Link from "next/link";
-import { Dispatch, SetStateAction } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 interface SectionTopProps {
-    textAdd: string;
-    hrefAdd: string;
-    search: string;
-    setSearch: Dispatch<SetStateAction<string>>
+  textAdd: string;
+  hrefAdd: string;
+  search: string;
 }
 
-export default function SectionTop({ textAdd, hrefAdd, search, setSearch }: SectionTopProps) {
+export default function SectionTop({ textAdd, hrefAdd, search }: SectionTopProps) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [inputValue, setInputValue] = useState(search ?? "");
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      const params = new URLSearchParams(searchParams.toString());
+      if (inputValue.trim()) {
+        params.set("search", inputValue.trim());
+      } else {
+        params.delete("search");
+      }
+      params.set("page", "1"); 
+      router.push(`?${params.toString()}`);
+    }, 500); 
+
+    return () => clearTimeout(timeout);
+  }, [inputValue]);
+
   return (
     <div className="flex justify-between items-center flex-wrap mb-4 mt-2">
       <div className="flex border py-2 px-3 rounded-lg border-[#CCCCCC] max-w-[420px] w-full gap-3">
         <input
           className="border-none outline-none w-full text-[14px] font-normal text-[#111111B2]"
           type="search"
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder="Pesquisar por Nome Fantasia, Cidade, CEP, Banhei..."></input>
+          placeholder="Pesquisar por Nome Fantasia, Cidade, CEP, Banhei..."
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+        />
         <svg
           width="24"
           height="25"

@@ -27,7 +27,7 @@ export default function ListActions({ id, name, route }: {id: number; name: stri
             message: response.data.message ? response.data.message : 'Registro deletado com sucesso',
             visible: true
           });
-          window.location.reload()
+          router.refresh();
         }
       } catch (error) {
         setVisible(!visible);

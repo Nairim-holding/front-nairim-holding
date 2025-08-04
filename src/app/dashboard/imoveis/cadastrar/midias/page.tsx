@@ -13,6 +13,10 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useUIStore } from "@/stores/uiStore";
 
+import Cookies from 'js-cookie';
+import jwt from 'jsonwebtoken';
+import { token } from "@/types/token";
+
 const fileToBase64 = (file: File): Promise<string> => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -90,54 +94,61 @@ export default function Page() {
 
     return () => subscription.unsubscribe();
   }, [watch]);
+    const cookie = Cookies.get('authToken') as string;
+    const token = jwt.decode(cookie) as token;
+  async function submitData(data: FieldValues) {
+    const userId = token.id;
+    setLoading(true);
+    const dataPropertys = localStorage.getItem('dataPropertys');
+    const addressProperty = localStorage.getItem('addressProperty');
+    const valuesProperty = localStorage.getItem('valuesProperty');
 
-async function submitData(data: FieldValues) {
-  setLoading(true);
-  const dataPropertys = localStorage.getItem('dataPropertys');
-  const addressProperty = localStorage.getItem('addressProperty');
-  const valuesProperty = localStorage.getItem('valuesProperty');
+    try {
+      const createResponse = await axios.post(
+        `${process.env.NEXT_PUBLIC_URL_API}/property`,
+        {
+          dataPropertys,
+          addressProperty,
+          valuesProperty,
+        }
+      );
 
-  const formData = new FormData();
+      const createdProperty = createResponse.data;
+      const propertyId = createdProperty.id; 
 
-  Object.entries(data).forEach(([key, value]) => {
-    const files = value instanceof FileList ? Array.from(value) : Array.isArray(value) ? value : [];
-    files.forEach((file: File) => {
-      formData.append(key, file, file.name);
-    });
-  });
-  for (const [key, value] of formData.entries()) {
-    if (value instanceof File) {
-        console.log(key, value.name, value.size, value.type);
-    } else {
-        console.log(key, value);
-    }
-  }
+      const formData = new FormData();
+      Object.entries(data).forEach(([key, value]) => {
+        const files = value instanceof FileList ? Array.from(value) : Array.isArray(value) ? value : [];
+        files.forEach((file: File) => {
+          formData.append(key, file, file.name);
+        });
+      });
+      formData.append("userId", String(userId));
 
-  try {
-     const response = await axios.post(`${process.env.NEXT_PUBLIC_URL_API}/property`, {
-        dataPropertys,
-        addressProperty,
-        valuesProperty
-     });
+      if (formData.has("arquivosImagens") || formData.has("arquivosMatricula") || formData.has("arquivosEscritura")) {
+        await axios.post(
+          `${process.env.NEXT_PUBLIC_URL_API}/property/${propertyId}/upload`,
+          formData,
+          { headers: { "Content-Type": "multipart/form-data" } }
+        );
+      }
 
-    const result = await response.data;
-
-    if(response.status == 200){
-      router.push('/dashboard/imoveis');
+      router.push("/dashboard/imoveis");
       setSuccessMessage({
         visible: true,
-        message: result.message ? result.message : 'O imóvel foi criado com sucesso!'
+        message: createdProperty.message || "O imóvel foi criado com sucesso!",
       });
       localStorage.clear();
+    } catch (error) {
+      console.error("Erro ao criar imóvel:", error);
+      setErrorMessage({
+        visible: true,
+        message: "Erro ao criar imóvel ou enviar mídias",
+      });
+    } finally {
+      setLoading(false);
     }
-    
-    console.log("Resposta da API:", result);
-  } catch (error) {
-    console.error("Erro no envio dos arquivos:", error);
-  } finally {
-    setLoading(false);
   }
-}
 
   return (
     <>

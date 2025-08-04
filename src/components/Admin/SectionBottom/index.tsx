@@ -1,28 +1,36 @@
-import { Dispatch, SetStateAction } from "react";
+'use client';
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface SectionBottomProps {
   count: number;
   limit: number;
-  setLimit: Dispatch<SetStateAction<number>>;
-  setPage: Dispatch<SetStateAction<number>>;
   currentPage: number;
   totalPage: number;
+  search?: string;
 }
 
 export default function SectionBottom({
   count,
   limit,
-  setLimit,
-  setPage,
   currentPage,
   totalPage,
+  search = '',
 }: SectionBottomProps) {
-  // Exibir registros de X até Y
   const start = (currentPage - 1) * limit + 1;
   const end = Math.min(currentPage * limit, count);
 
-  // Criar uma lista de páginas [1, 2, 3, ..., totalPage]
+  const buildUrl = (page: number, newLimit?: number) => {
+    const params = new URLSearchParams({
+      page: page.toString(),
+      limit: (newLimit ?? limit).toString(),
+      search,
+    });
+    return `/dashboard/imoveis?${params.toString()}`;
+  };
+
   const pages = Array.from({ length: totalPage }, (_, i) => i + 1);
+  const router = useRouter();
 
   return (
     <div className="mt-10 flex justify-between items-center relative flex-wrap">
@@ -30,14 +38,12 @@ export default function SectionBottom({
         Exibindo {start} a {end} de {count} registros
       </p>
 
-      {/* Limite por página */}
       <div className="flex items-center gap-2">
         <p className="text-[14px] font-normal text-[#111111B2]">Exibir</p>
         <select
           value={limit}
           onChange={(e) => {
-            setLimit(Number(e.target.value));
-            setPage(1); // Voltar à página 1 ao mudar o limite
+            router.push(buildUrl(1, Number(e.target.value)));
           }}
           className="border text-[14px] font-normal text-[#111111B2] p-3 rounded-lg border-[#CCCCCC] outline-none"
         >
@@ -50,13 +56,13 @@ export default function SectionBottom({
         <p className="text-[14px] font-normal text-[#111111B2]">registros</p>
       </div>
 
+      {/* Paginação */}
       <div className="flex justify-center mt-4 laptop:mt-0">
         <div className="flex items-center gap-3">
-          <button
-            disabled={currentPage === 1}
-            onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+          <Link
+            href={buildUrl(currentPage - 1)}
             className={`w-[40px] h-[40px] flex items-center justify-center border border-2 rounded-full ${
-              currentPage === 1 ? "opacity-30 cursor-not-allowed" : "border-[#111111B2]"
+              currentPage === 1 ? "opacity-30 pointer-events-none" : "border-[#111111B2]"
             }`}
           >
             <svg width="16" height="16" viewBox="0 0 16 16">
@@ -66,12 +72,12 @@ export default function SectionBottom({
                 fillOpacity="0.7"
               />
             </svg>
-          </button>
+          </Link>
 
           {pages.map((page) => (
-            <button
+            <Link
               key={page}
-              onClick={() => setPage(page)}
+              href={buildUrl(page)}
               className={`w-[45px] h-[45px] flex items-center justify-center rounded-full border font-bold text-[18px] ${
                 page === currentPage
                   ? "bg-[#695CFF] text-white"
@@ -79,15 +85,13 @@ export default function SectionBottom({
               }`}
             >
               {page}
-            </button>
+            </Link>
           ))}
 
-          {/* Próxima */}
-          <button
-            disabled={currentPage === totalPage}
-            onClick={() => setPage((prev) => Math.min(prev + 1, totalPage))}
+          <Link
+            href={buildUrl(currentPage + 1)}
             className={`w-[40px] h-[40px] flex items-center justify-center border border-2 rounded-full ${
-              currentPage === totalPage ? "opacity-30 cursor-not-allowed" : "border-[#111111B2]"
+              currentPage === totalPage ? "opacity-30 pointer-events-none" : "border-[#111111B2]"
             }`}
           >
             <svg width="16" height="16" viewBox="0 0 16 16">
@@ -97,7 +101,7 @@ export default function SectionBottom({
                 fillOpacity="0.7"
               />
             </svg>
-          </button>
+          </Link>
         </div>
       </div>
     </div>
