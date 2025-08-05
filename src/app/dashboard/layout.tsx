@@ -57,7 +57,7 @@ export default function Layout({ children }: {children: React.ReactNode}){
         <Aside
           darkMode={darkMode}
           setDarkMode={setDarkMode}
-          userName={name}></Aside>
+          ></Aside>
         <main className="main-dashboard">{children}</main>
       </>
     );
