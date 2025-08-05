@@ -15,6 +15,8 @@ import IconeObservacoes from "@/../public/icons/martelo.svg";
 import NavigationBar from "@/components/Admin/NavigationBar";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { useUIStore } from "@/stores/uiStore";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
   const options = [
@@ -55,11 +57,21 @@ export default function Page() {
     setIsFormComplete(allFilled);
   }, [watchedValues]);
 
+  const {
+    successMessage, setSuccessMessage,
+    errorMessage, setErrorMessage,
+  } = useUIStore();
+  const router = useRouter();
+
   const handleSave = () => {
     if (isFormComplete) {
       localStorage.setItem("valuesProperty", JSON.stringify(watchedValues));
       setItem(true);
-      alert("Dados salvos com sucesso.");
+      setSuccessMessage({
+        visible: true,
+        message: "Valores e condições do imovel salvo com sucesso!",
+      });
+      router.push("/dashboard/imoveis/cadastrar/midias");
     }
   };
   return (

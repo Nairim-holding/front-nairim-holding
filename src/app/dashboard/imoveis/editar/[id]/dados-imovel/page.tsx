@@ -20,12 +20,18 @@ import NavigationBar from "@/components/Admin/NavigationBar";
 import axios from "axios";
 import Owner from "@/types/owner";
 import propertyTypes from "@/types/propertyTypes";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Property from "@/types/property";
+import { useUIStore } from "@/stores/uiStore";
 
 export default function Page() {
   const [proprietarios, setProprietarios] = useState<[Owner]>();
   const [tipoImovel, setTipoImovel] = useState<[propertyTypes]>();
+  const {
+    successMessage, setSuccessMessage,
+    errorMessage, setErrorMessage,
+  } = useUIStore();
+  const router = useRouter();
 
   useEffect(() => {
     async function getItens() {
@@ -181,7 +187,11 @@ export default function Page() {
 
     if (allFilled) {
       localStorage.setItem("dataPropertysEdit", JSON.stringify(values));
-      alert("Dados salvos com sucesso!");
+      setSuccessMessage({
+        visible: true,
+        message: 'Dados do imovel salvos com sucesso!'
+      });
+      router.push(`/dashboard/imoveis/editar/${id}/endereco`);
     }
   };
   useEffect(() => {

@@ -14,13 +14,9 @@ import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useUIStore } from "@/stores/uiStore";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 export default function Page(){
-    const {
-        darkMode, setDarkMode,
-        successMessage, setSuccessMessage,
-        errorMessage, setErrorMessage,
-    } = useUIStore();
     const { handleSubmit, control, register, reset, watch } = useForm();
     const [isFormComplete, setIsFormComplete] = useState<boolean>(false);
     const [item, setItem] = useState<boolean>(false);
@@ -99,11 +95,20 @@ export default function Page(){
         setIsFormComplete(allFilled);
     }, [watchedValues]);
 
+    const {
+        successMessage, setSuccessMessage,
+        errorMessage, setErrorMessage,
+    } = useUIStore();
+    const router = useRouter();
     const handleSave = () => {
         if (isFormComplete) {
             localStorage.setItem("addressProperty", JSON.stringify(watchedValues));
             setItem(true);
-            alert("Dados salvos com sucesso.");
+            setSuccessMessage({
+                visible: true,
+                message: 'Endereço do imovel salvo com sucesso!'
+            });
+            router.push('/dashboard/imoveis/cadastrar/valores-condicoes');
         } 
     };
     return (

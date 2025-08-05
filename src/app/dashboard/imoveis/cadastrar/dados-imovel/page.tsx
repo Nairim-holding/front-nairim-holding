@@ -20,6 +20,8 @@ import NavigationBar from "@/components/Admin/NavigationBar";
 import axios from "axios";
 import Owner from "@/types/owner";
 import propertyTypes from "@/types/propertyTypes";
+import { useUIStore } from "@/stores/uiStore";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
   const [proprietarios, setProprietarios] = useState<[Owner]>();
@@ -91,11 +93,20 @@ export default function Page() {
     setIsFormComplete(allFilled);
   }, [watchedValues]);
 
+  const {
+    successMessage, setSuccessMessage,
+    errorMessage, setErrorMessage,
+  } = useUIStore();
+  const router = useRouter();
   const handleSave = () => {
     if (isFormComplete) {
       localStorage.setItem("dataPropertys", JSON.stringify(watchedValues));
       setItem(true);
-      alert("Dados salvos com sucesso.");
+      setSuccessMessage({
+        visible: true,
+        message: 'Dados do imovel salvos com sucesso!'
+      });
+      router.push('/dashboard/imoveis/cadastrar/endereco');
     }
   };
   return (

@@ -51,27 +51,30 @@ export default function Page() {
   } = useUIStore();
   const { handleSubmit, control, reset, watch } = useForm();
   const [loading, setLoading] = useState<boolean>(false);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const router = useRouter();
 
   useEffect(() => {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
-        const parsed = JSON.parse(saved);
-        const restoredData: Record<string, File[]> = {};
+      const parsed = JSON.parse(saved);
+      const restoredData: Record<string, File[]> = {};
 
-        for (const key of Object.keys(parsed)) {
+      for (const key of Object.keys(parsed)) {
         restoredData[key] = parsed[key]
-            .filter((file: FileStorageData) => typeof file.base64 === 'string' && file.base64.includes(','))
-            .map((file: FileStorageData) =>
+          .filter((file: FileStorageData) => typeof file.base64 === 'string' && file.base64.includes(','))
+          .map((file: FileStorageData) =>
             base64ToFile(file.base64, file.name, file.type)
-            );
-        }
+          );
+      }
 
-        reset(restoredData);
+      reset(restoredData);
     }
-    }, [reset]);
+  }, [reset]);
 
   useEffect(() => {
+    if (isSubmitting) return;
+
     const subscription = watch(async (data) => {
       const convertToStorageFormat = async (files: File[] | FileList | null) => {
         const arr = files instanceof FileList ? Array.from(files) : Array.isArray(files) ? files : [];
@@ -93,11 +96,14 @@ export default function Page() {
     });
 
     return () => subscription.unsubscribe();
-  }, [watch]);
-    const cookie = Cookies.get('authToken') as string;
-    const token = jwt.decode(cookie) as token;
+  }, [watch, isSubmitting]);
+
+  const cookie = Cookies.get('authToken') as string;
+  const token = jwt.decode(cookie) as token;
+
   async function submitData(data: FieldValues) {
     const userId = token?.id;
+    setIsSubmitting(true);
     setLoading(true);
     const dataPropertys = localStorage.getItem('dataPropertys');
     const addressProperty = localStorage.getItem('addressProperty');
@@ -114,7 +120,7 @@ export default function Page() {
       );
 
       const createdProperty = createResponse.data;
-      const propertyId = createdProperty.id; 
+      const propertyId = createdProperty.id;
 
       const formData = new FormData();
       Object.entries(data).forEach(([key, value]) => {
@@ -125,7 +131,11 @@ export default function Page() {
       });
       formData.append("userId", String(userId));
 
-      if (formData.has("arquivosImagens") || formData.has("arquivosMatricula") || formData.has("arquivosEscritura")) {
+      if (
+        formData.has("arquivosImagens") ||
+        formData.has("arquivosMatricula") ||
+        formData.has("arquivosEscritura")
+      ) {
         await axios.post(
           `${process.env.NEXT_PUBLIC_URL_API}/property/${propertyId}/upload`,
           formData,
@@ -133,18 +143,20 @@ export default function Page() {
         );
       }
 
+      localStorage.clear();
+      reset();
       router.push("/dashboard/imoveis");
       setSuccessMessage({
         visible: true,
         message: createdProperty.message || "O imóvel foi criado com sucesso!",
       });
-      localStorage.clear();
     } catch (error) {
       console.error("Erro ao criar imóvel:", error);
       setErrorMessage({
         visible: true,
         message: "Erro ao criar imóvel ou enviar mídias",
       });
+      setIsSubmitting(false);
     } finally {
       setLoading(false);
     }
@@ -212,4 +224,3 @@ export default function Page() {
     </>
   );
 }
- 

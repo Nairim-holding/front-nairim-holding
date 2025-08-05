@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useUIStore } from "@/stores/uiStore";
 import axios from "axios";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Property from "@/types/property";
 
 export default function Page() {
@@ -26,6 +26,7 @@ export default function Page() {
     errorMessage,
     setErrorMessage,
   } = useUIStore();
+  const router = useRouter();
   const { control, reset, watch } = useForm();
   const [hasLoaded, setHasLoaded] = useState(false);
   const [loadedFromStorage, setLoadedFromStorage] = useState(false);
@@ -144,7 +145,11 @@ export default function Page() {
 
     if (allFilled) {
       localStorage.setItem("addressPropertyEdit", JSON.stringify(values));
-      alert("Dados salvos com sucesso!");
+      setSuccessMessage({
+        visible: true,
+        message: 'Endereço do imovel salvo com sucesso!'
+      });
+      router.push(`/dashboard/imoveis/editar/${id}/valores-condicoes`);
     }
   };
 

@@ -15,15 +15,22 @@ import IconeObservacoes from "@/../public/icons/martelo.svg";
 import NavigationBar from "@/components/Admin/NavigationBar";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import formatDate from "@/utils/formatDate";
 import axios from "axios";
+import { useUIStore } from "@/stores/uiStore";
 
 export default function Page() {
   const options = [
     { label: "Disponível", value: "AVAILABLE" },
     { label: "Ocupado", value: "OCCUPIED" },
   ];
+
+  const {
+    successMessage, setSuccessMessage,
+    errorMessage, setErrorMessage,
+  } = useUIStore();
+  const router = useRouter();
 
   const { control, register, reset, watch } = useForm();
   const [loadedFromStorage, setLoadedFromStorage] = useState(false);
@@ -119,7 +126,11 @@ export default function Page() {
 
     if (allFilled) {
       localStorage.setItem("valuesPropertyEdit", JSON.stringify(values));
-      alert("Dados salvos com sucesso!");
+      setSuccessMessage({
+        visible: true,
+        message: 'Valores e condições salvos com sucesso!'
+      });
+      router.push(`/dashboard/imoveis/editar/${id}/midias`);
     }
   };
   return (
