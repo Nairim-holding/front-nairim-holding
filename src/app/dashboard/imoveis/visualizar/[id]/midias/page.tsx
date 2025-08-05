@@ -38,7 +38,6 @@ export default function Page() {
         const property = response.data;
 
         if (property?.documents?.length) {
-          // Agrupa os arquivos por 'description'
           const filesByKey: Record<string, File[]> = {};
 
           for (const doc of property.documents) {
@@ -53,7 +52,6 @@ export default function Page() {
             filesByKey[doc.description].push(file);
           }
 
-          // Popula o formulário com os arquivos convertidos
           reset(filesByKey);
         }
       } catch (error) {
@@ -67,7 +65,6 @@ export default function Page() {
     <>
       <NavigationBar path="visualizar" allEnabled id={id} />
       <Form title="Mídias" svg={<IconeMideas />}>
-        {/* Imagens */}
         <Controller
           name="arquivosImagens"
           control={control}
@@ -86,7 +83,6 @@ export default function Page() {
           )}
         />
 
-        {/* Documentos */}
         <div className="flex flex-row gap-5 flex-wrap">
           {[
             { name: "arquivosMatricula", label: "Matricula" },

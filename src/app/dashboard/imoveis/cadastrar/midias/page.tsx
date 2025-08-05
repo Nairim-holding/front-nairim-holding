@@ -97,7 +97,7 @@ export default function Page() {
     const cookie = Cookies.get('authToken') as string;
     const token = jwt.decode(cookie) as token;
   async function submitData(data: FieldValues) {
-    const userId = token.id;
+    const userId = token?.id;
     setLoading(true);
     const dataPropertys = localStorage.getItem('dataPropertys');
     const addressProperty = localStorage.getItem('addressProperty');
