@@ -13,7 +13,10 @@ import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
 import { useUIStore } from "@/stores/uiStore";
 
-// Utilitários
+import Cookies from 'js-cookie';
+import jwt from 'jsonwebtoken';
+import { token } from "@/types/token";
+
 const fileToBase64 = (file: File): Promise<string> => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -39,7 +42,11 @@ interface FileStorageData {
   base64: string;
 }
 
-const STORAGE_KEY = "midiasPropertyEdit";
+async function urlToFile(url: string, fileName: string, mimeType: string): Promise<File> {
+  const res = await fetch(url);
+  const blob = await res.blob();
+  return new File([blob], fileName, { type: mimeType });
+}
 
 export default function Page() {
   const { successMessage, setSuccessMessage, errorMessage, setErrorMessage } =
@@ -47,26 +54,72 @@ export default function Page() {
   const { handleSubmit, control, reset, watch } = useForm();
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
+  const params = useParams();
+  const id = params?.id;
+
+  const STORAGE_KEY = `midiasPropertyEdit-${id}`;
 
   useEffect(() => {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) {
-      const parsed = JSON.parse(saved);
-      const restoredData: Record<string, File[]> = {};
+    const loadMedia = async () => {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        const restoredData: Record<string, File[]> = {};
 
-      for (const key of Object.keys(parsed)) {
-        restoredData[key] = parsed[key]
-          .filter(
-            (file: FileStorageData) =>
-              typeof file.base64 === "string" && file.base64.includes(",")
-          )
-          .map((file: FileStorageData) =>
-            base64ToFile(file.base64, file.name, file.type)
-          );
+        for (const key of Object.keys(parsed)) {
+          restoredData[key] = parsed[key]
+            .filter(
+              (file: FileStorageData) =>
+                typeof file.base64 === "string" && file.base64.includes(",")
+            )
+            .map((file: FileStorageData) =>
+              base64ToFile(file.base64, file.name, file.type)
+            );
+        }
+
+        reset(restoredData);
+        return;
       }
 
-      reset(restoredData);
-    }
+      try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_URL_API}/property/${id}`);
+        const property = response.data;
+
+        if (property?.documents?.length) {
+          const filesByKey: Record<string, File[]> = {};
+
+          for (const doc of property.documents) {
+            if (!doc.file_path) continue;
+
+            const fileName = doc.file_path.split("/").pop() || "arquivo";
+            const file = await urlToFile(doc.file_path, fileName, doc.file_type);
+
+            if (!filesByKey[doc.description]) {
+              filesByKey[doc.description] = [];
+            }
+            filesByKey[doc.description].push(file);
+          }
+
+          reset(filesByKey);
+
+          const forStorage: Record<string, FileStorageData[]> = {};
+          for (const key in filesByKey) {
+            forStorage[key] = await Promise.all(
+              filesByKey[key].map(async (file) => ({
+                name: file.name,
+                type: file.type,
+                base64: await fileToBase64(file),
+              }))
+            );
+          }
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(forStorage));
+        }
+      } catch (error) {
+        console.error("Erro ao buscar mídias do imóvel:", error);
+      }
+    };
+
+    loadMedia();
   }, [reset]);
 
   useEffect(() => {
@@ -100,35 +153,17 @@ export default function Page() {
     return () => subscription.unsubscribe();
   }, [watch]);
 
+  const cookie = Cookies.get('authToken') as string;
+  const token = jwt.decode(cookie) as token;
   async function submitData(data: FieldValues) {
+    const userId = token?.id;
     setLoading(true);
-    const dataPropertys = localStorage.getItem("dataPropertysEdit");
-    const addressProperty = localStorage.getItem("addressPropertyEdit");
-    const valuesProperty = localStorage.getItem("valuesPropertyEdit");
-
-    const formData = new FormData();
-
-    Object.entries(data).forEach(([key, value]) => {
-      const files =
-        value instanceof FileList
-          ? Array.from(value)
-          : Array.isArray(value)
-          ? value
-          : [];
-      files.forEach((file: File) => {
-        formData.append(key, file, file.name);
-      });
-    });
-    for (const [key, value] of formData.entries()) {
-      if (value instanceof File) {
-        console.log(key, value.name, value.size, value.type);
-      } else {
-        console.log(key, value);
-      }
-    }
+    const dataPropertys = localStorage.getItem(`dataPropertysEdit-${id}`);
+    const addressProperty = localStorage.getItem(`addressPropertyEdit-${id}`);
+    const valuesProperty = localStorage.getItem(`valuesPropertyEdit-${id}`);
 
     try {
-      const response = await axios.put(
+      const updateResponse = await axios.put(
         `${process.env.NEXT_PUBLIC_URL_API}/property/${id}`,
         {
           dataPropertys,
@@ -137,29 +172,49 @@ export default function Page() {
         }
       );
 
-      const result = await response.data;
+      if (updateResponse.status === 200) {
+        const formData = new FormData();
+        Object.entries(data).forEach(([key, value]) => {
+          const files =
+            value instanceof FileList
+              ? Array.from(value)
+              : Array.isArray(value)
+              ? value
+              : [];
+          files.forEach((file: File) => {
+            formData.append(key, file, file.name);
+          });
+        });
+        formData.append("userId", String(userId));
 
-      if (response.status == 200) {
+        await axios.put(
+          `${process.env.NEXT_PUBLIC_URL_API}/property/${id}/upload`,
+          formData,
+          {
+            headers: { "Content-Type": "multipart/form-data" },
+          }
+        );
+
+        localStorage.clear();
         router.push("/dashboard/imoveis");
         setSuccessMessage({
           visible: true,
-          message: result.message
-            ? result.message
-            : "O imóvel foi editado com sucesso!",
+          message:
+            updateResponse.data.message ||
+            "O imóvel foi editado com sucesso!",
         });
-        localStorage.clear();
+        reset();
       }
-
-      console.log("Resposta da API:", result);
     } catch (error) {
-      console.error("Erro no envio dos arquivos:", error);
+      console.error("Erro ao editar imóvel ou enviar mídias:", error);
+      setErrorMessage({
+        visible: true,
+        message: "Erro ao editar imóvel ou enviar mídias",
+      });
     } finally {
       setLoading(false);
     }
   }
-
-  const params = useParams();
-  const id = params?.id;
 
   return (
     <>

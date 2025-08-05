@@ -9,12 +9,14 @@ import Logout from "../Logout";
 
 interface PropsButtonToggle extends PropsDarkMode {
   openAside: boolean;
+  handleMouseLeave: () => void;
 }
 
 export default function List({
   darkMode,
   setDarkMode,
   openAside,
+  handleMouseLeave
 }: PropsButtonToggle) {
   const [showSublist, setShowSublist] = useState(false);
   const [openAsideDelay, setOpenAsideDelay] = useState(openAside);
@@ -155,6 +157,7 @@ export default function List({
             <ul className=" bg-white aside-shadow max-w-[300px] min-w-[300px] p-4 rounded-lg gap-2 flex flex-col">
               <NavItem
                 href="/dashboard/imoveis"
+                handleMouseLeave={handleMouseLeave}
                 title="Ir para a página de imoveis">
                 <div className="w-[25px] flex justify-center">
                   <svg
@@ -180,7 +183,8 @@ export default function List({
 
               <NavItem
                 href="/dashboard/imobiliarias"
-                title="Ir para a página de imobiliarias">
+                title="Ir para a página de imobiliarias"
+                handleMouseLeave={handleMouseLeave}>
                 <div className="w-[25px] flex justify-center">
                   <svg
                     width="25"
@@ -205,7 +209,8 @@ export default function List({
 
               <NavItem
                 href="/dashboard/usuarios"
-                title="Ir para a página de usuarios">
+                title="Ir para a página de usuarios"
+                handleMouseLeave={handleMouseLeave}>
                 <div className="w-[25px] flex justify-center">
                   <svg
                     width="25"

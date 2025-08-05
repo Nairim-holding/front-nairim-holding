@@ -42,7 +42,7 @@ export default function Page() {
 
   useEffect(() => {
     const loadData = async () => {
-      const stored = localStorage.getItem("valuesPropertyEdit");
+      const stored = localStorage.getItem(`valuesPropertyEdit-${id}`);
 
       if (stored) {
         const parsed = JSON.parse(stored);
@@ -108,9 +108,9 @@ export default function Page() {
     setIsFormComplete(isComplete);
 
     if (isComplete) {
-      localStorage.setItem("valuesPropertyEdit", JSON.stringify(watchedValues));
+      localStorage.setItem(`valuesPropertyEdit-${id}`, JSON.stringify(watchedValues));
     } else if (!loadedFromStorage) {
-      localStorage.removeItem("valuesPropertyEdit");
+      localStorage.removeItem(`valuesPropertyEdit-${id}`);
     }
   }, [watchedValues, hasLoaded, loadedFromStorage]);
 
@@ -125,7 +125,7 @@ export default function Page() {
     });
 
     if (allFilled) {
-      localStorage.setItem("valuesPropertyEdit", JSON.stringify(values));
+      localStorage.setItem(`valuesPropertyEdit-${id}`, JSON.stringify(values));
       setSuccessMessage({
         visible: true,
         message: 'Valores e condições salvos com sucesso!'

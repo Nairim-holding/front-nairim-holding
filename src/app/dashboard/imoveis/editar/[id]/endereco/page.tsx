@@ -34,7 +34,7 @@ export default function Page() {
   const id = params?.id;
   useEffect(() => {
     const loadData = async () => {
-      const stored = localStorage.getItem("addressPropertyEdit");
+      const stored = localStorage.getItem(`addressPropertyEdit-${id}`);
 
       if (stored) {
         const parsed = JSON.parse(stored);
@@ -144,7 +144,7 @@ export default function Page() {
     });
 
     if (allFilled) {
-      localStorage.setItem("addressPropertyEdit", JSON.stringify(values));
+      localStorage.setItem(`addressPropertyEdit-${id}`, JSON.stringify(values));
       setSuccessMessage({
         visible: true,
         message: 'Endereço do imovel salvo com sucesso!'
@@ -166,9 +166,9 @@ export default function Page() {
     setIsFormComplete(isComplete);
 
     if (isComplete) {
-      localStorage.setItem("addressPropertyEdit", JSON.stringify(watchedValues));
+      localStorage.setItem(`addressPropertyEdit-${id}`, JSON.stringify(watchedValues));
     } else if (!loadedFromStorage) {
-      localStorage.removeItem("addressPropertyEdit");
+      localStorage.removeItem(`addressPropertyEdit-${id}`);
     }
   }, [watchedValues, hasLoaded, loadedFromStorage]);
   return (

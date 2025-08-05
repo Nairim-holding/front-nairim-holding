@@ -59,7 +59,7 @@ export default function Page() {
   const id = params?.id;
   useEffect(() => {
     const loadData = async () => {
-      const stored = localStorage.getItem("dataPropertysEdit");
+      const stored = localStorage.getItem(`dataPropertysEdit-${id}`);
       if (stored) {
         const parsed = JSON.parse(stored);
         reset(parsed);
@@ -104,7 +104,7 @@ export default function Page() {
             state: address.state || "",
             country: address.country || "Brasil",
           };
-          localStorage.setItem("addressPropertyEdit", JSON.stringify(addressValues));
+          localStorage.setItem(`addressPropertyEdit-${id}`, JSON.stringify(addressValues));
         }
 
         const values = propertyData?.values?.[0];
@@ -123,7 +123,7 @@ export default function Page() {
             lease_rules: values.lease_rules || "",
             notes: values.notes || "",
           };
-          localStorage.setItem("valuesPropertyEdit", JSON.stringify(valueData));
+          localStorage.setItem(`valuesPropertyEdit-${id}`, JSON.stringify(valueData));
         }
       } catch (error) {
         console.error("Erro ao buscar dados da API:", error);
@@ -151,7 +151,7 @@ export default function Page() {
   ];
 
   useEffect(() => {
-    const saved = localStorage.getItem("dataPropertysEdit");
+    const saved = localStorage.getItem(`dataPropertysEdit-${id}`);
     if (saved) {
       const parsed = JSON.parse(saved);
       reset(parsed);
@@ -186,7 +186,7 @@ export default function Page() {
     });
 
     if (allFilled) {
-      localStorage.setItem("dataPropertysEdit", JSON.stringify(values));
+      localStorage.setItem(`dataPropertysEdit-${id}`, JSON.stringify(values));
       setSuccessMessage({
         visible: true,
         message: 'Dados do imovel salvos com sucesso!'
@@ -207,9 +207,9 @@ export default function Page() {
     setIsFormComplete(isComplete);
 
     if (isComplete) {
-      localStorage.setItem("dataPropertysEdit", JSON.stringify(watchedValues));
+      localStorage.setItem(`dataPropertysEdit-${id}`, JSON.stringify(watchedValues));
     } else if (!loadedFromStorage) {
-      localStorage.removeItem("dataPropertysEdit");
+      localStorage.removeItem(`dataPropertysEdit-${id}`);
     }
   }, [watchedValues, hasLoaded, loadedFromStorage]);
   return (

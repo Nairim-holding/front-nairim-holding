@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
-export default function NavItem({ href, children, title }: {href: string, children: React.ReactNode; title: string}) {
+export default function NavItem({ href, children, title, handleMouseLeave }: {href: string, children: React.ReactNode; title: string; handleMouseLeave?: () => void}) {
   const pathname = usePathname();
   const isActive = pathname === href;
 
@@ -16,7 +16,7 @@ export default function NavItem({ href, children, title }: {href: string, childr
           : 'text-gray-700 hover:text-purple-600'
       }`}
     >
-      <Link href={href} title={title} className="flex gap-5 justify-start w-full py-3 px-3">{children}</Link>
+      <Link href={href} title={title} className="flex gap-5 justify-start w-full py-3 px-3" onClick={handleMouseLeave}>{children}</Link>
     </li>
   );
 }

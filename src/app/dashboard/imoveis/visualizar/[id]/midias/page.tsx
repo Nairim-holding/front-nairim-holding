@@ -12,14 +12,6 @@ import axios from "axios";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 
-interface DocumentData {
-  id: number;
-  file_path: string;  // URL completa da imagem/documento
-  file_type: string;
-  description: string;
-}
-
-// Converte URL para File para popular InputFile
 async function urlToFile(url: string, fileName: string, mimeType: string): Promise<File> {
   const res = await fetch(url);
   const blob = await res.blob();
