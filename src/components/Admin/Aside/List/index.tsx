@@ -1,16 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import { RxExit } from "react-icons/rx";
 import Link from "next/link";
-import PropsDarkMode from "@/types/propsDarkMode";
 import ButtonToggle from "../ButtonToggle";
 import NavItem from "../NavItem";
 import { usePathname } from "next/navigation";
 import Logout from "../Logout";
-
-interface PropsButtonToggle extends PropsDarkMode {
-  openAside: boolean;
-  handleMouseLeave: () => void;
-}
+import { PropsButtonToggle } from "./type";
 
 export default function List({
   darkMode,

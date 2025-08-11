@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import Link from "next/link";
 import { IoEyeOutline } from "react-icons/io5";
 import { GoPencil } from "react-icons/go";
@@ -7,8 +7,9 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useUIStore } from '@/stores/uiStore';
+import { ListActionsProps } from "./type";
 
-export default function ListActions({ id, name, route }: {id: number; name: string; route: string}){
+export default function ListActions({ id, name, route }: ListActionsProps){
     const router = useRouter();
     const [visible, setVisible] = useState<boolean>(false);
     const {

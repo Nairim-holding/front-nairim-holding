@@ -1,11 +1,5 @@
 import React from "react";
-
-interface LabelProps{
-    id: string;
-    svg?: React.ReactNode;
-    label: string;
-    required?: boolean;
-}
+import { LabelProps } from "./type";
 
 export default function Label({id, svg, label, required}: LabelProps){
     return(

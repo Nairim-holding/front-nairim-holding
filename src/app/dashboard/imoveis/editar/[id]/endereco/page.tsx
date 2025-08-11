@@ -1,6 +1,6 @@
 "use client";
-import Input from "@/components/Admin/Input";
-import Form from "@/components/Form";
+import Input from "@/components/Ui/Input";
+import Form from "@/components/Ui/Form";
 
 import IconeEndereco from "@/../public/icons/endereco.svg";
 import IconeCep from "@/../public/icons/cep.svg";

@@ -1,14 +1,8 @@
 "use client";
-
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-
-interface SectionTopProps {
-  textAdd: string;
-  hrefAdd: string;
-  search: string;
-}
+import { SectionTopProps } from "./type";
 
 export default function SectionTop({ textAdd, hrefAdd, search }: SectionTopProps) {
   const router = useRouter();

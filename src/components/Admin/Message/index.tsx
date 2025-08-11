@@ -1,14 +1,7 @@
-'use client'
+"use client";
 import React, { useEffect } from "react";
-import { IoMdClose } from "react-icons/io"
-
-interface MessageProps {
-    success?: boolean;
-    error?: boolean;
-    message: React.ReactNode | string;
-    visible: boolean;
-    setVisible: (value: boolean) => void;
-}
+import { MessageProps } from "./type";
+import IconClose from "@/components/Icons/IconClose";
 
 export default function Message({ message, success, error, visible, setVisible }: MessageProps){
     useEffect(() => {
@@ -39,7 +32,7 @@ export default function Message({ message, success, error, visible, setVisible }
 
                 <p className={`text-[14px] flex-1 font-normal ${success && 'text-[#00571AB2]'} ${error && 'text-[#510000B2]'} `}>{message}</p>
                 <button onClick={() => setVisible(!visible)}>
-                    <IoMdClose size={20} color="#111111B2" />
+                    <IconClose color="#111111B2" size={20}></IconClose>
                 </button>
             </div>
         </div>

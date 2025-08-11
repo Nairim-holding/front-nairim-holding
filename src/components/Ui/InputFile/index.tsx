@@ -1,25 +1,8 @@
-'use client';
+"use client";
 import React, { useEffect, useRef, useState } from 'react';
 import Label from '../Label';
 import { IoIosCloseCircleOutline } from 'react-icons/io';
-
-interface InputFileProps {
-  label: string;
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  value?: FileList | File[] | null;
-  accept?: string;
-  id: string;
-  required?: boolean;
-  svg?: React.ReactNode;
-  textButton?: string;
-  disabled?: boolean;
-}
-
-interface FilePreview {
-  type: 'image' | 'pdf';
-  name: string;
-  url: string;
-}
+import { FilePreview, InputFileProps } from './type';
 
 export default function InputFile({
   textButton = "Escolher arquivos",

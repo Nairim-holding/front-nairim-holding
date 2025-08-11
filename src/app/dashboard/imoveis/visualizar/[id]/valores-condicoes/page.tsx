@@ -1,8 +1,8 @@
-'use client'
-import Input from "@/components/Admin/Input";
-import Select from "@/components/Admin/Select";
-import TextArea from "@/components/Admin/TextArea";
-import Form from "@/components/Form";
+"use client";
+import Input from "@/components/Ui/Input";
+import Select from "@/components/Ui/Select";
+import TextArea from "@/components/Ui/TextArea";
+import Form from "@/components/Ui/Form";
 
 import IconeCifrao from "@/../public/icons/cifrao.svg";
 import IconeValorImovel from "@/../public/icons/valor.svg";

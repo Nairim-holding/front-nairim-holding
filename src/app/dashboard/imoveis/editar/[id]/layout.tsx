@@ -1,5 +1,5 @@
 import NavigationBar from "@/components/Admin/NavigationBar";
-import Section from "@/components/Admin/Section";
+import Section from "@/components/Ui/Section";
 import Link from "next/link";
 import React from "react";
 

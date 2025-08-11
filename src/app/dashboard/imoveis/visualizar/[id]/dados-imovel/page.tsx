@@ -1,8 +1,8 @@
 "use client";
-import Input from "@/components/Admin/Input";
-import Select from "@/components/Admin/Select";
-import TextArea from "@/components/Admin/TextArea";
-import Form from "@/components/Form";
+import Input from "@/components/Ui/Input";
+import Select from "@/components/Ui/Select";
+import TextArea from "@/components/Ui/TextArea";
+import Form from "@/components/Ui/Form";
 import { Controller, useForm } from "react-hook-form";
 
 import IconeCasa from "@/../public/icons/casa.svg";

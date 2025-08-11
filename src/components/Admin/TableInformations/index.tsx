@@ -1,9 +1,5 @@
-import Property from "@/types/property";
 import ListActions from "./ListActions";
-
-interface TableInformationsProps {
-  data: Property[];
-}
+import { TableInformationsProps } from "./type";
 
 export default function TableInformations({ data }: TableInformationsProps) {
   const headers = [

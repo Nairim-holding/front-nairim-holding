@@ -1,25 +1,9 @@
-'use client'
+"use client";
 import React, { useState, useEffect, useRef } from 'react';
 import Label from '../Label';
+import { Option, SelectProps } from './type';
 
-interface Option {
-  value: string;
-  label: string;
-}
-
-interface CustomSelectProps {
-  options: Option[];
-  defaultValue?: string;
-  onChange?: (selectedValue: string) => void; 
-  id: string;
-  label: string;
-  required?: boolean;
-  svg?: React.ReactNode;
-  tabIndex?: number;
-  disabled?: boolean;
-}
-
-export default function Select({ options, defaultValue, onChange, label, required, svg, id, tabIndex, disabled, ...props }: CustomSelectProps) {
+export default function Select({ options, defaultValue, onChange, label, required, svg, id, tabIndex, disabled, ...props }: SelectProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState<string>(defaultValue || options[0]?.value || '');
   const [selectedLabel, setSelectedLabel] = useState<string>(

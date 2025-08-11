@@ -1,14 +1,6 @@
 "use client";
-
 import React from "react";
-
-interface Form {
-  onSubmit?: () => void;
-  children: React.ReactNode;
-  className?: string;
-  title?: string;
-  svg?: React.ReactNode;
-}
+import { FormProps } from "./type";
 
 export default function Form({
   onSubmit,
@@ -16,7 +8,7 @@ export default function Form({
   className,
   title,
   svg,
-}: Form) {
+}: FormProps) {
   return (
     <div className="flex flex-col py-3">
       {title && (

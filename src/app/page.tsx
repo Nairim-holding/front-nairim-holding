@@ -1,10 +1,10 @@
 import Assessment from "@/components/Home/Assessment";
 import CarrosselBanner from "@/components/Home/CarrosselBanner";
 import CarrosselFilter from "@/components/Home/CarrosselFilter";
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
 import AboutUs from "@/components/Home/AboutUs";
 import Contact from "@/components/Home/Contact";
+import Header from "@/components/Home/Header";
+import Footer from "@/components/Home/Footer";
 
 export default function Home() {
   return (

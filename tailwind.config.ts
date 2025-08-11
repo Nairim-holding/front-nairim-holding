@@ -23,10 +23,6 @@ export default {
         text_black_light: "#333",
         bg_input: "#4762FF14"
       },
-      fontFamily: {
-        roboto: ['var(--font-roboto)', 'sans-serif'],
-        poppins: ['var(--font-poppins)', 'sans-serif'],
-      },
       screens: {
         'laptop': {'max': '992px'},
         'tablet': {'max': '768px'},

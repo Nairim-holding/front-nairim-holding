@@ -1,39 +1,16 @@
-import { ReactNode } from "react";
-import { IoMdClose } from "react-icons/io";
-import localFont from 'next/font/local';
-
-const poppinsFont = localFont({
-  src: '../../../fonts/Poppins.ttf',
-  weight: '400',
-  style: 'normal',
-  variable: '--font-poppins',
-});
-
-const poppinsFont700 = localFont({
-  src: '../../../fonts/Poppins-Bold.ttf',
-  weight: '700',
-  style: 'normal',
-  variable: '--font-poppins',
-});
-
-interface PopupProps{
-    title: string;
-    subtitle: string | ReactNode;
-    visible: boolean;
-    setVisible: React.Dispatch<React.SetStateAction<boolean>>;
-    onConfirm: () => Promise<any>;
-}
+import { PopupProps } from "./type";
+import IconClose from "@/components/Icons/IconClose";
 
 export default function Popup({ title, subtitle, visible, setVisible, onConfirm }: PopupProps){
     return(
         visible && 
-        <div className={`fixed w-full h-full bg-[#000000BF] top-0 left-0 z-[1000000] flex items-center justify-center p-4 ${poppinsFont.className}`}>
+        <div className={`fixed w-full h-full bg-[#000000BF] top-0 left-0 z-[1000000] flex items-center justify-center p-4 font-poppins`}>
             <div className="bg-[#fff] p-8 rounded-xl max-w-[550px] w-full relative">
                 <button className="absolute right-5 top-[15px]" onClick={() => setVisible(!visible)}>
-                    <IoMdClose size={20} color="#111111B2" />
+                    <IconClose color="#111111B2" size={20}></IconClose>
                 </button>
 
-                <h2 className={`${poppinsFont700.className} text-[#111111B2] font-bold text-[24px] pt-8 text-left`}>{title}</h2>
+                <h2 className={`font-poppins text-[#111111B2] font-bold text-[24px] pt-8 text-left`}>{title}</h2>
                 <p className="pt-8 pb-10 text-[#111111B2] font-normal text-[16px] text-left">{subtitle}</p>
 
                 <div className="flex items-end justify-end gap-5 mt-8">

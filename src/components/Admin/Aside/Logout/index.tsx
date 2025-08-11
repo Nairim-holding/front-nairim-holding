@@ -1,17 +1,16 @@
+"use client";
 import axios from "axios";
 import Link from "next/link";
 import Cookies from "js-cookie";
 import { RxExit } from "react-icons/rx";
 import { useUIStore } from "@/stores/uiStore";
 import { useRouter } from "next/navigation";
+import { LogoutProps } from "./type";
 
 export default function Logout({
   openAside,
   openAsideDelay,
-}: {
-  openAside: boolean;
-  openAsideDelay: boolean;
-}) {
+}: LogoutProps) {
     const {
         successMessage, setSuccessMessage,
         errorMessage, setErrorMessage,

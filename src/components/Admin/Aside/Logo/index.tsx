@@ -1,9 +1,6 @@
-import PropsDarkMode from "@/types/propsDarkMode";
+"use client";
 import { useEffect, useState } from "react";
-
-interface PropsLogoAside extends PropsDarkMode {
-  openAside: boolean;
-}
+import { PropsLogoAside } from "./type";
 
 export default function Logo({
   darkMode,

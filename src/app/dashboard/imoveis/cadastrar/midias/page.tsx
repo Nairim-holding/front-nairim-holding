@@ -1,7 +1,7 @@
-'use client';
-import InputFile from "@/components/Admin/InputFile";
+"use client";
+import InputFile from "@/components/Ui/InputFile";
 import NavigationButtons from "@/components/Admin/NavigationButtons";
-import Form from "@/components/Form";
+import Form from "@/components/Ui/Form";
 import NavigationBar from "@/components/Admin/NavigationBar";
 
 import IconeMideas from "@/../public/icons/mideas.svg";

@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { SkeletonTableProps } from "./type";
 
 export function SkeletonTable({
   rows = 5,
@@ -7,11 +8,7 @@ export function SkeletonTable({
   showHeader = true,
   className,
   ...props
-}: {
-  rows?: number;
-  columns?: number;
-  showHeader?: boolean;
-} & React.HTMLAttributes<HTMLDivElement>) {
+}: SkeletonTableProps) {
   return (
     <div className={cn("overflow-x-auto rounded-xl border", className)} {...props}>
       <table className="min-w-full text-sm text-left text-gray-700">

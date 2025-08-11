@@ -1,19 +1,10 @@
-'use client';
-
-import { ParamValue } from 'next/dist/server/request/params';
-import localFont from 'next/font/local';
+"use client";
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { NavigationBarProps } from './type';
 
-const poppinsFont = localFont({
-  src: '../../../fonts/Poppins-Medium.ttf',
-  weight: '500',
-  style: 'normal',
-  variable: '--font-poppins',
-});
-
-export default function NavigationBar({ formComplete, allEnabled = false, path = 'cadastrar', id  }: {formComplete?: boolean; allEnabled?: boolean; path: 'cadastrar' | 'visualizar' | 'editar'; id?: ParamValue}) {
+export default function NavigationBar({ formComplete, allEnabled = false, path = 'cadastrar', id  }: NavigationBarProps) {
   const isEditOrView = path === 'visualizar' || path === 'editar';
 
   const steps = [
@@ -67,7 +58,7 @@ export default function NavigationBar({ formComplete, allEnabled = false, path =
                   ${!isEnabled ? 'pointer-events-none opacity-50 cursor-not-allowed' : ''}`}
               >
                 {renderIcon(index, isActive)}
-                <p className={`text-[18px] font-medium ${poppinsFont.className}`}>
+                <p className={`text-[18px] font-medium font-poppins`}>
                   {step.label}
                 </p>
               </Link>

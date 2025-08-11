@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import responseLogin from "@/types/responseLogin";
 import axios from "axios";
 import Link from "next/link";
@@ -10,14 +10,6 @@ import { FcGoogle } from 'react-icons/fc';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { TbLockPassword } from "react-icons/tb";
 import { MdOutlineEmail } from "react-icons/md";
-
-// Fonte Poppins
-import { Poppins } from 'next/font/google';
-const poppins = Poppins({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  variable: '--font-poppins',
-});
 
 export default function Page() {
   const navigation = useRouter();
@@ -55,9 +47,8 @@ export default function Page() {
   const togglePassword = () => setShowPassword((prev) => !prev);
 
   return (
-    <section className={`${poppins.variable} font-poppins flex flex-col lg:flex-row h-dvh w-full bg-gradient-to-b from-cor_grad_1 via-cor_grad_2 to-cor_grad_3`}>
+    <section className={`font-poppins flex flex-col lg:flex-row h-dvh w-full bg-gradient-to-b from-cor_grad_1 via-cor_grad_2 to-cor_grad_3`}>
 
-      {/* LOGO / CABEÇALHO */}
       <section className="w-full flex flex-col items-center justify-center text-center p-6 lg:hidden">
         <Image
           src="/logo-login.svg"
@@ -70,7 +61,6 @@ export default function Page() {
         <p className="text-white text-sm mb-6">Faça login</p>
       </section>
 
-      {/* VERSÃO DESKTOP DA LOGO */}
       <section className="hidden lg:flex w-full justify-center items-center">
         <Image
           src="/logo-login.svg"
@@ -81,26 +71,19 @@ export default function Page() {
         />
       </section>
 
-      {/* FORMULÁRIO */}
       <section className="flex flex-col justify-center items-center bg-white w-full px-6 sm:px-10 md:px-16 lg:px-32 xl:px-40 2xl:px-60 py-10 sm:rounded-t-3xl lg:rounded-none">
-
-        {/* Botão Google */}
         <button className="flex items-center justify-center gap-3 border w-full max-w-md border-gray-300 rounded-lg py-2 mb-6">
           <FcGoogle size="30px" className="my-icon" />
           <span className="text-sm">Continue com o Google</span>
         </button>
 
-        {/* Divider */}
         <div className="flex items-center w-full max-w-md mb-4">
           <div className="flex-grow border-t border-gray-300" />
           <span className="mx-4 text-gray-500 text-sm">Ou login com</span>
           <div className="flex-grow border-t border-gray-300" />
         </div>
 
-        {/* Formulário */}
         <form className="flex flex-col gap-4 w-full max-w-md" onSubmit={onSubmit}>
-
-          {/* Email input com ícone */}
           <div className="relative">
             <MdOutlineEmail className="absolute left-3 top-2.5 text-gray-400" size="20px" />
             <input
@@ -112,7 +95,6 @@ export default function Page() {
             />
           </div>
 
-          {/* Password input com ícone + toggle */}
           <div className="relative">
             <TbLockPassword className="absolute left-3 top-2.5 text-gray-400" size="20px" />
             <input
@@ -130,7 +112,6 @@ export default function Page() {
             </span>
           </div>
 
-          {/* Erro */}
           {error && (
             <div className="text-red-500 text-sm bg-red-100 border border-red-400 rounded-md px-4 py-2">
               {error}
@@ -150,8 +131,7 @@ export default function Page() {
 
           <Link href="/forgot-password" className="text-sm text-center text-gray-500 mt-6">
             Esqueci a senha
-          </Link>
-            
+          </Link> 
       </section>
     </section>
   );

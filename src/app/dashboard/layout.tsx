@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import Cookies from 'js-cookie'
 import { useEffect, useState } from 'react';
 import jwt from 'jsonwebtoken';

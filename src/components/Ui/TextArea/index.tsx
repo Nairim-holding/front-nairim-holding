@@ -1,14 +1,4 @@
-interface TextAreaProps{
-    id: string;
-    label: string;
-    required?: boolean;
-    value?: string;
-    onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
-    placeHolder: string;
-    svg?: React.ReactNode;
-    tabIndex?: number;
-    disabled?: boolean;
-}
+import { TextAreaProps } from "./type";
 
 export default function TextArea({id, label, required, value, onChange, placeHolder, svg, tabIndex, disabled, ...props}: TextAreaProps){
     return(

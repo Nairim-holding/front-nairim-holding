@@ -5,13 +5,9 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-poppins: "Poppins", sans-serif; 
+  --font-bebasNeue: "Bebas Neue", sans-serif;
+  --font-roboto:  "Roboto", sans-serif;
 }
 
 body {
@@ -76,6 +72,10 @@ input[type="search"]::-webkit-search-results-decoration {
 
 .font-poppins {
   font-family: var(--font-poppins);
+}
+
+.font-roboto {
+  font-family: var(--font-roboto);
 }
 
 .main-dashboard {

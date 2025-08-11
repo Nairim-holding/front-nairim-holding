@@ -1,10 +1,9 @@
-'use client'
-
+"use client";
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
+import { NavItemProps } from './type';
 
-export default function NavItem({ href, children, title, handleMouseLeave }: {href: string, children: React.ReactNode; title: string; handleMouseLeave?: () => void}) {
+export default function NavItem({ href, children, title, handleMouseLeave }: NavItemProps) {
   const pathname = usePathname();
   const isActive = pathname === href;
 

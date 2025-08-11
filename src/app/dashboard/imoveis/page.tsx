@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import TableInformations from "@/components/Admin/TableInformations";
 import SectionTop from "@/components/Admin/SectionTop";
-import Section from "@/components/Admin/Section";
+import Section from "@/components/Ui/Section";
 import SectionBottom from "@/components/Admin/SectionBottom";
 import { SkeletonTable } from "@/components/Admin/SkeletonTable";
 

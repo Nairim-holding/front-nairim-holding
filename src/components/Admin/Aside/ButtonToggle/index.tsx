@@ -1,10 +1,5 @@
-import PropsDarkMode from "@/types/propsDarkMode";
 import { IoMoonOutline, IoSunnyOutline } from "react-icons/io5";
-
-interface PropsButtonToggle extends PropsDarkMode {
-  openAside: boolean;
-  openAsideDelay: boolean;
-}
+import { PropsButtonToggle } from "./type";
 
 export default function ButtonToggle({
   darkMode,

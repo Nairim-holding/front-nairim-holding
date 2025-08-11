@@ -1,14 +1,12 @@
 "use client";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import PropsDarkMode from "@/types/propsDarkMode";
 import Logo from "./Logo";
 import List from "./List";
 import { usePathname } from "next/navigation";
+import { AsideProps } from "./type";
 
-interface Aside extends PropsDarkMode{}
-
-export default function Aside({ darkMode, setDarkMode }: Aside) {
+export default function Aside({ darkMode, setDarkMode }: AsideProps) {
   const [openAside, setOpenAside] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
   const pathname = usePathname();

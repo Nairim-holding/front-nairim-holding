@@ -1,14 +1,7 @@
-'use client';
+"use client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-
-interface SectionBottomProps {
-  count: number;
-  limit: number;
-  currentPage: number;
-  totalPage: number;
-  search?: string;
-}
+import { SectionBottomProps } from "./type";
 
 export default function SectionBottom({
   count,
@@ -56,7 +49,6 @@ export default function SectionBottom({
         <p className="text-[14px] font-normal text-[#111111B2]">registros</p>
       </div>
 
-      {/* Paginação */}
       <div className="flex justify-center mt-4 laptop:mt-0">
         <div className="flex items-center gap-3">
           <Link

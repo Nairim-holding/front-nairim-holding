@@ -1,9 +1,5 @@
-import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";4
-
-interface IncrementDecrementButtonsProps{
-    handleDecrement: () => void; 
-    handleIncrement: () => void;
-}
+import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
+import { IncrementDecrementButtonsProps } from "./type";
 
 export default function IncrementDecrementButtons({handleDecrement, handleIncrement}: IncrementDecrementButtonsProps) {
   return (

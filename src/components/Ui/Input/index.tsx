@@ -1,23 +1,9 @@
-'use client'
+"use client";
 import React, { useEffect, useRef } from "react";
 import IncrementDecrementButtons from "./IncrementDecrementButton";
-import Label from "../Label";
 import { maskCEP, maskCNPJ, maskCPF, maskMoney, maskPhone, maskSquareMeters } from "@/utils/masks";
-
-interface InputProps {
-  id: string;
-  label: string;
-  required?: boolean;
-  type: string;
-  value?: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  placeHolder?: string;
-  svg?: React.ReactNode;
-  disabled?: boolean;
-  tabIndex?: number;
-  mask?: string;
-  autoFocus?: boolean;
-}
+import Label from '../Label';
+import { InputProps } from "./type";
 
 const applyMask = (type: string, value: string): string => {
   switch (type) {
