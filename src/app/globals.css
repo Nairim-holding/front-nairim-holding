@@ -166,3 +166,37 @@ input[type="number"] {
 .li-hover:hover svg path {
   fill: #fff;
 }
+
+html.dark body{
+  background-color: #35314C;
+}
+
+.dark section, 
+.dark input, 
+.dark select, 
+.dark textarea{
+  background-color: #12101D;
+}
+
+.dark h1, .dark p, .dark span, .dark input, .dark select, .dark a, .dark textarea{
+  color: #fff;
+}
+
+.dark input:disabled,
+.dark textarea:disabled{
+  background-color: #3a3559;
+}
+
+.dark thead, .dark th{
+  background-color: #000;
+  color: #fff;
+}
+
+.dark tbody tr, .dark tbody tr td{
+  background-color: #222;
+  color: #fff;
+}
+
+.dark .svg-darkmode{
+  color: #fff !important;
+}

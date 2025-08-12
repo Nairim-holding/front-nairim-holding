@@ -2,10 +2,10 @@
 import axios from "axios";
 import Link from "next/link";
 import Cookies from "js-cookie";
-import { RxExit } from "react-icons/rx";
 import { useUIStore } from "@/stores/uiStore";
 import { useRouter } from "next/navigation";
 import { LogoutProps } from "./type";
+import IconExit from "@/components/Icons/IconExit";
 
 export default function Logout({
   openAside,
@@ -55,7 +55,7 @@ export default function Logout({
         title="Sair da sessão atual"
         className="flex gap-5 justify-start w-full py-3 px-3">
         <div className="w-[25px] flex justify-center">
-          <RxExit color="#666" size={25} className="rotate-[180deg]" />
+          <IconExit color="#666" size={25}></IconExit>
         </div>
         <p
           className={`

@@ -17,12 +17,17 @@ export default function Layout({ children }: {children: React.ReactNode}){
         popUpDelete, setPopUpDelete,
     } = useUIStore();
 
-    const [name, setName] = useState<string>();
+    useEffect(() => {
+      if (darkMode) {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+    }, [darkMode]);
 
     useEffect(() => {
         const cookie = Cookies.get('authToken') as string;
         const token = jwt.decode(cookie) as token;
-        setName(token?.name);
     }, []);
     return (
       <>

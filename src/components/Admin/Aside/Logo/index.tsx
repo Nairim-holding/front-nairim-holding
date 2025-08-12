@@ -4,7 +4,6 @@ import { PropsLogoAside } from "./type";
 
 export default function Logo({
   darkMode,
-  setDarkMode,
   openAside,
 }: PropsLogoAside) {
   const [openAsideDelay, setOpenAsideDelay] = useState(openAside);

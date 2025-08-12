@@ -1,5 +1,5 @@
-import PropsDarkMode from "@/types/propsDarkMode";
+import { PropsDarkModeValue } from "@/types/propsDarkMode";
 
-export interface PropsLogoAside extends PropsDarkMode {
+export interface PropsLogoAside extends PropsDarkModeValue {
   openAside: boolean;
 }

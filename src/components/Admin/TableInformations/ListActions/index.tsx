@@ -8,6 +8,9 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useUIStore } from '@/stores/uiStore';
 import { ListActionsProps } from "./type";
+import IconEye from "@/components/Icons/IconEye";
+import IconPencil from "@/components/Icons/IconPencil";
+import IconTrash from "@/components/Icons/IconTrash";
 
 export default function ListActions({ id, name, route }: ListActionsProps){
     const router = useRouter();
@@ -52,13 +55,13 @@ export default function ListActions({ id, name, route }: ListActionsProps){
         <>
           <div className="flex flex-1 justify-center items-center gap-3">
               <Link href={`imoveis/visualizar/${id}/dados-imovel`}>
-                <IoEyeOutline size={23} color="#111111B2" />
+                <IconEye size={23} color="#111111B2"></IconEye>
               </Link>
               <Link href={`imoveis/editar/${id}/dados-imovel`}>
-                <GoPencil size={20} color="#111111B2" />
+                <IconPencil size={20} color="#111111B2"></IconPencil>
               </Link>
               <button onClick={() => setVisible(!visible)}>
-                <FaRegTrashAlt size={19} color="#111111B2" />
+                <IconTrash size={20} color="#111111B2"></IconTrash>
               </button>
           </div>
         </>

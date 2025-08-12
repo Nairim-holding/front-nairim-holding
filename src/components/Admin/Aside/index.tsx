@@ -43,7 +43,6 @@ export default function Aside({ darkMode, setDarkMode }: AsideProps) {
         <Link href="/dashboard">
           <Logo
             darkMode={darkMode}
-            setDarkMode={setDarkMode}
             openAside={openAside}
           />
         </Link>

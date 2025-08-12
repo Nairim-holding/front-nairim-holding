@@ -1,3 +1,4 @@
+"use client";
 import { IoMoonOutline, IoSunnyOutline } from "react-icons/io5";
 import { PropsButtonToggle } from "./type";
 
