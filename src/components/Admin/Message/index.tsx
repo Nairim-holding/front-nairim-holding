@@ -30,7 +30,7 @@ export default function Message({ message, success, error, visible, setVisible }
                 </svg>
                 }
 
-                <p className={`text-[14px] flex-1 font-normal ${success && 'text-[#00571AB2]'} ${error && 'text-[#510000B2]'} `}>{message}</p>
+                <p className={`text-[14px] flex-1 font-normal ${success && '!text-[#00571AB2]'} ${error && '!text-[#510000B2]'} `}>{message}</p>
                 <button onClick={() => setVisible(!visible)}>
                     <IconClose color="#111111B2" size={20}></IconClose>
                 </button>

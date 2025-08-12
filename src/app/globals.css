@@ -193,10 +193,22 @@ html.dark body{
 }
 
 .dark tbody tr, .dark tbody tr td{
-  background-color: #222;
+  background-color: #1b1b1b;
   color: #fff;
 }
 
 .dark .svg-darkmode{
   color: #fff !important;
+}
+
+.dark .svg-darkmode-estatic path{
+  fill: #fff;
+}
+
+.dark input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+
+.dark .img-bino {
+  filter: brightness(0.2) saturate(100%) invert(0) !important;
 }

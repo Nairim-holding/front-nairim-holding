@@ -67,7 +67,7 @@ useEffect(() => {
                     width={500} 
                     height={500} 
                     alt="matheus henrique dos santos bino"
-                    className="transcended-image"
+                    className="img-bino transcended-image"
                 />
                 <audio ref={audioRef} src="/carlinhos.mp3" preload="auto" />
             </div>

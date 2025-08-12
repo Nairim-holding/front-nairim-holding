@@ -156,7 +156,7 @@ export default function Page() {
               id="purchase_value"
               required
               placeHolder="R$ 180.000,00"
-              svg={<IconeValorImovel />}></Input>
+              svg={<IconeValorImovel className="svg-darkmode-estatic" />}></Input>
           )}
         />
 
@@ -174,7 +174,7 @@ export default function Page() {
               id="purchase_date"
               required
               placeHolder="12/05/2021"
-              svg={<IconeDataCompra />}></Input>
+              svg={<IconeDataCompra className="svg-darkmode-estatic" />}></Input>
           )}
         />
 
@@ -193,7 +193,7 @@ export default function Page() {
               type="text"
               tabIndex={3}
               mask="money"
-              svg={<IconeValorIptu />}></Input>
+              svg={<IconeValorIptu className="svg-darkmode-estatic" />}></Input>
           )}
         />
 
@@ -212,7 +212,7 @@ export default function Page() {
               type="text"
               tabIndex={4}
               mask="money"
-              svg={<IconeAluguel />}></Input>
+              svg={<IconeAluguel className="svg-darkmode-estatic" />}></Input>
           )}
         />
 
@@ -231,7 +231,7 @@ export default function Page() {
               type="text"
               tabIndex={5}
               mask="money"
-              svg={<IconeValorCondominio />}></Input>
+              svg={<IconeValorCondominio className="svg-darkmode-estatic" />}></Input>
           )}
         />
 
@@ -247,7 +247,7 @@ export default function Page() {
               required
               id="current_status"
               options={options}
-              svg={<IconeStatusAtual />}></Select>
+              svg={<IconeStatusAtual className="svg-darkmode-estatic" />}></Select>
           )}
         />
 
@@ -265,7 +265,7 @@ export default function Page() {
               type="text"
               tabIndex={6}
               mask="money"
-              svg={<IconeValorImovel />}
+              svg={<IconeValorImovel className="svg-darkmode-estatic" />}
             />
           )}
         />
@@ -283,7 +283,7 @@ export default function Page() {
               type="date"
               tabIndex={7}
               placeHolder="12/06/2024"
-              svg={<IconeDataCompra />}
+              svg={<IconeDataCompra className="svg-darkmode-estatic" />}
             />
           )}
         />
@@ -302,7 +302,7 @@ export default function Page() {
               tabIndex={8}
               mask="money"
               placeHolder="R$ 1.000,00"
-              svg={<IconeValorImovel />}
+              svg={<IconeValorImovel className="svg-darkmode-estatic" />}
             />
           )}
         />
@@ -312,7 +312,7 @@ export default function Page() {
           placeHolder="Regras específicas para a venda"
           label="Regras de Venda"
           id="sale_rules"
-          svg={<IconeObservacoes />}
+          svg={<IconeObservacoes className="svg-darkmode-estatic" />}
         />
 
         <TextArea
@@ -320,7 +320,7 @@ export default function Page() {
           placeHolder="Escreva detalalhes não expecificados anteriormente"
           label="Regras de Locação"
           id="lease_rules"
-          svg={<IconeObservacoes></IconeObservacoes>}
+          svg={<IconeObservacoes className="svg-darkmode-estatic"></IconeObservacoes>}
         />
 
         <TextArea
@@ -328,7 +328,7 @@ export default function Page() {
           placeHolder="Anotações adicionais sobre o imóvel"
           label="Observações Gerais"
           id="notes"
-          svg={<IconeObservacoes />}
+          svg={<IconeObservacoes className="svg-darkmode-estatic" />}
         />
 
         <div className="w-full flex justify-end mt-4">

@@ -134,7 +134,7 @@ export default function Page(){
                     type="text"
                     tabIndex={1}
                     autoFocus
-                    svg={<IconeCep />}></Input>
+                    svg={<IconeCep className="svg-darkmode-estatic" />}></Input>
                 )}
             />
 
@@ -152,7 +152,7 @@ export default function Page(){
                     placeHolder="Das Flores"
                     type="text"
                     tabIndex={2}
-                    svg={<IconeRua />}></Input>
+                    svg={<IconeRua className="svg-darkmode-estatic" />}></Input>
                 )}
             />
 
@@ -170,7 +170,7 @@ export default function Page(){
                         type="number"
                         required
                         tabIndex={3}
-                        svg={<IconeNumero />}>
+                        svg={<IconeNumero className="svg-darkmode-estatic" />}>
                     </Input>
                 )}
             />
@@ -189,7 +189,7 @@ export default function Page(){
                     placeHolder="Tupinambá"
                     type="text"
                     tabIndex={4}
-                    svg={<IconeBairro />}>
+                    svg={<IconeBairro className="svg-darkmode-estatic" />}>
                 </Input>
                 )}
             />
@@ -208,7 +208,7 @@ export default function Page(){
                     placeHolder="Garça"
                     type="text"
                     tabIndex={5}
-                    svg={<IconeCidade />}>
+                    svg={<IconeCidade className="svg-darkmode-estatic" />}>
                 </Input>
                 )}
             />
@@ -227,7 +227,7 @@ export default function Page(){
                     placeHolder="SP"
                     type="text"
                     tabIndex={6}
-                    svg={<IconeEstado />}>
+                    svg={<IconeEstado className="svg-darkmode-estatic" />}>
                 </Input>
                 )}
             />
@@ -246,7 +246,7 @@ export default function Page(){
                     placeHolder="Brasil"
                     type="text"
                     tabIndex={7}
-                    svg={<IconeEstado />}>
+                    svg={<IconeEstado className="svg-darkmode-estatic" />}>
                 </Input>
                 )}
             />

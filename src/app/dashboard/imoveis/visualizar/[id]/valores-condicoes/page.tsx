@@ -78,7 +78,7 @@ export default function Page(){
                     required
                     placeHolder="R$ 180.000,00"
                     disabled
-                    svg={<IconeValorImovel />}>
+                    svg={<IconeValorImovel className="svg-darkmode-estatic" />}>
                 </Input>
                 )}
             />
@@ -97,7 +97,7 @@ export default function Page(){
                     required
                     disabled
                     placeHolder="12/05/2021"
-                    svg={<IconeDataCompra />}>
+                    svg={<IconeDataCompra className="svg-darkmode-estatic" />}>
                 </Input>
                 )}
             />
@@ -117,7 +117,7 @@ export default function Page(){
                     placeHolder="R$ 1.440,00"
                     type="text"
                     mask="money"
-                    svg={<IconeValorIptu />}>
+                    svg={<IconeValorIptu className="svg-darkmode-estatic" />}>
                     </Input>
                 )}
             />
@@ -137,7 +137,7 @@ export default function Page(){
                     type="text"
                     mask="money"
                     disabled
-                    svg={<IconeAluguel />}>
+                    svg={<IconeAluguel className="svg-darkmode-estatic" />}>
                 </Input>
                 )}
             />
@@ -157,7 +157,7 @@ export default function Page(){
                     type="text"
                     mask="money"
                     disabled
-                    svg={<IconeValorCondominio />}>
+                    svg={<IconeValorCondominio className="svg-darkmode-estatic" />}>
                 </Input>
                 )}
             />
@@ -175,7 +175,7 @@ export default function Page(){
                     id="current_status"
                     options={[{value: data == 'OCCUPIED' ? 'Ocupado' : 'Disponível' , label: data == 'OCCUPIED' ? 'Ocupado' : 'Disponível' }]}
                     disabled
-                    svg={<IconeStatusAtual />}>
+                    svg={<IconeStatusAtual className="svg-darkmode-estatic" />}>
                 </Select>
                 )}
             />
@@ -194,7 +194,7 @@ export default function Page(){
                 type="text"
                 mask="money"
                 disabled
-                svg={<IconeValorImovel />}
+                svg={<IconeValorImovel className="svg-darkmode-estatic" />}
               />
             )}
           />
@@ -212,7 +212,7 @@ export default function Page(){
                 type="date"
                 placeHolder="12/06/2024"
                 disabled
-                svg={<IconeDataCompra />}
+                svg={<IconeDataCompra className="svg-darkmode-estatic" />}
               />
             )}
           />
@@ -231,7 +231,7 @@ export default function Page(){
                 mask="money"
                 placeHolder="R$ 1.000,00"
                 disabled
-                svg={<IconeValorImovel />}
+                svg={<IconeValorImovel className="svg-darkmode-estatic" />}
               />
             )}
           />
@@ -242,7 +242,7 @@ export default function Page(){
             placeHolder="Regras específicas para a venda"
             label="Regras de Venda"
             id="sale_rules"
-            svg={<IconeObservacoes />}
+            svg={<IconeObservacoes className="svg-darkmode-estatic" />}
           />
 
           <TextArea
@@ -251,7 +251,7 @@ export default function Page(){
             placeHolder="Escreva detalalhes não expecificados anteriormente"
             label="Regras de Locação"
             id="lease_rules"
-            svg={<IconeObservacoes></IconeObservacoes>}
+            svg={<IconeObservacoes className="svg-darkmode-estatic"></IconeObservacoes>}
           />
 
           <TextArea
@@ -260,7 +260,7 @@ export default function Page(){
             placeHolder="Anotações adicionais sobre o imóvel"
             label="Observações Gerais"
             id="notes"
-            svg={<IconeObservacoes />}
+            svg={<IconeObservacoes className="svg-darkmode-estatic" />}
           />
         </Form>
       </>

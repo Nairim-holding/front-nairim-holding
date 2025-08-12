@@ -71,7 +71,7 @@ export default function Page(){
                     tabIndex={1}
                     autoFocus
                     disabled
-                    svg={<IconeCep />}></Input>
+                    svg={<IconeCep className="svg-darkmode-estatic" />}></Input>
                 )}
             />
 
@@ -88,7 +88,7 @@ export default function Page(){
                     id="street"
                     placeHolder="Das Flores"
                     type="text"
-                    svg={<IconeRua />}></Input>
+                    svg={<IconeRua className="svg-darkmode-estatic" />}></Input>
                 )}
             />
 
@@ -107,7 +107,7 @@ export default function Page(){
                         required
                         tabIndex={2}
                         disabled
-                        svg={<IconeNumero />}>
+                        svg={<IconeNumero className="svg-darkmode-estatic" />}>
                     </Input>
                 )}
             />
@@ -125,7 +125,7 @@ export default function Page(){
                     id="district"
                     placeHolder="Tupinambá"
                     type="text"
-                    svg={<IconeBairro />}>
+                    svg={<IconeBairro className="svg-darkmode-estatic" />}>
                 </Input>
                 )}
             />
@@ -143,7 +143,7 @@ export default function Page(){
                     id="city"
                     placeHolder="Garça"
                     type="text"
-                    svg={<IconeCidade />}>
+                    svg={<IconeCidade className="svg-darkmode-estatic" />}>
                 </Input>
                 )}
             />
@@ -161,7 +161,7 @@ export default function Page(){
                     id="state"
                     placeHolder="SP"
                     type="text"
-                    svg={<IconeEstado />}>
+                    svg={<IconeEstado className="svg-darkmode-estatic" />}>
                 </Input>
                 )}
             />
@@ -179,7 +179,7 @@ export default function Page(){
                     id="country"
                     placeHolder="Brasil"
                     type="text"
-                    svg={<IconeEstado />}>
+                    svg={<IconeEstado className="svg-darkmode-estatic" />}>
                 </Input>
                 )}
             />

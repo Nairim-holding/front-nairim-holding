@@ -232,7 +232,7 @@ export default function Page() {
               required
               placeHolder="Nome para o imóvel"
               type="text"
-              svg={<IconeNomeFantasia />}
+              svg={<IconeNomeFantasia className="svg-darkmode-estatic" />}
               tabIndex={1}
               autoFocus
             />
@@ -252,7 +252,7 @@ export default function Page() {
               required
               placeHolder="Quantidade de quartos"
               type="number"
-              svg={<IconeQuartos />}
+              svg={<IconeQuartos className="svg-darkmode-estatic" />}
               tabIndex={2}
             />
           )}
@@ -271,7 +271,7 @@ export default function Page() {
               required
               placeHolder="Quantidade de banheiros"
               type="number"
-              svg={<IconeBanheiro />}
+              svg={<IconeBanheiro className="svg-darkmode-estatic" />}
               tabIndex={3}
             />
           )}
@@ -290,7 +290,7 @@ export default function Page() {
               required
               placeHolder="Quantidade de Lavabos"
               type="number"
-              svg={<IconeBanheiro />}
+              svg={<IconeBanheiro className="svg-darkmode-estatic" />}
               tabIndex={4}
             />
           )}
@@ -309,7 +309,7 @@ export default function Page() {
               required
               placeHolder="Quantidade de vagas"
               type="number"
-              svg={<IconeGaragem />}
+              svg={<IconeGaragem className="svg-darkmode-estatic" />}
               tabIndex={5}
             />
           )}
@@ -328,7 +328,7 @@ export default function Page() {
               required
               placeHolder="Quantidade de andares"
               type="number"
-              svg={<IconeAndares />}
+              svg={<IconeAndares className="svg-darkmode-estatic" />}
               tabIndex={6}
             />
           )}
@@ -348,7 +348,7 @@ export default function Page() {
               placeHolder="Tamanho total do imóvel"
               type="text"
               mask="metros2"
-              svg={<IconeAreaPrivativa />}
+              svg={<IconeAreaPrivativa className="svg-darkmode-estatic" />}
               tabIndex={7}
             />
           )}
@@ -368,7 +368,7 @@ export default function Page() {
               placeHolder="Tamanho construída do imóvel"
               type="text"
               mask="metros2"
-              svg={<IconeAreaPrivativa />}
+              svg={<IconeAreaPrivativa className="svg-darkmode-estatic" />}
               tabIndex={8}
             />
           )}
@@ -388,7 +388,7 @@ export default function Page() {
               placeHolder="Tamanho da frente do lote"
               type="text"
               mask="metros2"
-              svg={<IconeTestada />}
+              svg={<IconeTestada className="svg-darkmode-estatic" />}
               tabIndex={9}
             />
           )}
@@ -407,7 +407,7 @@ export default function Page() {
               required
               placeHolder="Informe o número do registro fiscal"
               type="text"
-              svg={<IconeTestada />}
+              svg={<IconeTestada className="svg-darkmode-estatic" />}
               tabIndex={10}
             />
           )}
@@ -423,7 +423,7 @@ export default function Page() {
               label="Proprietário"
               required
               options={optionsProprietarios ?? []}
-              svg={<IconeMobiliado />}
+              svg={<IconeMobiliado className="svg-darkmode-estatic" />}
               onChange={field.onChange}
               defaultValue={field.value}
               tabIndex={11}
@@ -441,7 +441,7 @@ export default function Page() {
               label="Tipo do imóvel"
               required
               options={optionsTiposImoveis ?? []}
-              svg={<IconeMobiliado />}
+              svg={<IconeMobiliado className="svg-darkmode-estatic" />}
               onChange={field.onChange}
               defaultValue={field.value}
               tabIndex={12}
@@ -459,7 +459,7 @@ export default function Page() {
               label="Mobiliado"
               required
               options={optionsMobiliado}
-              svg={<IconeMobiliado />}
+              svg={<IconeMobiliado className="svg-darkmode-estatic" />}
               onChange={field.onChange}
               defaultValue={field.value}
               tabIndex={13}
@@ -472,7 +472,7 @@ export default function Page() {
           label="Observações"
           id="notes"
           placeHolder="Escreva detalhes não especificados anteriormente"
-          svg={<IconeObservacoes />}
+          svg={<IconeObservacoes className="svg-darkmode-estatic" />}
           tabIndex={14}
         />
         <div className="w-full flex justify-end mt-4">

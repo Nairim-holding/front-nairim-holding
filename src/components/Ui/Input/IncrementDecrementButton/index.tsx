@@ -1,5 +1,7 @@
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
 import { IncrementDecrementButtonsProps } from "./type";
+import IconNumberArrowUp from "@/components/Icons/IconNumberArrowUp";
+import IconNumberArrowDown from "@/components/Icons/IconNumberArrowDown";
 
 export default function IncrementDecrementButtons({handleDecrement, handleIncrement}: IncrementDecrementButtonsProps) {
   return (
@@ -8,13 +10,13 @@ export default function IncrementDecrementButtons({handleDecrement, handleIncrem
         type="button"
         onClick={handleIncrement}
         className="text-lg font-bold text-[#555] hover:text-black transition duration-150 ease-in-out">
-        <MdKeyboardArrowUp size={18} />
+        <IconNumberArrowUp size={18} color="#666" />
       </button>
       <button
         type="button"
         onClick={handleDecrement}
         className="text-lg font-bold text-[#555] hover:text-black transition duration-150 ease-in-out">
-        <MdKeyboardArrowDown size={18} />
+         <IconNumberArrowDown size={18} color="#666" />
       </button>
     </div>
   );

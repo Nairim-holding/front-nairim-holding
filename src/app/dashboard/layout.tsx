@@ -18,15 +18,23 @@ export default function Layout({ children }: {children: React.ReactNode}){
     } = useUIStore();
 
     useEffect(() => {
+      const darkModeStorage = sessionStorage.getItem("darkmode");
+      console.log(darkModeStorage)
+      setDarkMode(darkModeStorage === "true");
+    }, []);
+
+    useEffect(() => {
       if (darkMode) {
+        sessionStorage.setItem("darkmode", "true");
         document.documentElement.classList.add("dark");
       } else {
         document.documentElement.classList.remove("dark");
+        sessionStorage.setItem("darkmode", "false");
       }
     }, [darkMode]);
 
     useEffect(() => {
-        const cookie = Cookies.get('authToken') as string;
+        const cookie = Cookies.get("authToken") as string;
         const token = jwt.decode(cookie) as token;
     }, []);
     return (

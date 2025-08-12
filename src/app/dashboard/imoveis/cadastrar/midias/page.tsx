@@ -178,7 +178,7 @@ export default function Page() {
               textButton="Selecionar Imagens"
               value={field.value}
               onChange={field.onChange}
-              svg={<IconeDocumento />}
+              svg={<IconeDocumento className="svg-darkmode-estatic" />}
             />
           )}
         />
@@ -202,7 +202,7 @@ export default function Page() {
                   textButton="Escolher arquivos"
                   value={field.value}
                   onChange={field.onChange}
-                  svg={<IconeDocumento />}
+                  svg={<IconeDocumento className="svg-darkmode-estatic" />}
                 />
               )}
             />

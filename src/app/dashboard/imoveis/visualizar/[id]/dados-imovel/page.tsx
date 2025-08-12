@@ -75,7 +75,7 @@ useEffect(() => {
               required
               placeHolder="Nome para o imóvel"
               type="text"
-              svg={<IconeNomeFantasia />}
+              svg={<IconeNomeFantasia className="svg-darkmode-estatic" />}
               disabled
               tabIndex={1}
               autoFocus
@@ -96,7 +96,7 @@ useEffect(() => {
               required
               placeHolder="Quantidade de quartos"
               type="text"
-              svg={<IconeQuartos />}
+              svg={<IconeQuartos className="svg-darkmode-estatic" />}
               disabled
               tabIndex={2}
             />
@@ -116,7 +116,7 @@ useEffect(() => {
               required
               placeHolder="Quantidade de banheiros"
               type="text"
-              svg={<IconeBanheiro />}
+              svg={<IconeBanheiro className="svg-darkmode-estatic" />}
               disabled
               tabIndex={3}
             />
@@ -136,7 +136,7 @@ useEffect(() => {
               required
               placeHolder="Quantidade de Lavabos"
               type="text"
-              svg={<IconeBanheiro />}
+              svg={<IconeBanheiro className="svg-darkmode-estatic" />}
               disabled
               tabIndex={3}
             />
@@ -156,7 +156,7 @@ useEffect(() => {
               required
               placeHolder="Quantidade de vagas"
               type="text"
-              svg={<IconeGaragem />}
+              svg={<IconeGaragem className="svg-darkmode-estatic" />}
               disabled
               tabIndex={4}
             />
@@ -176,7 +176,7 @@ useEffect(() => {
               required
               placeHolder="Quantidade de andares"
               type="text"
-              svg={<IconeAndares />}
+              svg={<IconeAndares className="svg-darkmode-estatic" />}
               disabled
               tabIndex={6}
             />
@@ -197,7 +197,7 @@ useEffect(() => {
               placeHolder="Tamanho total do imóvel"
               type="text"
               mask="metros2"
-              svg={<IconeAreaPrivativa />}
+              svg={<IconeAreaPrivativa className="svg-darkmode-estatic" />}
               disabled
               tabIndex={5}
             />
@@ -218,7 +218,7 @@ useEffect(() => {
               placeHolder="Tamanho construída do imóvel"
               type="text"
               mask="metros2"
-              svg={<IconeAreaPrivativa />}
+              svg={<IconeAreaPrivativa className="svg-darkmode-estatic" />}
               disabled
               tabIndex={5}
             />
@@ -239,7 +239,7 @@ useEffect(() => {
               placeHolder="Tamanho da frente do lote"
               type="text"
               mask="metros2"
-              svg={<IconeTestada />}
+              svg={<IconeTestada className="svg-darkmode-estatic" />}
               disabled
               tabIndex={7}
             />
@@ -259,7 +259,7 @@ useEffect(() => {
               required
               placeHolder="Informe o número do registro fiscal"
               type="text"
-              svg={<IconeTestada />}
+              svg={<IconeTestada className="svg-darkmode-estatic" />}
               disabled
               tabIndex={7}
             />
@@ -276,7 +276,7 @@ useEffect(() => {
               label="Proprietário"
               required
               options={[{value: data?.owner?.name ?? '', 'label': data?.owner?.name ?? ''}]}
-              svg={<IconeMobiliado />}
+              svg={<IconeMobiliado className="svg-darkmode-estatic" />}
               onChange={field.onChange}
               defaultValue={field.value}
               tabIndex={8}
@@ -295,7 +295,7 @@ useEffect(() => {
               label="Tipo do imóvel"
               required
               options={[{value: data?.type?.description ?? '', 'label': data?.type?.description ?? ''}]}
-              svg={<IconeMobiliado />}
+              svg={<IconeMobiliado className="svg-darkmode-estatic" />}
               onChange={field.onChange}
               defaultValue={field.value}
               tabIndex={8}
@@ -314,7 +314,7 @@ useEffect(() => {
               label="Mobiliado"
               required
               options={[{value: data?.furnished ? 'Sim' : 'Não', 'label': data?.furnished ? 'Sim' : 'Não'}]}
-              svg={<IconeMobiliado />}
+              svg={<IconeMobiliado className="svg-darkmode-estatic" />}
               onChange={field.onChange}
               defaultValue={field.value}
               tabIndex={8}
@@ -328,7 +328,7 @@ useEffect(() => {
           label="Observações"
           id="notes"
           placeHolder="Escreva detalhes não especificados anteriormente"
-          svg={<IconeObservacoes />}
+          svg={<IconeObservacoes className="svg-darkmode-estatic" />}
           tabIndex={9}
           disabled
         />

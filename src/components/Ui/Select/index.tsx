@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Label from '../Label';
 import { Option, SelectProps } from './type';
+import IconArrowDown from '@/components/Icons/IconArrowDown';
 
 export default function Select({ options, defaultValue, onChange, label, required, svg, id, tabIndex, disabled, ...props }: SelectProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -76,15 +77,7 @@ export default function Select({ options, defaultValue, onChange, label, require
         tabIndex={tabIndex}
       >
         <span>{selectedLabel}</span>
-        <svg
-          className={`w-4 h-4 transition-transform ${isOpen && !disabled ? 'rotate-180' : ''}`}
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
-        </svg>
+        <IconArrowDown size={13} color="#666"></IconArrowDown>
       </div>
 
       {isOpen && (

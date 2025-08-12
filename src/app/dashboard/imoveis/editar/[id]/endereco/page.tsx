@@ -177,7 +177,7 @@ export default function Page() {
       <Form
         className="flex flex-row flex-wrap gap-8"
         title="Endereço"
-        svg={<IconeEndereco />}>
+        svg={<IconeEndereco className="svg-darkmode-estatic" />}>
         <Controller
           name="zip_code"
           control={control}
@@ -194,7 +194,7 @@ export default function Page() {
               type="text"
               tabIndex={1}
               autoFocus
-              svg={<IconeCep />}></Input>
+              svg={<IconeCep className="svg-darkmode-estatic" />}></Input>
           )}
         />
 
@@ -212,7 +212,7 @@ export default function Page() {
               placeHolder="Das Flores"
               type="text"
               tabIndex={2}
-              svg={<IconeRua />}></Input>
+              svg={<IconeRua className="svg-darkmode-estatic" />}></Input>
           )}
         />
 
@@ -230,7 +230,7 @@ export default function Page() {
               type="number"
               required
               tabIndex={3}
-              svg={<IconeNumero />}></Input>
+              svg={<IconeNumero className="svg-darkmode-estatic" />}></Input>
           )}
         />
 
@@ -248,7 +248,7 @@ export default function Page() {
               placeHolder="Tupinambá"
               type="text"
               tabIndex={4}
-              svg={<IconeBairro />}></Input>
+              svg={<IconeBairro className="svg-darkmode-estatic" />}></Input>
           )}
         />
 
@@ -266,7 +266,7 @@ export default function Page() {
               placeHolder="Garça"
               type="text"
               tabIndex={5}
-              svg={<IconeCidade />}></Input>
+              svg={<IconeCidade className="svg-darkmode-estatic" />}></Input>
           )}
         />
 
@@ -284,7 +284,7 @@ export default function Page() {
               placeHolder="SP"
               type="text"
               tabIndex={6}
-              svg={<IconeEstado />}></Input>
+              svg={<IconeEstado className="svg-darkmode-estatic" />}></Input>
           )}
         />
 
@@ -302,7 +302,7 @@ export default function Page() {
               placeHolder="Brasil"
               type="text"
               tabIndex={7}
-              svg={<IconeEstado />}></Input>
+              svg={<IconeEstado className="svg-darkmode-estatic" />}></Input>
           )}
         />
         <div className="w-full flex justify-end mt-4">

@@ -49,7 +49,7 @@ export default function SectionBottom({
         <p className="text-[14px] font-normal text-[#111111B2]">registros</p>
       </div>
 
-      <div className="flex justify-center mt-4 laptop:mt-0">
+      <div className={`flex justify-center mt-4 laptop:mt-0 ${pages.length <= 1 && 'invisible'}`}>
         <div className="flex items-center gap-3">
           <Link
             href={buildUrl(currentPage - 1)}
