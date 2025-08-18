@@ -4,4 +4,5 @@ export interface SectionBottomProps {
   currentPage: number;
   totalPage: number;
   search?: string;
+  route: string;
 }

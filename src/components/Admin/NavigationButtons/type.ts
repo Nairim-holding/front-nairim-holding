@@ -5,4 +5,6 @@ export interface NavigationButtonsProps{
     svg?: React.ReactNode;
     loading?: boolean;
     textLoading?: string;
+    formComplete?: boolean;
+    tabIndex?: number;
 }

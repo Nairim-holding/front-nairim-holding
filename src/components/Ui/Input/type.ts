@@ -11,4 +11,5 @@ export interface InputProps {
   tabIndex?: number;
   mask?: string;
   autoFocus?: boolean;
+  password?: boolean;
 }

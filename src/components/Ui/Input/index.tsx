@@ -36,7 +36,8 @@ export default function Input({
   disabled,
   tabIndex,
   mask,
-  autoFocus
+  autoFocus,
+  password
 }: InputProps) {
   const handleIncrement = () => {
     const newValue = (parseFloat(value || "0") || 0) + 1;
@@ -105,6 +106,7 @@ export default function Input({
             text-[#111111B2]
             placeholder-[#CCC]
             ${disabled && 'bg-[#EDEDED] cursor-not-allowed'}
+            ${password && 'pr-8'}
           `}
         />
       </div>

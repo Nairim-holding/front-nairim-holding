@@ -19,7 +19,6 @@ export default function Layout({ children }: {children: React.ReactNode}){
 
     useEffect(() => {
       const darkModeStorage = sessionStorage.getItem("darkmode");
-      console.log(darkModeStorage)
       setDarkMode(darkModeStorage === "true");
     }, []);
 

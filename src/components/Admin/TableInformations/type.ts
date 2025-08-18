@@ -1,5 +1,7 @@
-import Property from "@/types/property";
+import React from "react";
 
 export interface TableInformationsProps {
-  data: Property[];
+  children: React.ReactNode;
+  headers: string[];
+  emptyMessage?: string;
 }

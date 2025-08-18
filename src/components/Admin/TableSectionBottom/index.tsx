@@ -9,6 +9,7 @@ export default function SectionBottom({
   currentPage,
   totalPage,
   search = '',
+  route
 }: SectionBottomProps) {
   const start = (currentPage - 1) * limit + 1;
   const end = Math.min(currentPage * limit, count);
@@ -19,7 +20,7 @@ export default function SectionBottom({
       limit: (newLimit ?? limit).toString(),
       search,
     });
-    return `/dashboard/imoveis?${params.toString()}`;
+    return `/dashboard/${route}?${params.toString()}`;
   };
 
   const pages = Array.from({ length: totalPage }, (_, i) => i + 1);
