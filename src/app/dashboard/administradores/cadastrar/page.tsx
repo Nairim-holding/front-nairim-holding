@@ -71,16 +71,16 @@ export default function Page() {
       if(response.status == 200){
         setSuccessMessage({
           visible: true,
-          message: response.data.message || "O usuário foi criado com sucesso!",
+          message: response.data.message || "O administrador foi criado com sucesso!",
         });
-        router.push('/dashboard/usuarios');
+        router.push('/dashboard/administradores');
       }
 
     } catch(error) {
       console.error("Erro ao criar imóvel:", error);
       setErrorMessage({
         visible: true,
-        message: "Erro ao criar o usuário",
+        message: "Erro ao criar o administrador",
       });
     } finally{
       setLoading(false);
@@ -93,11 +93,11 @@ export default function Page() {
         { label: "Outro", value: "OTHER" },
     ];
   return (
-    <Section title="Cadastrar Usuário" href="/dashboard/imoveis" hrefText="Voltar para dashboard">
+    <Section title="Cadastrar Admnistrador" href="/dashboard/imoveis" hrefText="Voltar para dashboard">
         <div className="mt-3 bg-[#fff] dark:bg-[#12101D] p-5 rounded-xl" style={{ boxShadow: '0px 4px 8px 3px rgba(0, 0, 0, 0.15)' }}>
             <Form
                 className="flex flex-row flex-wrap gap-8"
-                title="Dados do Usuário"
+                title="Dados do Administrador"
                 onSubmit={handleSubmit(submitData)}
                 svg={<FaRegUserCircle />}>
                 <Controller
@@ -111,7 +111,7 @@ export default function Page() {
                     label="Nome"
                     id="name"
                     required
-                    placeHolder="Nome do usuário"
+                    placeHolder="Nome do administrador"
                     type="text"
                     svg={<IconeNomeFantasia className="svg-darkmode-estatic" />}
                     tabIndex={1}

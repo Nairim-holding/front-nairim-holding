@@ -60,7 +60,7 @@ export default function List({
   const submenuPaths = [
     "/dashboard/imoveis",
     "/dashboard/imobiliarias",
-    "/dashboard/usuarios",
+    "/dashboard/administradores",
   ];
   const [activeCadastro, setActiveCadastro] = useState(false);
   useEffect(() => {
@@ -164,8 +164,8 @@ export default function List({
               </NavItem>
 
               <NavItem
-                href="/dashboard/usuarios"
-                title="Ir para a página de usuarios"
+                href="/dashboard/administradores"
+                title="Ir para a página de administradores"
                 handleMouseLeave={handleMouseLeave}>
                 <div className="w-[25px] flex justify-center">
                   <IconAdd size={25} color="#666666"></IconAdd>
@@ -175,7 +175,7 @@ export default function List({
                     text-[#666666] normal transition-all duration-200 ease-in-out
                     whitespace-nowrap
                   `}>
-                  Usuário
+                  Administrador
                 </p>
               </NavItem>
             </ul>

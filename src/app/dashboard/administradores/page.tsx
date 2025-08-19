@@ -35,11 +35,11 @@ export default async function Page({ searchParams }: PageProps) {
 
   const data = await res.json();
   return (
-    <Section title="Usuários">
+    <Section title="Administradores">
       <SectionTop
         search={search}
-        textAdd="Adicionar novo Usuário"
-        hrefAdd="/dashboard/usuarios/cadastrar"
+        textAdd="Adicionar novo Administrador"
+        hrefAdd="/dashboard/administradores/cadastrar"
       />
       <Suspense fallback={<SkeletonTable />}>
         <TableInformations headers={['id', 'nome', 'email', 'sexo', 'data de aniversário', 'ação']}>
@@ -70,7 +70,7 @@ export default async function Page({ searchParams }: PageProps) {
                 </td>
                 <td className="py-2 px-3 sticky right-0 bg-white z-10">
                   <div className="min-h-[50px] flex items-center justify-center">
-                    <ListActions id={user.id} name={user.name} route={"users"} />
+                    <ListActions id={user.id} name={user.name} route={"administradores"} />
                   </div>
                 </td>
               </tr>
@@ -84,7 +84,7 @@ export default async function Page({ searchParams }: PageProps) {
         totalPage={data.totalPages}
         limit={limit}
         search={search}
-        route="/usuarios"
+        route="/administradores"
       />
     </Section>
   );

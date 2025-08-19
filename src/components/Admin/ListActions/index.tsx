@@ -1,8 +1,5 @@
 "use client";
 import Link from "next/link";
-import { IoEyeOutline } from "react-icons/io5";
-import { GoPencil } from "react-icons/go";
-import { FaRegTrashAlt } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -12,7 +9,7 @@ import IconEye from "@/components/Icons/IconEye";
 import IconPencil from "@/components/Icons/IconPencil";
 import IconTrash from "@/components/Icons/IconTrash";
 
-export default function ListActions({ id, name, route }: ListActionsProps){
+export default function ListActions({ id, name, route, subRoute }: ListActionsProps){
     const router = useRouter();
     const [visible, setVisible] = useState<boolean>(false);
     const {
@@ -54,10 +51,10 @@ export default function ListActions({ id, name, route }: ListActionsProps){
     return(
         <>
           <div className="flex flex-1 justify-center items-center gap-3">
-              <Link href={`imoveis/visualizar/${id}/dados-imovel`}>
+              <Link href={`${route}/visualizar/${id}${subRoute ? `/${subRoute}` : ''}`}>
                 <IconEye size={23} color="#111111B2"></IconEye>
               </Link>
-              <Link href={`imoveis/editar/${id}/dados-imovel`}>
+              <Link href={`${route}/editar/${id}${subRoute ? `/${subRoute}` : ''}`}>
                 <IconPencil size={20} color="#111111B2"></IconPencil>
               </Link>
               <button onClick={() => setVisible(!visible)}>
