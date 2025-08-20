@@ -11,10 +11,12 @@ const nextConfig: NextConfig = {
     images: {
     remotePatterns: [
       {
-        protocol: 'http',
-        hostname: 'localhost',
-        port: '5000', // Porta do seu backend
-        pathname: '/uploads/**',
+        protocol: "https",
+        hostname: "**", 
+      },
+      {
+        protocol: "http",
+        hostname: "**", 
       },
     ],
   },
