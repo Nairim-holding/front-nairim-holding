@@ -17,7 +17,7 @@ export default async function Home() {
         <Header></Header> 
         <main className="main-home">
           <CarrosselBanner propertys={properties.data}></CarrosselBanner>
-          <CarrosselFilter></CarrosselFilter>
+          <CarrosselFilter propertys={properties.data}></CarrosselFilter>
           <AboutUs></AboutUs>
           <Assessment></Assessment>
           <Contact></Contact>
