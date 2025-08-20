@@ -100,19 +100,20 @@ export default function CarrosselFilter({
             {propertys.map((property, i) => (
               <SwiperSlide key={i}>
                 <div>
-<div className="relative w-full max-w-[850px] min-w-[200px] min-h-[200px] h-[247px]">
-  <Image
-    src={
-      property?.documents?.length && property.documents[0]?.file_path
-        ? property.documents[0].file_path
-        : "/banners/banner2.png"
-    }
-    alt="imagem1"
-    fill
-    className="object-cover"
-    sizes="(max-width: 768px) 100vw, 50vw"
-  />
-</div>
+                  <div className="relative w-full max-w-[850px] min-w-[200px] min-h-[200px] h-[247px]">
+                    <Image
+                      src={
+                        property?.documents?.length && property.documents[0]?.file_path
+                          ? property.documents[0].file_path
+                          : "/banners/banner2.png"
+                      }
+                      alt={property.title}
+                      title={property.title}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                    />
+                  </div>
                   <div className="bg-[#4B40BC] text-white p-5">
                     <h1 className="text-[20px] text-start font-bold">
                       {property.title}

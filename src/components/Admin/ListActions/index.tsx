@@ -9,7 +9,7 @@ import IconEye from "@/components/Icons/IconEye";
 import IconPencil from "@/components/Icons/IconPencil";
 import IconTrash from "@/components/Icons/IconTrash";
 
-export default function ListActions({ id, name, route, subRoute }: ListActionsProps){
+export default function ListActions({ id, name, route, subRoute, routeApi }: ListActionsProps){
     const router = useRouter();
     const [visible, setVisible] = useState<boolean>(false);
     const {
@@ -21,11 +21,11 @@ export default function ListActions({ id, name, route, subRoute }: ListActionsPr
 
     async function del() {
       try {
-        const response = await axios.delete(`${process.env.NEXT_PUBLIC_URL_API}/${route}/${id}`);
+        const response = await axios.delete(`${process.env.NEXT_PUBLIC_URL_API}/${routeApi}/${id}`);
         if (response.status == 200){
           setVisible(!visible); 
           setSuccessMessage({
-            message: response.data.message ? response.data.message : 'Registro deletado com sucesso',
+            message: response.data.message ? response.data.message : `Registro "${name}" deletado com sucesso`,
             visible: true
           });
           router.refresh();
@@ -33,7 +33,7 @@ export default function ListActions({ id, name, route, subRoute }: ListActionsPr
       } catch (error) {
         setVisible(!visible);
         setErrorMessage({
-          message: "Erro ao deletar o imóvel.",
+          message: `Erro ao deletar ${name}.`,
           visible: true
         });
       }

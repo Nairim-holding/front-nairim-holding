@@ -54,7 +54,8 @@ export default function CarrosselBanner({
                         ? property.documents[0].file_path
                         : "/banners/banner5.png"
                     }
-                    alt="banner1"
+                    alt={property.title}
+                    title={property.title}
                     fill
                   />
                   <div className="absolute inset-px text-white flex justify-center items-center flex-col px-16 tablet:justify-start mobile:px-5">
@@ -143,7 +144,8 @@ export default function CarrosselBanner({
                         ? property.documents[0].file_path
                         : "/banners/banner5.png"
                     }
-                    alt="banner1"
+                    alt={property.title}
+                    title={property.title}
                     width={488}
                     height={388}
                     loading="lazy"

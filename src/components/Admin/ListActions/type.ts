@@ -3,4 +3,5 @@ export interface ListActionsProps {
   name: string;
   route: string;
   subRoute?:string;
+  routeApi?: string;
 }

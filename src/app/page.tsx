@@ -5,6 +5,7 @@ import AboutUs from "@/components/Home/AboutUs";
 import Contact from "@/components/Home/Contact";
 import Header from "@/components/Home/Header";
 import Footer from "@/components/Home/Footer";
+import Property from "@/types/property";
 
 export default async function Home() {
   const response = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/property`, {
@@ -12,12 +13,13 @@ export default async function Home() {
   });
 
   const properties = await response.json();
+  const propertiesAvaible = properties.data.filter((property: Property) => property.values?.[0].current_status === "AVAILABLE");
   return (
     <>
         <Header></Header> 
         <main className="main-home">
-          <CarrosselBanner propertys={properties.data}></CarrosselBanner>
-          <CarrosselFilter propertys={properties.data}></CarrosselFilter>
+          <CarrosselBanner propertys={propertiesAvaible}></CarrosselBanner>
+          <CarrosselFilter propertys={propertiesAvaible}></CarrosselFilter>
           <AboutUs></AboutUs>
           <Assessment></Assessment>
           <Contact></Contact>
