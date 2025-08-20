@@ -100,12 +100,19 @@ export default function CarrosselFilter({
             {propertys.map((property, i) => (
               <SwiperSlide key={i}>
                 <div>
-                  <Image
-                    src="/banners/banner2.png"
-                    alt="imagem1"
-                    width={384}
-                    height={247}
-                    className="w-full h-full object-cover"></Image>
+<div className="relative w-full max-w-[850px] min-w-[200px] min-h-[200px] h-[247px]">
+  <Image
+    src={
+      property?.documents?.length && property.documents[0]?.file_path
+        ? property.documents[0].file_path
+        : "/banners/banner2.png"
+    }
+    alt="imagem1"
+    fill
+    className="object-cover"
+    sizes="(max-width: 768px) 100vw, 50vw"
+  />
+</div>
                   <div className="bg-[#4B40BC] text-white p-5">
                     <h1 className="text-[20px] text-start font-bold">
                       {property.title}
@@ -117,7 +124,7 @@ export default function CarrosselFilter({
                         : ""}
                     </p>
                     <span className="text-center w-full block text-[32px] py-2 font-bold">
-                      {property.values?.[0].sale_value ?? ""}
+                      R$ {property.values?.[0].sale_value.toLocaleString("pt-BR") ?? ""}
                     </span>
                     <div className="flex flex-wrap justify-center items-center gap-3">
                       <div className="flex gap-2">
