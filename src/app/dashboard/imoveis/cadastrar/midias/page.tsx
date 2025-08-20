@@ -164,7 +164,33 @@ export default function Page() {
 
   return (
     <>
-      <NavigationBar path="cadastrar" />
+      <NavigationBar
+        steps={[
+          {
+            path: `/dashboard/imoveis/cadastrar/dados-imovel`,
+            label: "Dados do Imóvel",
+            key: "dataPropertys",
+            icon: 0
+          },
+          {
+            path: `/dashboard/imoveis/cadastrar/endereco`,
+            label: "Endereço",
+            key: "addressProperty",
+            icon: 1
+          },
+          {
+            path: `/dashboard/imoveis/cadastrar/valores-condicoes`,
+            label: "Valores e Condições",
+            key: "valuesProperty",
+            icon: 2
+          },
+          {
+            path: `/dashboard/imoveis/cadastrar/midias`,
+            label: "Mídias",
+            key: "midiasProperty",
+            icon: 4
+          },
+        ]}></NavigationBar>
       <Form title="Mídias" svg={<IconeMideas />} onSubmit={handleSubmit(submitData)}>
         <Controller
           name="arquivosImagens"

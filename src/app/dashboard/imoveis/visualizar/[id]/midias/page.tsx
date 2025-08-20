@@ -54,7 +54,35 @@ export default function Page() {
 
   return (
     <>
-      <NavigationBar path="visualizar" allEnabled id={id} />
+      <NavigationBar
+        allEnabled
+        steps={[
+          {
+            path: `/dashboard/imoveis/visualizar/${id}/dados-imovel`,
+            label: "Dados do Imóvel",
+            key: "",
+            icon: 0
+          },
+          {
+            path: `/dashboard/imoveis/visualizar/${id}/endereco`,
+            label: "Endereço",
+            key: "",
+            icon: 1
+          },
+          {
+            path: `/dashboard/imoveis/visualizar/${id}/valores-condicoes`,
+            label: "Valores e Condições",
+            key: "",
+            icon: 2
+          },
+          {
+            path: `/dashboard/imoveis/visualizar/${id}/midias`,
+            label: "Mídias",
+            key: "",
+            icon: 4
+          },
+        ]}
+        id={id}></NavigationBar>
       <Form title="Mídias" svg={<IconeMideas />}>
         <Controller
           name="arquivosImagens"

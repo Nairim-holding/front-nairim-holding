@@ -173,7 +173,35 @@ export default function Page() {
   }, [watchedValues, hasLoaded, loadedFromStorage]);
   return (
     <>
-      <NavigationBar allEnabled path="editar" id={id}></NavigationBar>
+      <NavigationBar
+        allEnabled
+        steps={[
+          {
+            path: `/dashboard/imoveis/editar/${id}/dados-imovel`,
+            label: "Dados do Imóvel",
+            key: "",
+            icon: 0
+          },
+          {
+            path: `/dashboard/imoveis/editar/${id}/endereco`,
+            label: "Endereço",
+            key: "",
+            icon: 1
+          },
+          {
+            path: `/dashboard/imoveis/editar/${id}/valores-condicoes`,
+            label: "Valores e Condições",
+            key: "",
+            icon: 2
+          },
+          {
+            path: `/dashboard/imoveis/editar/${id}/midias`,
+            label: "Mídias",
+            key: "",
+            icon: 4
+          },
+        ]}
+        id={id}></NavigationBar>
       <Form
         className="flex flex-row flex-wrap gap-8"
         title="Endereço"

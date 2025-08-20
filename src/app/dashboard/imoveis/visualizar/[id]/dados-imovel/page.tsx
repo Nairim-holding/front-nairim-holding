@@ -57,7 +57,35 @@ useEffect(() => {
 
   return (
     <>
-      <NavigationBar allEnabled path="visualizar" id={id}></NavigationBar>
+      <NavigationBar
+        allEnabled
+        steps={[
+          {
+            path: `/dashboard/imoveis/visualizar/${id}/dados-imovel`,
+            label: "Dados do Imóvel",
+            key: "",
+            icon: 0
+          },
+          {
+            path: `/dashboard/imoveis/visualizar/${id}/endereco`,
+            label: "Endereço",
+            key: "",
+            icon: 1
+          },
+          {
+            path: `/dashboard/imoveis/visualizar/${id}/valores-condicoes`,
+            label: "Valores e Condições",
+            key: "",
+            icon: 2
+          },
+          {
+            path: `/dashboard/imoveis/visualizar/${id}/midias`,
+            label: "Mídias",
+            key: "",
+            icon: 4
+          },
+        ]}
+        id={id}></NavigationBar>
       <Form
         className="flex flex-row flex-wrap gap-8"
         title="Dados do Imóvel"
@@ -269,13 +297,18 @@ useEffect(() => {
         <Controller
           name="owner_id"
           control={control}
-          defaultValue={''}
+          defaultValue={""}
           render={({ field }) => (
             <Select
               id="owner_id"
               label="Proprietário"
               required
-              options={[{value: data?.owner?.name ?? '', 'label': data?.owner?.name ?? ''}]}
+              options={[
+                {
+                  value: data?.owner?.name ?? "",
+                  label: data?.owner?.name ?? "",
+                },
+              ]}
               svg={<IconeMobiliado className="svg-darkmode-estatic" />}
               onChange={field.onChange}
               defaultValue={field.value}
@@ -288,13 +321,18 @@ useEffect(() => {
         <Controller
           name="type_id"
           control={control}
-          defaultValue={''}
+          defaultValue={""}
           render={({ field }) => (
             <Select
               id="type_id"
               label="Tipo do imóvel"
               required
-              options={[{value: data?.type?.description ?? '', 'label': data?.type?.description ?? ''}]}
+              options={[
+                {
+                  value: data?.type?.description ?? "",
+                  label: data?.type?.description ?? "",
+                },
+              ]}
               svg={<IconeMobiliado className="svg-darkmode-estatic" />}
               onChange={field.onChange}
               defaultValue={field.value}
@@ -307,13 +345,18 @@ useEffect(() => {
         <Controller
           name="furnished"
           control={control}
-          defaultValue={''}
+          defaultValue={""}
           render={({ field }) => (
             <Select
               id="furnished"
               label="Mobiliado"
               required
-              options={[{value: data?.furnished ? 'Sim' : 'Não', 'label': data?.furnished ? 'Sim' : 'Não'}]}
+              options={[
+                {
+                  value: data?.furnished ? "Sim" : "Não",
+                  label: data?.furnished ? "Sim" : "Não",
+                },
+              ]}
               svg={<IconeMobiliado className="svg-darkmode-estatic" />}
               onChange={field.onChange}
               defaultValue={field.value}
@@ -332,7 +375,6 @@ useEffect(() => {
           tabIndex={9}
           disabled
         />
-
       </Form>
     </>
   );

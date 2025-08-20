@@ -16,9 +16,9 @@ import NavigationBar from "@/components/Admin/NavigationBar";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useParams, useRouter } from "next/navigation";
-import formatDate from "@/utils/formatDate";
 import axios from "axios";
 import { useUIStore } from "@/stores/uiStore";
+import formatDateValueInput from "@/utils/formatDateValueInput";
 
 export default function Page() {
   const options = [
@@ -57,17 +57,16 @@ export default function Page() {
           `${process.env.NEXT_PUBLIC_URL_API}/property/${id}`
         );
         const values = response.data?.values?.[0];
-
         if (values) {
           reset({
             purchase_value: values?.purchase_value || "",
-            purchase_date: formatDate(values?.purchase_date) || "",
+            purchase_date: formatDateValueInput(values?.purchase_date) || "",
             property_tax: values?.property_tax || "",
             rental_value: values?.rental_value || "",
             condo_fee: values?.condo_fee || "",
             current_status: values?.current_status || "",
             sale_value: values?.sale_value || "",
-            sale_date: formatDate(values?.sale_date) || "",
+            sale_date: formatDateValueInput(values?.sale_date) || "",
             extra_charges: values?.extra_charges || "",
             sale_rules: values?.sale_rules || "",
             lease_rules: values?.lease_rules || "",
@@ -135,7 +134,35 @@ export default function Page() {
   };
   return (
     <>
-      <NavigationBar allEnabled path="editar" id={id}></NavigationBar>
+      <NavigationBar
+        allEnabled
+        steps={[
+          {
+            path: `/dashboard/imoveis/editar/${id}/dados-imovel`,
+            label: "Dados do Imóvel",
+            key: "",
+            icon: 0
+          },
+          {
+            path: `/dashboard/imoveis/editar/${id}/endereco`,
+            label: "Endereço",
+            key: "",
+            icon: 1
+          },
+          {
+            path: `/dashboard/imoveis/editar/${id}/valores-condicoes`,
+            label: "Valores e Condições",
+            key: "",
+            icon: 2
+          },
+          {
+            path: `/dashboard/imoveis/editar/${id}/midias`,
+            label: "Mídias",
+            key: "",
+            icon: 4
+          },
+        ]}
+        id={id}></NavigationBar>
       <Form
         className="flex flex-row flex-wrap gap-8"
         title="Valores e Condições"

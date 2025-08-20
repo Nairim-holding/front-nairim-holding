@@ -8,6 +8,16 @@ const nextConfig: NextConfig = {
     });
     return config;
   },
+    images: {
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '5000', // Porta do seu backend
+        pathname: '/uploads/**',
+      },
+    ],
+  },
 };
 
 export default nextConfig;

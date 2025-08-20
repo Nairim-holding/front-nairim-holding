@@ -6,12 +6,17 @@ import Contact from "@/components/Home/Contact";
 import Header from "@/components/Home/Header";
 import Footer from "@/components/Home/Footer";
 
-export default function Home() {
+export default async function Home() {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/property`, {
+    cache: "no-store"
+  });
+
+  const properties = await response.json();
   return (
     <>
         <Header></Header> 
         <main className="main-home">
-          <CarrosselBanner></CarrosselBanner>
+          <CarrosselBanner propertys={properties.data}></CarrosselBanner>
           <CarrosselFilter></CarrosselFilter>
           <AboutUs></AboutUs>
           <Assessment></Assessment>

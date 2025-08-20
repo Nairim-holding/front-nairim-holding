@@ -111,7 +111,34 @@ export default function Page() {
   };
   return (
     <>
-      <NavigationBar formComplete={item} path="cadastrar"></NavigationBar>
+      <NavigationBar
+        formComplete={item}
+        steps={[
+          {
+            path: `/dashboard/imoveis/cadastrar/dados-imovel`,
+            label: "Dados do Imóvel",
+            key: "dataPropertys",
+            icon: 0
+          },
+          {
+            path: `/dashboard/imoveis/cadastrar/endereco`,
+            label: "Endereço",
+            key: "addressProperty",
+            icon: 1
+          },
+          {
+            path: `/dashboard/imoveis/cadastrar/valores-condicoes`,
+            label: "Valores e Condições",
+            key: "valuesProperty",
+            icon: 2
+          },
+          {
+            path: `/dashboard/imoveis/cadastrar/midias`,
+            label: "Mídias",
+            key: "midiasProperty",
+            icon: 4
+          },
+        ]}></NavigationBar>
       <Form
         className="flex flex-row flex-wrap gap-8"
         title="Dados do Imóvel"
@@ -381,13 +408,10 @@ export default function Page() {
               !isFormComplete ? "opacity-50 cursor-not-allowed" : ""
             }`}
             disabled={!isFormComplete}
-            tabIndex={15}
-            
-          >
+            tabIndex={15}>
             Salvar
           </button>
         </div>
-
       </Form>
     </>
   );

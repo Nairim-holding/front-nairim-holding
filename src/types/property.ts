@@ -1,3 +1,4 @@
+import Address from "./address";
 import Owner from "./owner";
 import propertyTypes from './propertyTypes';
 
@@ -20,7 +21,11 @@ export default interface Property {
     created_at: string;
     updated_at: string;
     values?: Array<any>;
-    addresses?: any[];
+    addresses?: [{address: Address}];
     owner?: Owner
     type?: propertyTypes
+    documents: [{
+        id: number;
+        file_path: string;
+    }]
 }
