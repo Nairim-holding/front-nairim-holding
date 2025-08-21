@@ -131,22 +131,22 @@ export default async function Page({ searchParams }: PageProps) {
               </td>
               <td className="py-2 px-3">
                 <div className="min-h-[50px] flex items-center justify-center">
-                  {e.contacts?.[0].contact.contact ?? ""}
+                  {e.contacts?.[0]?.contact.contact ?? ""}
                 </div>
               </td>
               <td className="py-2 px-3">
                 <div className="min-h-[50px] flex items-center justify-center">
-                  {e.contacts?.[0].contact.telephone ?? ""}
+                  {e.contacts?.[0]?.contact.telephone ?? ""}
                 </div>
               </td>
               <td className="py-2 px-3">
                 <div className="min-h-[50px] flex items-center justify-center">
-                  {e.contacts?.[0].contact.phone ?? ""}
+                  {e.contacts?.[0]?.contact.phone ?? ""}
                 </div>
               </td>
               <td className="py-2 px-3">
                 <div className="min-h-[50px] flex items-center justify-center">
-                  {e.contacts?.[0].contact.email ?? ""}
+                  {e.contacts?.[0]?.contact.email ?? ""}
                 </div>
               </td>
               <td className="py-2 px-3 sticky right-0 bg-white z-10">

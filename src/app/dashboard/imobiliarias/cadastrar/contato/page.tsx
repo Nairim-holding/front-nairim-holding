@@ -1,7 +1,6 @@
 "use client";
 import Input from "@/components/Ui/Input";
 import Form from "@/components/Ui/Form";
-import IconeCifrao from "@/../public/icons/cifrao.svg";
 import NavigationBar from "@/components/Admin/NavigationBar";
 import { useEffect, useState } from "react";
 import { Controller, FieldValue, FieldValues, useForm } from "react-hook-form";
@@ -12,6 +11,7 @@ import NavigationButtons from "@/components/Admin/NavigationButtons";
 import IconeNomeFantasia from "@/../public/icons/nome-fantasia.svg";
 import IconTelephone from "@/components/Icons/IconTelephone";
 import IconPhone from "@/components/Icons/IconPhone";
+import axios from "axios";
 
 export default function Page() {
   const { handleSubmit, control, register, reset, watch } = useForm();
@@ -44,12 +44,45 @@ export default function Page() {
 
   }, [watchedValues]);
 
-  async function submitData(data: FieldValues){
-    console.log(data)
-  }
 
   const { successMessage, setSuccessMessage, errorMessage, setErrorMessage } = useUIStore();
   const router = useRouter();
+  async function submitData(data: FieldValues){
+    setLoading(true);
+    try{
+      const dataAgency = localStorage.getItem('dataAgency');
+      const dataAgencyAddress = localStorage.getItem('addressAgency');
+
+      if(dataAgency && dataAgencyAddress){
+        const dataAgencyParse = JSON.parse(dataAgency);
+        const dataAgencyAddressParse = JSON.parse(dataAgencyAddress);
+        const dataSubmit = {
+          ...dataAgencyParse,
+          addresses: [dataAgencyAddressParse],
+          contacts: [data]
+        };
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_URL_API}/agency`, dataSubmit);
+
+        if(response.status == 200){
+          setSuccessMessage({
+            visible: true,
+            message: response.data.message || "A imobiliária foi criada com sucesso!",
+          });
+          router.push('/dashboard/imobiliarias');
+          localStorage.clear();
+          reset();
+        }
+      }
+    } catch (error){
+      console.error("Erro ao criar imobiliária:", error);
+      setErrorMessage({
+        visible: true,
+        message: "Erro ao criar a imobiliária",
+      });
+    } finally{
+      setLoading(false);
+    }
+  }
   return (
     <>
       <NavigationBar
