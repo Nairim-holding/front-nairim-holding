@@ -13,28 +13,28 @@ import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import axios from "axios";
 import { useParams } from "next/navigation";
-import Agency from "@/types/agency";
+import Owner from "@/types/owner";
 
 export default function Page(){
     const { control, reset } = useForm();
     useEffect(() => {
-    async function getAgencyById() {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_URL_API}/agency/${id}`);
-        const agencyData = response.data as Agency;
-        const address = agencyData?.addresses?.[0]?.address;
+        async function getOwnerById() {
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_URL_API}/owner/${id}`);
+            const ownerData = response.data as Owner;
+            const address = ownerData?.addresses?.[0]?.address;
 
-        reset({
-            zip_code: address?.zip_code || '',
-            street: address?.street || '',
-            number: address?.number || '',
-            district: address?.district || '',
-            city: address?.city || '',
-            state: address?.state || '',
-            country: address?.country || 'Brasil',
-        });
-    }
+            reset({
+                zip_code: address?.zip_code || '',
+                street: address?.street || '',
+                number: address?.number || '',
+                district: address?.district || '',
+                city: address?.city || '',
+                state: address?.state || '',
+                country: address?.country || 'Brasil',
+            });
+        }
 
-    getAgencyById();
+        getOwnerById();
     }, [reset]);
     
     const params = useParams();
@@ -45,21 +45,21 @@ export default function Page(){
         allEnabled
         steps={[
           {
-            path: `/dashboard/imobiliarias/visualizar/${id}/dados-imobiliaria`,
-            label: "Dados da imobiliária",
-            key: "dataAgency",
+            path: `/dashboard/proprietarios/visualizar/${id}/dados-proprietario`,
+            label: "Dados do Proprietário",
+            key: "",
             icon: 0
           },
           {
-            path: `/dashboard/imobiliarias/visualizar/${id}/endereco`,
+            path: `/dashboard/proprietarios/visualizar/${id}/endereco`,
             label: "Endereço",
-            key: "addressAgency",
+            key: "",
             icon: 1
           },
           {
-            path: `/dashboard/imobiliarias/visualizar/${id}/contato`,
+            path: `/dashboard/proprietarios/visualizar/${id}/contato`,
             label: "Contato",
-            key: "contactAgency",
+            key: "",
             icon: 3
           },
         ]}></NavigationBar>

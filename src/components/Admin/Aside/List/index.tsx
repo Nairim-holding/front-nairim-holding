@@ -178,6 +178,22 @@ export default function List({
                   Administrador
                 </p>
               </NavItem>
+
+              <NavItem
+                href="/dashboard/proprietarios"
+                title="Ir para a página de proprietários"
+                handleMouseLeave={handleMouseLeave}>
+                <div className="w-[25px] flex justify-center">
+                  <IconAdd size={25} color="#666666"></IconAdd>
+                </div>
+                <p
+                  className={`
+                    text-[#666666] normal transition-all duration-200 ease-in-out
+                    whitespace-nowrap
+                  `}>
+                  Proprietários
+                </p>
+              </NavItem>
             </ul>
           </div>
         )}
