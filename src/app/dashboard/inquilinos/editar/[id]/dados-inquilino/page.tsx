@@ -10,9 +10,8 @@ import NavigationBar from "@/components/Admin/NavigationBar";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import IconVerified from "@/components/Icons/IconVerified";
 import { useUIStore } from "@/stores/uiStore";
-import Owner from "@/types/owner";
+import Tenant from "@/types/tenant";
 
 export default function Page() {
   const params = useParams();
@@ -37,9 +36,9 @@ export default function Page() {
   const [isFormComplete, setIsFormComplete] = useState<boolean>(false);
 
   useEffect(() => {
-    async function getOwnerById() {
+    async function getTenantById() {
       try {
-        const saved = localStorage.getItem(`dataOwnerEdit-${id}`);
+        const saved = localStorage.getItem(`dataTenantEdit-${id}`);
 
         if (saved) {
           const parsed = JSON.parse(saved);
@@ -49,27 +48,27 @@ export default function Page() {
         }
 
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_URL_API}/owner/${id}`
+          `${process.env.NEXT_PUBLIC_URL_API}/tenant/${id}`
         );
-        const ownerData = response.data as Owner;
+        const tenantData = response.data as Tenant;
         reset({
-          name: ownerData.name || "",
-          internal_code: ownerData.internal_code || "",
-          cnpj: ownerData.cnpj || "",
-          cpf: ownerData.cpf || "",
-          municipal_registration: ownerData.municipal_registration || "",
-          state_registration: ownerData.state_registration || "",
-          occupation: ownerData.occupation || "",
-          marital_status: ownerData.marital_status || "",
+          name: tenantData.name || "",
+          internal_code: tenantData.internal_code || "",
+          cnpj: tenantData.cnpj || "",
+          cpf: tenantData.cpf || "",
+          municipal_registration: tenantData.municipal_registration || "",
+          state_registration: tenantData.state_registration || "",
+          occupation: tenantData.occupation || "",
+          marital_status: tenantData.marital_status || "",
         });
       } catch (error) {
-        console.error("Erro ao buscar dados do proprietário:", error);
+        console.error("Erro ao buscar dados do inquilino:", error);
       } finally {
         setHasLoaded(true);
       }
     }
 
-    getOwnerById();
+    getTenantById();
   }, [id, reset]);
 
   useEffect(() => {
@@ -85,21 +84,21 @@ export default function Page() {
 
     if (isComplete) {
       localStorage.setItem(
-        `dataOwnerEdit-${id}`,
+        `dataTenantEdit-${id}`,
         JSON.stringify(watchedValues)
       );
     } else {
-      localStorage.removeItem(`dataOwnerEdit-${id}`);
+      localStorage.removeItem(`dataTenantEdit-${id}`);
     }
   }, [watchedValues, hasLoaded]);
 
   const handleSave = () => {
-    localStorage.setItem(`dataOwnerEdit-${id}`, JSON.stringify(watchedValues));
+    localStorage.setItem(`dataTenantEdit-${id}`, JSON.stringify(watchedValues));
     setSuccessMessage({
       visible: true,
-      message: "Dados do proprietário salvos com sucesso!",
+      message: "Dados do inquilino salvos com sucesso!",
     });
-    router.push(`/dashboard/proprietarios/editar/${id}/endereco`);
+    router.push(`/dashboard/inquilinos/editar/${id}/endereco`);
   };
 
   return (
@@ -108,19 +107,19 @@ export default function Page() {
         allEnabled
         steps={[
           {
-            path: `/dashboard/proprietarios/editar/${id}/dados-proprietario`,
-            label: "Dados do Proprietário",
+            path: `/dashboard/inquilinos/editar/${id}/dados-inquilino`,
+            label: "Dados do Inquilino",
             key: "",
             icon: 0,
           },
           {
-            path: `/dashboard/proprietarios/editar/${id}/endereco`,
+            path: `/dashboard/inquilinos/editar/${id}/endereco`,
             label: "Endereço",
             key: "",
             icon: 1,
           },
           {
-            path: `/dashboard/proprietarios/editar/${id}/contato`,
+            path: `/dashboard/inquilinos/editar/${id}/contato`,
             label: "Contato",
             key: "",
             icon: 3,
@@ -129,7 +128,7 @@ export default function Page() {
       />
       <Form
         className="flex flex-row flex-wrap gap-8"
-        title="Dados Proprietário"
+        title="Dados Inquilino"
         svg={<IconeCasa />}>
         <Controller
           name="name"
@@ -142,7 +141,7 @@ export default function Page() {
               label="Nome"
               id="name"
               required
-              placeHolder="Nome do proprietário"
+              placeHolder="Nome do inquilino"
               type="text"
               svg={<IconeNomeFantasia className="svg-darkmode-estatic" />}
               tabIndex={1}
@@ -162,7 +161,7 @@ export default function Page() {
               label="Código Interno"
               id="internal_code"
               required
-              placeHolder="Código Interno do proprietário"
+              placeHolder="Código Interno do inquilino"
               type="text"
               svg={<IconeNomeFantasia className="svg-darkmode-estatic" />}
               tabIndex={2}
@@ -181,7 +180,7 @@ export default function Page() {
               label="Profissão"
               id="occupation"
               required
-              placeHolder="Profissão do proprietário"
+              placeHolder="Profissão do inquilino"
               type="text"
               svg={<IconeNomeFantasia className="svg-darkmode-estatic" />}
               tabIndex={3}
@@ -200,7 +199,7 @@ export default function Page() {
               label="Estado Civil"
               id="marital_status"
               required
-              placeHolder="Estado Civil do proprietário"
+              placeHolder="Estado Civil do inquilino"
               type="text"
               svg={<IconeNomeFantasia className="svg-darkmode-estatic" />}
               tabIndex={4}

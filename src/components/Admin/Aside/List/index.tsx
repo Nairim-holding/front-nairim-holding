@@ -194,6 +194,22 @@ export default function List({
                   Proprietários
                 </p>
               </NavItem>
+
+              <NavItem
+                href="/dashboard/inquilinos"
+                title="Ir para a página de inquilinos"
+                handleMouseLeave={handleMouseLeave}>
+                <div className="w-[25px] flex justify-center">
+                  <IconAdd size={25} color="#666666"></IconAdd>
+                </div>
+                <p
+                  className={`
+                    text-[#666666] normal transition-all duration-200 ease-in-out
+                    whitespace-nowrap
+                  `}>
+                  Inquilinos
+                </p>
+              </NavItem>
             </ul>
           </div>
         )}

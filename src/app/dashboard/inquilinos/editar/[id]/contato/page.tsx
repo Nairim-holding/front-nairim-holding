@@ -7,15 +7,13 @@ import NavigationBar from "@/components/Admin/NavigationBar";
 import { useEffect, useState } from "react";
 import { Controller, FieldValues, useForm } from "react-hook-form";
 import { useParams, useRouter } from "next/navigation";
-import axios from "axios";
-import formatDateValueInput from "@/utils/formatDateValueInput";
+import axios from "axios";;
 import IconTelephone from "@/components/Icons/IconTelephone";
 import IconPhone from "@/components/Icons/IconPhone";
 import IconEmail from "@/components/Icons/IconEmail";
-import Link from "next/link";
-import Agency from "@/types/agency";
 import NavigationButtons from "@/components/Admin/NavigationButtons";
 import { useUIStore } from "@/stores/uiStore";
+import Tenant from "@/types/tenant";
 
 export default function Page(){
     const { control, reset, register, handleSubmit } = useForm();
@@ -25,52 +23,52 @@ export default function Page(){
     const { successMessage, setSuccessMessage, errorMessage, setErrorMessage } = useUIStore();
     const router = useRouter();
     useEffect(() => {
-      async function getAgencyById() {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_URL_API}/agency/${id}`);
-        const agencyData = response.data as Agency;
+      async function getTenantById() {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_URL_API}/tenant/${id}`);
+        const tenantData = response.data as Tenant;
 
         reset({
-          contact: agencyData.contacts?.[0].contact.contact || '',
-          telephone: agencyData.contacts?.[0].contact.telephone || '',
-          phone: agencyData.contacts?.[0].contact.phone || '',
-          email: agencyData.contacts?.[0].contact.email || '',
+          contact: tenantData.contacts?.[0].contact.contact || '',
+          telephone: tenantData.contacts?.[0].contact.telephone || '',
+          phone: tenantData.contacts?.[0].contact.phone || '',
+          email: tenantData.contacts?.[0].contact.email || '',
         });
       }
 
-      getAgencyById();
+      getTenantById();
     }, []);
 
     async function submitData(data: FieldValues){
       setLoading(true);
       try{
-        const dataAgency = localStorage.getItem(`dataAgencyEdit-${id}`);
-        const dataAgencyAddress = localStorage.getItem(`addressAgencyEdit-${id}`);
+        const dataTenant = localStorage.getItem(`dataTenantEdit-${id}`);
+        const dataTenantAddress = localStorage.getItem(`addressTenantEdit-${id}`);
 
-        if(dataAgency && dataAgencyAddress){
-          const dataAgencyParse = JSON.parse(dataAgency);
-          const dataAgencyAddressParse = JSON.parse(dataAgencyAddress);
+        if(dataTenant && dataTenantAddress){
+          const dataTenantParse = JSON.parse(dataTenant);
+          const dataTenantAddressParse = JSON.parse(dataTenantAddress);
           const dataSubmit = {
-            ...dataAgencyParse,
-            addresses: [dataAgencyAddressParse],
+            ...dataTenantParse,
+            addresses: [dataTenantAddressParse],
             contacts: [data]
           };
-          const response = await axios.put(`${process.env.NEXT_PUBLIC_URL_API}/agency/${id}`, dataSubmit);
+          const response = await axios.put(`${process.env.NEXT_PUBLIC_URL_API}/tenant/${id}`, dataSubmit);
 
           if(response.status == 200){
             setSuccessMessage({
               visible: true,
-              message: response.data.message || "A imobiliária foi criada com sucesso!",
+              message: response.data.message || "O inquilino foi criada com sucesso!",
             });
-            router.push('/dashboard/imobiliarias');
+            router.push('/dashboard/inquilinos');
             localStorage.clear();
             reset();
           }
         }
       } catch (error){
-        console.error("Erro ao editar imobiliária:", error);
+        console.error("Erro ao editar o inquilino:", error);
         setErrorMessage({
           visible: true,
-          message: "Erro ao editar a imobiliária",
+          message: "Erro ao editar o inquilino",
         });
       } finally{
         setLoading(false);
@@ -82,19 +80,19 @@ export default function Page(){
         allEnabled
         steps={[
           {
-            path: `/dashboard/imobiliarias/editar/${id}/dados-imobiliaria`,
-            label: "Dados da imobiliária",
+            path: `/dashboard/inquilinos/editar/${id}/dados-inquilino`,
+            label: "Dados do Inquilino",
             key: "",
             icon: 0,
           },
           {
-            path: `/dashboard/imobiliarias/editar/${id}/endereco`,
+            path: `/dashboard/inquilinos/editar/${id}/endereco`,
             label: "Endereço",
             key: "",
             icon: 1,
           },
           {
-            path: `/dashboard/imobiliarias/editar/${id}/contato`,
+            path: `/dashboard/inquilinos/editar/${id}/contato`,
             label: "Contato",
             key: "",
             icon: 3,

@@ -19,7 +19,7 @@ export default function Page() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const saved = localStorage.getItem("contactOwner");
+    const saved = localStorage.getItem("contactTenant");
     if (saved) {
       const parsed = JSON.parse(saved);
       reset(parsed);
@@ -50,34 +50,34 @@ export default function Page() {
   async function submitData(data: FieldValues){
     setLoading(true);
     try{
-      const dataOwner = localStorage.getItem('dataOwner');
-      const dataOwnerAddress = localStorage.getItem('addressOwner');
+      const dataTenant = localStorage.getItem('dataTenant');
+      const dataTenantAddress = localStorage.getItem('addressTenant');
 
-      if(dataOwner && dataOwnerAddress){
-        const dataOwnerParse = JSON.parse(dataOwner);
-        const dataOwnerAddressParse = JSON.parse(dataOwnerAddress);
+      if(dataTenant && dataTenantAddress){
+        const dataTenantParse = JSON.parse(dataTenant);
+        const dataTenantAddressParse = JSON.parse(dataTenantAddress);
         const dataSubmit = {
-          ...dataOwnerParse,
-          addresses: [dataOwnerAddressParse],
+          ...dataTenantParse,
+          addresses: [dataTenantAddressParse],
           contacts: [data]
         };
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_URL_API}/owner`, dataSubmit);
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_URL_API}/tenant`, dataSubmit);
 
         if(response.status == 200){
           setSuccessMessage({
             visible: true,
-            message: response.data.message || "O proprietário foi criado com sucesso!",
+            message: response.data.message || "O inquilino foi criado com sucesso!",
           });
-          router.push('/dashboard/proprietarios');
+          router.push('/dashboard/inquilinos');
           localStorage.clear();
           reset();
         }
       }
     } catch (error){
-      console.error("Erro ao criar proprietario:", error);
+      console.error("Erro ao criar inquilino:", error);
       setErrorMessage({
         visible: true,
-        message: "Erro ao criar o proprietário",
+        message: "Erro ao criar o inquilino",
       });
     } finally{
       setLoading(false);
@@ -89,24 +89,24 @@ export default function Page() {
         formComplete={item}
         steps={[
           {
-            path: `/dashboard/proprietarios/cadastrar/dados-proprietario`,
-            label: "Dados do Proprietário",
-            key: "dataOwner",
+            path: `/dashboard/inquilinos/cadastrar/dados-inquilino`,
+            label: "Dados do Inquilino",
+            key: "dataTenant",
             icon: 0
           },
           {
-            path: `/dashboard/proprietarios/cadastrar/endereco`,
+            path: `/dashboard/inquilinos/cadastrar/endereco`,
             label: "Endereço",
-            key: "addressOwner",
+            key: "addressTenant",
             icon: 1
           },
           {
-            path: `/dashboard/proprietarios/cadastrar/contato`,
+            path: `/dashboard/inquilinos/cadastrar/contato`,
             label: "Contato",
-            key: "contactOwner",
+            key: "contactTenant",
             icon: 3
           },
-      ]}></NavigationBar>
+        ]}></NavigationBar>
       <Form
         className="flex flex-row flex-wrap gap-8"
         title="Contato"

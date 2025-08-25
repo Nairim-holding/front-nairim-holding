@@ -2,134 +2,95 @@
 import Input from "@/components/Ui/Input";
 import Form from "@/components/Ui/Form";
 import { Controller, useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
 
 import IconeCasa from "@/../public/icons/casa.svg";
 import IconeAndares from "@/../public/icons/predio.svg";
 import IconeNomeFantasia from "@/../public/icons/nome-fantasia.svg";
 import NavigationBar from "@/components/Admin/NavigationBar";
-import { useParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import IconVerified from "@/components/Icons/IconVerified";
 import { useUIStore } from "@/stores/uiStore";
-import Owner from "@/types/owner";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
-  const params = useParams();
-  const router = useRouter();
-  const id = params?.id;
-  const { control, register, reset, watch } = useForm();
-  const watchedValues = watch();
-  const [hasLoaded, setHasLoaded] = useState(false);
-  const { setSuccessMessage } = useUIStore();
+  const [item, setItem] = useState<boolean>(false);
 
-  const requiredFields = [
-    "name",
-    "internal_code",
-    "occupation",
-    "marital_status",
-    "cnpj",
-    "cpf",
-    "state_registration",
-    "municipal_registration",
-  ];
+  const { control, reset, watch } = useForm();
+
+  useEffect(() => {
+    const saved = localStorage.getItem("dataTenant");
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      reset(parsed);
+    }
+  }, [reset]);
 
   const [isFormComplete, setIsFormComplete] = useState<boolean>(false);
-
+  const watchedValues = watch();
   useEffect(() => {
-    async function getOwnerById() {
-      try {
-        const saved = localStorage.getItem(`dataOwnerEdit-${id}`);
+    const requiredFields = [
+      "name",
+      "internal_code",
+      "occupation",
+      "marital_status",
+      "cnpj",
+      "cpf",
+      "state_registration",
+      "municipal_registration"
+    ];
 
-        if (saved) {
-          const parsed = JSON.parse(saved);
-          reset(parsed);
-          setHasLoaded(true);
-          return;
-        }
-
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_URL_API}/owner/${id}`
-        );
-        const ownerData = response.data as Owner;
-        reset({
-          name: ownerData.name || "",
-          internal_code: ownerData.internal_code || "",
-          cnpj: ownerData.cnpj || "",
-          cpf: ownerData.cpf || "",
-          municipal_registration: ownerData.municipal_registration || "",
-          state_registration: ownerData.state_registration || "",
-          occupation: ownerData.occupation || "",
-          marital_status: ownerData.marital_status || "",
-        });
-      } catch (error) {
-        console.error("Erro ao buscar dados do proprietário:", error);
-      } finally {
-        setHasLoaded(true);
-      }
-    }
-
-    getOwnerById();
-  }, [id, reset]);
-
-  useEffect(() => {
-    if (!hasLoaded) return;
-    const isComplete = requiredFields.every((field) => {
+    const allFilled = requiredFields.every((field) => {
       const value = watchedValues[field];
       return (
         value !== undefined && value !== null && String(value).trim() !== ""
       );
     });
 
-    setIsFormComplete(isComplete);
+    setIsFormComplete(allFilled);
+  }, [watchedValues]);
 
-    if (isComplete) {
-      localStorage.setItem(
-        `dataOwnerEdit-${id}`,
-        JSON.stringify(watchedValues)
-      );
-    } else {
-      localStorage.removeItem(`dataOwnerEdit-${id}`);
-    }
-  }, [watchedValues, hasLoaded]);
-
+  const {
+    successMessage, setSuccessMessage,
+    errorMessage, setErrorMessage,
+  } = useUIStore();
+  const router = useRouter();
   const handleSave = () => {
-    localStorage.setItem(`dataOwnerEdit-${id}`, JSON.stringify(watchedValues));
-    setSuccessMessage({
-      visible: true,
-      message: "Dados do proprietário salvos com sucesso!",
-    });
-    router.push(`/dashboard/proprietarios/editar/${id}/endereco`);
+    if (isFormComplete) {
+      localStorage.setItem("dataTenant", JSON.stringify(watchedValues));
+      setItem(true);
+      setSuccessMessage({
+        visible: true,
+        message: 'Dados do inquilino salvos com sucesso!'
+      });
+      router.push('/dashboard/inquilinos/cadastrar/endereco');
+    }
   };
-
   return (
     <>
       <NavigationBar
-        allEnabled
+        formComplete={item}
         steps={[
           {
-            path: `/dashboard/proprietarios/editar/${id}/dados-proprietario`,
-            label: "Dados do Proprietário",
-            key: "",
-            icon: 0,
+            path: `/dashboard/inquilinos/cadastrar/dados-inquilino`,
+            label: "Dados do Inquilino",
+            key: "dataTenant",
+            icon: 0
           },
           {
-            path: `/dashboard/proprietarios/editar/${id}/endereco`,
+            path: `/dashboard/inquilinos/cadastrar/endereco`,
             label: "Endereço",
-            key: "",
-            icon: 1,
+            key: "addressTenant",
+            icon: 1
           },
           {
-            path: `/dashboard/proprietarios/editar/${id}/contato`,
+            path: `/dashboard/inquilinos/cadastrar/contato`,
             label: "Contato",
-            key: "",
-            icon: 3,
+            key: "contactTenant",
+            icon: 3
           },
-        ]}
-      />
+        ]}></NavigationBar>
       <Form
         className="flex flex-row flex-wrap gap-8"
-        title="Dados Proprietário"
+        title="Dados do inquilino"
         svg={<IconeCasa />}>
         <Controller
           name="name"
@@ -142,7 +103,7 @@ export default function Page() {
               label="Nome"
               id="name"
               required
-              placeHolder="Nome do proprietário"
+              placeHolder="Nome do inquilino"
               type="text"
               svg={<IconeNomeFantasia className="svg-darkmode-estatic" />}
               tabIndex={1}
@@ -162,8 +123,8 @@ export default function Page() {
               label="Código Interno"
               id="internal_code"
               required
-              placeHolder="Código Interno do proprietário"
-              type="text"
+              placeHolder="Código Interno do inquilino"
+              type="number"
               svg={<IconeNomeFantasia className="svg-darkmode-estatic" />}
               tabIndex={2}
             />
@@ -181,7 +142,7 @@ export default function Page() {
               label="Profissão"
               id="occupation"
               required
-              placeHolder="Profissão do proprietário"
+              placeHolder="Profissão do inquilino"
               type="text"
               svg={<IconeNomeFantasia className="svg-darkmode-estatic" />}
               tabIndex={3}
@@ -200,7 +161,7 @@ export default function Page() {
               label="Estado Civil"
               id="marital_status"
               required
-              placeHolder="Estado Civil do proprietário"
+              placeHolder="Estado Civil do inquilino"
               type="text"
               svg={<IconeNomeFantasia className="svg-darkmode-estatic" />}
               tabIndex={4}
@@ -239,7 +200,7 @@ export default function Page() {
               id="cpf"
               required
               placeHolder="000.000.000-00"
-              type="cpf"
+              type="text"
               svg={<IconeNomeFantasia className="svg-darkmode-estatic" />}
               tabIndex={6}
             />
@@ -258,12 +219,12 @@ export default function Page() {
               id="municipal_registration"
               required
               placeHolder="Digite a inscrição municipal"
-              type="text"
+              type="number"
               svg={<IconeAndares className="svg-darkmode-estatic" />}
               tabIndex={7}
             />
           )}
-        />
+        /> 
 
         <Controller
           name="state_registration"
@@ -277,7 +238,7 @@ export default function Page() {
               id="state_registration"
               required
               placeHolder="Digite a inscrição estadual"
-              type="text"
+              type="number"
               svg={<IconeAndares className="svg-darkmode-estatic" />}
               tabIndex={8}
             />
@@ -292,7 +253,9 @@ export default function Page() {
               !isFormComplete ? "opacity-50 cursor-not-allowed" : ""
             }`}
             disabled={!isFormComplete}
-            tabIndex={9}>
+            tabIndex={9}
+            
+          >
             Salvar
           </button>
         </div>
