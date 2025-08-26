@@ -44,10 +44,10 @@ export default function Page() {
       );
 
       if (responseProprietarios.status == 200)
-        setProprietarios(responseProprietarios.data);
+        setProprietarios(responseProprietarios.data.data);
 
       if (responseTipoImovel.status == 200)
-        setTipoImovel(responseTipoImovel.data);
+        setTipoImovel(responseTipoImovel.data.data);
     }
     getItens();
   }, []);

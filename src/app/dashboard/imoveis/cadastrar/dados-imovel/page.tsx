@@ -33,10 +33,10 @@ export default function Page() {
       const responseTipoImovel = await axios.get(`${process.env.NEXT_PUBLIC_URL_API}/property-type`);
 
       if(responseProprietarios.status == 200)
-        setProprietarios(responseProprietarios.data)
+        setProprietarios(responseProprietarios.data.data)
       
       if(responseTipoImovel.status == 200)
-        setTipoImovel(responseTipoImovel.data)
+        setTipoImovel(responseTipoImovel.data.data)
     }
     getItens();
   }, []);
