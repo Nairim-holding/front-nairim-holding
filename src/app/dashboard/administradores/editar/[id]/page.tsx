@@ -10,10 +10,7 @@ import Section from "@/components/Ui/Section";
 import { FaRegUserCircle } from "react-icons/fa";
 import IconEmail from "@/components/Icons/IconEmail";
 import IconCalendar from "@/components/Icons/IconCalendar";
-import IconPassword from "@/components/Icons/IconPassword";
-import IconPasswordHiddenShow from "@/components/Icons/IconPasswordHiddenShow";
 import { useParams, useRouter } from "next/navigation";
-import Link from "next/link";
 import User from "@/types/user";
 import IconSex from "@/components/Icons/IconSex";
 import formatDateValueInput from "@/utils/formatDateValueInput";
@@ -28,8 +25,6 @@ export default function Page() {
   const { successMessage, setSuccessMessage, errorMessage, setErrorMessage } =
     useUIStore();
   const { control, reset, handleSubmit } = useForm();
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     async function getUserById() {

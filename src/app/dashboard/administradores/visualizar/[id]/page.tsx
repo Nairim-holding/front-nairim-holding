@@ -3,15 +3,12 @@ import Input from "@/components/Ui/Input";
 import Form from "@/components/Ui/Form";
 import { Controller, useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
-
 import IconeNomeFantasia from "@/../public/icons/nome-fantasia.svg";
 import axios from "axios";
 import Section from "@/components/Ui/Section";
 import { FaRegUserCircle } from "react-icons/fa";
 import IconEmail from "@/components/Icons/IconEmail";
 import IconCalendar from "@/components/Icons/IconCalendar";
-import IconPassword from "@/components/Icons/IconPassword";
-import IconPasswordHiddenShow from "@/components/Icons/IconPasswordHiddenShow";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import User from "@/types/user";
@@ -24,8 +21,6 @@ export default function Page() {
   const [data, setData] = useState<User>();
 
   const { control, reset } = useForm();
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setConfirmPassword] = useState(false);
 
   useEffect(() => {
     async function getUserById() {
