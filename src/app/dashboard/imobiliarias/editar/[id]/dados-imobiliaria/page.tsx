@@ -173,6 +173,8 @@ export default function Page() {
               label="CNPJ"
               id="cnpj"
               required
+              mask="cnpj"
+              maxLength={18}
               placeHolder="00.000.000/0000-00"
               type="text"
               svg={<IconeNomeFantasia className="svg-darkmode-estatic" />}

@@ -118,6 +118,7 @@ export default function Page(){
               label="Contato"
               id="contact"
               required
+              mask="telefone"
               placeHolder="Digite o nome do contato"
               svg={
                 <IconeNomeFantasia className="svg-darkmode-estatic" />
@@ -138,6 +139,7 @@ export default function Page(){
               label="Telefone"
               id="telephone"
               required
+              mask="telefone"
               placeHolder="Telefone com DDD"
               svg={
                 <IconTelephone size={20} color="#666" />

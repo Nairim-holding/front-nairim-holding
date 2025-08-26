@@ -37,7 +37,8 @@ export default function Input({
   tabIndex,
   mask,
   autoFocus,
-  password
+  password,
+  maxLength
 }: InputProps) {
   const handleIncrement = () => {
     const newValue = (parseFloat(value || "0") || 0) + 1;
@@ -90,6 +91,7 @@ export default function Input({
           placeholder={placeHolder}
           required={required}
           min={1}
+          maxLength={maxLength}
           disabled={disabled}
           tabIndex={tabIndex}
           className={`

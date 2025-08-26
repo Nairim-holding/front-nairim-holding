@@ -136,6 +136,7 @@ export default function Page(){
               type="text"
               tabIndex={2}
               label="Telefone"
+              mask="telefone"
               id="telephone"
               required
               placeHolder="Telefone com DDD"
@@ -157,6 +158,7 @@ export default function Page(){
               id="phone"
               required
               placeHolder="Celular com DDD"
+              mask="telefone"
               type="text"
               tabIndex={3}
               svg={<IconPhone size={20} color="#666" />}></Input>

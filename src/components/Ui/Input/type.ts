@@ -12,4 +12,5 @@ export interface InputProps {
   mask?: string;
   autoFocus?: boolean;
   password?: boolean;
+  maxLength?: number;
 }

@@ -140,6 +140,8 @@ export default function Page() {
               onChange={field.onChange}
               label="CNPJ"
               id="cnpj"
+              mask="cnpj"
+              maxLength={18}
               required
               placeHolder="00.000.000/0000-00"
               type="text"

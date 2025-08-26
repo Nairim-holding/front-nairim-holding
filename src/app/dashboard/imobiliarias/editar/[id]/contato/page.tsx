@@ -139,6 +139,7 @@ export default function Page(){
               tabIndex={2}
               label="Telefone"
               id="telephone"
+              mask="telefone"
               required
               placeHolder="Telefone com DDD"
               svg={
@@ -158,6 +159,7 @@ export default function Page(){
               label="Celular"
               id="phone"
               required
+              mask="telefone"
               placeHolder="Celular com DDD"
               type="text"
               tabIndex={3}

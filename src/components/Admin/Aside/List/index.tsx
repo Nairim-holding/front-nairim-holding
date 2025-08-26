@@ -132,6 +132,22 @@ export default function List({
           <div className="absolute left-[300px] top-[18%] pl-3">
             <ul className=" bg-white dark:bg-[#12101D] aside-shadow max-w-[300px] min-w-[300px] p-4 rounded-lg gap-2 flex flex-col">
               <NavItem
+                href="/dashboard/administradores"
+                title="Ir para a página de administradores"
+                handleMouseLeave={handleMouseLeave}>
+                <div className="w-[25px] flex justify-center">
+                  <IconAdd size={25} color="#666666"></IconAdd>
+                </div>
+                <p
+                  className={`
+                    text-[#666666] normal transition-all duration-200 ease-in-out
+                    whitespace-nowrap
+                  `}>
+                  Administrador
+                </p>
+              </NavItem>
+            
+              <NavItem
                 href="/dashboard/imoveis"
                 handleMouseLeave={handleMouseLeave}
                 title="Ir para a página de imoveis">
@@ -163,9 +179,10 @@ export default function List({
                 </p>
               </NavItem>
 
+
               <NavItem
-                href="/dashboard/administradores"
-                title="Ir para a página de administradores"
+                href="/dashboard/inquilinos"
+                title="Ir para a página de inquilinos"
                 handleMouseLeave={handleMouseLeave}>
                 <div className="w-[25px] flex justify-center">
                   <IconAdd size={25} color="#666666"></IconAdd>
@@ -175,7 +192,7 @@ export default function List({
                     text-[#666666] normal transition-all duration-200 ease-in-out
                     whitespace-nowrap
                   `}>
-                  Administrador
+                  Inquilinos
                 </p>
               </NavItem>
 
@@ -192,22 +209,6 @@ export default function List({
                     whitespace-nowrap
                   `}>
                   Proprietários
-                </p>
-              </NavItem>
-
-              <NavItem
-                href="/dashboard/inquilinos"
-                title="Ir para a página de inquilinos"
-                handleMouseLeave={handleMouseLeave}>
-                <div className="w-[25px] flex justify-center">
-                  <IconAdd size={25} color="#666666"></IconAdd>
-                </div>
-                <p
-                  className={`
-                    text-[#666666] normal transition-all duration-200 ease-in-out
-                    whitespace-nowrap
-                  `}>
-                  Inquilinos
                 </p>
               </NavItem>
 

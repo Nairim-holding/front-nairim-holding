@@ -146,6 +146,7 @@ export default function Page() {
               label="Telefone"
               id="telephone"
               required
+              mask="telefone"
               placeHolder="Telefone com DDD"
               svg={
                 <IconTelephone size={20} color="#666" />
@@ -164,6 +165,7 @@ export default function Page() {
               label="Celular"
               id="phone"
               required
+              mask="telefone"
               placeHolder="Celular com DDD"
               type="text"
               tabIndex={3}

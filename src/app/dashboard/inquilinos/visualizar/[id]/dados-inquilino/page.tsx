@@ -175,6 +175,8 @@ useEffect(() => {
               onChange={field.onChange}
               label="CPF"
               id="cpf"
+              mask="cpf"
+              maxLength={14}
               required
               placeHolder="000.000.000-00"
               type="cpf"

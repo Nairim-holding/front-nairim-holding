@@ -217,6 +217,8 @@ export default function Page() {
               onChange={field.onChange}
               label="CNPJ"
               id="cnpj"
+              mask="cnpj"
+              maxLength={18}
               required
               placeHolder="00.000.000/0000-00"
               type="text"
@@ -236,6 +238,8 @@ export default function Page() {
               onChange={field.onChange}
               label="CPF"
               id="cpf"
+              mask="cpf"
+              maxLength={14}
               required
               placeHolder="000.000.000-00"
               type="cpf"

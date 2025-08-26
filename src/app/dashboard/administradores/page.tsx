@@ -70,7 +70,7 @@ export default async function Page({ searchParams }: PageProps) {
                 </td>
                 <td className="py-2 px-3 sticky right-0 bg-white z-10">
                   <div className="min-h-[50px] flex items-center justify-center">
-                    <ListActions id={user.id} name={user.name} route={"administradores"} routeApi="users" />
+                    <ListActions id={user.id} name={user.name} route={"administradores"} routeApi="users" delTitle="o administrador" />
                   </div>
                 </td>
               </tr>

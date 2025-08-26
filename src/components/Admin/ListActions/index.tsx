@@ -9,7 +9,7 @@ import IconEye from "@/components/Icons/IconEye";
 import IconPencil from "@/components/Icons/IconPencil";
 import IconTrash from "@/components/Icons/IconTrash";
 
-export default function ListActions({ id, name, route, subRoute, routeApi }: ListActionsProps){
+export default function ListActions({ id, name, route, subRoute, routeApi, delTitle }: ListActionsProps){
     const router = useRouter();
     const [visible, setVisible] = useState<boolean>(false);
     const {
@@ -43,8 +43,8 @@ export default function ListActions({ id, name, route, subRoute, routeApi }: Lis
       setPopUpDelete({
         visible: visible,
         onConfirm: async() => del(),
-        title: `Remover o imóvel “${name}”`,
-        subtitle: <>Tem certeza que deseja remover o imóvel <strong>“{name}”</strong>?</>,
+        title: `Remover ${delTitle} “${name}”`,
+        subtitle: <>Tem certeza que deseja remover {delTitle} <strong>“{name}”</strong>?</>,
         setVisible: setVisible
       })
     }, [visible])

@@ -144,6 +144,7 @@ export default function Page() {
               type="text"
               tabIndex={2}
               label="Telefone"
+              mask="telefone"
               id="telephone"
               required
               placeHolder="Telefone com DDD"
@@ -164,6 +165,7 @@ export default function Page() {
               label="Celular"
               id="phone"
               required
+              mask="telefone"
               placeHolder="Celular com DDD"
               type="text"
               tabIndex={3}

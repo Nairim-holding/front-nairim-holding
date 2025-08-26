@@ -162,7 +162,7 @@ export default async function Page({ searchParams }: PageProps) {
               </td>
               <td className="py-2 px-3 sticky right-0 bg-white z-10">
                 <div className="min-h-[50px] flex items-center justify-center">
-                  <ListActions id={e.id} name={e.name} route="proprietarios" subRoute="dados-proprietario" routeApi="owner" />
+                  <ListActions id={e.id} name={e.name} route="proprietarios" subRoute="dados-proprietario" routeApi="owner" delTitle="o proprietário" />
                 </div>
               </td>
             </tr>
