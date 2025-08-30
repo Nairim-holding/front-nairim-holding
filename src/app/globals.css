@@ -12,7 +12,7 @@
 
 body {
   font-family: Arial, Helvetica, sans-serif;
-  background-color: rgb(147, 128, 255);
+  background-color: #fff;
 }
 
 .main-home {
@@ -167,8 +167,40 @@ input[type="number"] {
   fill: #fff;
 }
 
+.lines-bg tbody tr:nth-child(2n) td{
+  background-color: #E6E6E6;
+}
+
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;   
+  width: 16px;
+  height: 16px;
+  border: 2px solid #6F6F6F; 
+  border-radius: 4px;    
+  background-color: #fff;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease-in-out;
+}
+
+input[type="checkbox"]:checked {
+  background: linear-gradient(90deg, #8B5CF6 6.75%, #6D28D9 81.75%);
+}
+
+input[type="checkbox"]:checked::after {
+  content: "✔";
+  color: #fff;
+  font-size: 10px;
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -55%);
+}
+
 html.dark body{
-  background-color: #35314C;
+  background-color: #12101D;
 }
 
 .dark section, 
@@ -211,4 +243,8 @@ html.dark body{
 
 .dark .img-bino {
   filter: brightness(0.2) saturate(100%) invert(0) !important;
+}
+
+.dark .lines-bg tbody tr:nth-child(2n) td{
+  background-color: #333;
 }

@@ -31,7 +31,7 @@ export default function Aside({ darkMode, setDarkMode }: AsideProps) {
     <aside
       className={`fixed h-full ${
         darkMode ? "bg-[#12101D]" : "bg-[#fff]"
-      } left-0 top-0 z-[1000] rounded-r-xl aside-shadow`}
+      } left-0 top-0 z-[1000] aside-shadow`}
     >
       <div
         onMouseEnter={handleMouseEnter}

@@ -1,8 +1,7 @@
-export interface SectionBottomProps {
-  count: number;
+export default interface PropsPagination {
   limit: number;
   currentPage: number;
   totalPage: number;
-  search?: string;
+  search: string;
   route: string;
 }

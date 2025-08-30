@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 import TableInformations from "@/components/Admin/TableInformations";
 import SectionTop from "@/components/Admin/TableSectionTop";
 import Section from "@/components/Ui/Section";
-import SectionBottom from "@/components/Admin/TableSectionBottom";
 import { SkeletonTable } from "@/components/Admin/SkeletonTable";
 import ListActions from "@/components/Admin/ListActions";
 import Owner from "@/types/owner";
@@ -20,7 +19,7 @@ export default async function Page({ searchParams }: PageProps) {
   const params = await searchParams;
 
   const page = Number(params.page ?? "1");
-  const limit = Number(params.limit ?? "10");
+  const limit = Number(params.limit ?? "30");
   const search = params.search ?? "";
 
   const url = new URL(`${process.env.NEXT_PUBLIC_URL_API}/owner`);
@@ -37,8 +36,14 @@ export default async function Page({ searchParams }: PageProps) {
     <Section title="Proprietários">
       <SectionTop
         search={search}
-        textAdd="Adicionar novo proprietário"
+        count={data.count}
+        currentPage={data.currentPage}
+        totalPage={data.totalPages}
+        limit={limit}
+        route="/proprietarios"
         hrefAdd="/dashboard/proprietarios/cadastrar/dados-proprietario"
+        routeApi="owner" 
+        delTitle="o proprietário"
       />
       <Suspense fallback={<SkeletonTable />}>
         <TableInformations
@@ -68,115 +73,108 @@ export default async function Page({ searchParams }: PageProps) {
             <tr
               key={e.id}
               className="bg-white hover:bg-gray-50 text-[#111111B2] text-center relative z-[0]">
-              <td className="py-2 px-3">
-                <div className="min-h-[50px] flex items-center justify-center">
+              <td className="py-1 px-2">
+                <div className="flex items-center justify-start gap-2 whitespace-nowrap">
+                  <input type="checkbox" className="inp-checkbox-select" value={e.id} id={e.name}></input>
                   {e.id ?? ""}
                 </div>
               </td>
-              <td className="py-2 px-3">
-                <div className="min-h-[50px] flex items-center justify-center">
+              <td className="py-1 px-2">
+                <div className="flex items-center justify-center whitespace-nowrap">
                   {e.name ?? ""}
                 </div>
               </td>
-              <td className="py-2 px-3">
-                <div className="min-h-[50px] flex items-center justify-center truncate">
+              <td className="py-1 px-2">
+                <div className="flex items-center justify-center truncate whitespace-nowrap">
                   {e.internal_code ?? ""}
                 </div>
               </td>
-              <td className="py-2 px-3">
-                <div className="min-h-[50px] flex items-center justify-center">
+              <td className="py-1 px-2">
+                <div className="flex items-center justify-center whitespace-nowrap">
                   {e.occupation ?? ""}
                 </div>
               </td>
-              <td className="py-2 px-3">
-                <div className="min-h-[50px] flex items-center justify-center">
+              <td className="py-1 px-2">
+                <div className="flex items-center justify-center whitespace-nowrap">
                   {e.marital_status ?? ""}
                 </div>
               </td>
-              <td className="py-2 px-3">
-                <div className="min-h-[50px] flex items-center justify-center">
+              <td className="py-1 px-2">
+                <div className="flex items-center justify-center whitespace-nowrap">
                   {e.cnpj ?? ""}
                 </div>
               </td>
-              <td className="py-2 px-3">
-                <div className="min-h-[50px] flex items-center justify-center">
+              <td className="py-1 px-2">
+                <div className="flex items-center justify-center whitespace-nowrap">
                   {e.cpf ?? ""}
                 </div>
               </td>
-              <td className="py-2 px-3">
-                <div className="min-h-[50px] flex items-center justify-center">
+              <td className="py-1 px-2">
+                <div className="flex items-center justify-center whitespace-nowrap">
                   {e.state_registration ?? ""}
                 </div>
               </td>
-              <td className="py-2 px-3">
-                <div className="min-h-[50px] flex items-center justify-center">
+              <td className="py-1 px-2">
+                <div className="flex items-center justify-center whitespace-nowrap">
                   {e.municipal_registration ?? ""}
                 </div>
               </td>
-              <td className="py-2 px-3">
-                <div className="min-h-[50px] flex items-center justify-center">
+              <td className="py-1 px-2">
+                <div className="flex items-center justify-center whitespace-nowrap">
                   {e.addresses?.[0]?.address.zip_code ?? ""}
                 </div>
               </td>
-              <td className="py-2 px-3">
-                <div className="min-h-[50px] flex items-center justify-center">
+              <td className="py-1 px-2">
+                <div className="flex items-center justify-center whitespace-nowrap">
                   {e.addresses?.[0]?.address.state ?? ""}
                 </div>
               </td>
-              <td className="py-2 px-3">
-                <div className="min-h-[50px] flex items-center justify-center">
+              <td className="py-1 px-2">
+                <div className="flex items-center justify-center whitespace-nowrap">
                   {e.addresses?.[0]?.address.city ?? ""}
                 </div>
               </td>
-              <td className="py-2 px-3">
-                <div className="min-h-[50px] flex items-center justify-center">
+              <td className="py-1 px-2">
+                <div className="flex items-center justify-center whitespace-nowrap">
                   {e.addresses?.[0]?.address.district ?? ""}
                 </div>
               </td>
-              <td className="py-2 px-3">
-                <div className="min-h-[50px] flex items-center justify-center">
+              <td className="py-1 px-2">
+                <div className="flex items-center justify-center whitespace-nowrap">
                 {e.addresses?.[0]
                     ? `${e.addresses[0].address.street}, ${e.addresses[0].address.number}`
                     : ""}
                 </div>
               </td>
-              <td className="py-2 px-3">
-                <div className="min-h-[50px] flex items-center justify-center">
+              <td className="py-1 px-2">
+                <div className="flex items-center justify-center whitespace-nowrap">
                   {e.contacts?.[0]?.contact.contact ?? ""}
                 </div>
               </td>
-              <td className="py-2 px-3">
-                <div className="min-h-[50px] flex items-center justify-center">
+              <td className="py-1 px-2">
+                <div className="flex items-center justify-center whitespace-nowrap">
                   {e.contacts?.[0]?.contact.telephone ?? ""}
                 </div>
               </td>
-              <td className="py-2 px-3">
-                <div className="min-h-[50px] flex items-center justify-center">
+              <td className="py-1 px-2">
+                <div className="flex items-center justify-center whitespace-nowrap">
                   {e.contacts?.[0]?.contact.phone ?? ""}
                 </div>
               </td>
-              <td className="py-2 px-3">
-                <div className="min-h-[50px] flex items-center justify-center">
+              <td className="py-1 px-2">
+                <div className="flex items-center justify-center whitespace-nowrap">
                   {e.contacts?.[0]?.contact.email ?? ""}
                 </div>
               </td>
-              <td className="py-2 px-3 sticky right-0 bg-white z-10">
-                <div className="min-h-[50px] flex items-center justify-center">
-                  <ListActions id={e.id} name={e.name} route="proprietarios" subRoute="dados-proprietario" routeApi="owner" delTitle="o proprietário" />
+              <td className="py-1 px-2 sticky right-0 bg-white z-10">
+                <div className="flex items-center justify-center">
+                  <ListActions id={e.id} name={e.name} route="proprietarios" subRoute="dados-proprietario" />
                 </div>
               </td>
             </tr>
           ))}
         </TableInformations>
       </Suspense>
-      <SectionBottom
-        count={data.count}
-        currentPage={data.currentPage}
-        totalPage={data.totalPages}
-        limit={limit}
-        search={search}
-        route="/proprietarios"
-      />
     </Section>
   );
 }

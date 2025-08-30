@@ -1,56 +1,21 @@
-"use client";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { SectionBottomProps } from "./type";
+import PropsPagination from "./type";
 
-export default function SectionBottom({
-  count,
-  limit,
-  currentPage,
-  totalPage,
-  search = '',
-  route
-}: SectionBottomProps) {
-  const start = (currentPage - 1) * limit + 1;
-  const end = Math.min(currentPage * limit, count);
+export default function Pagination({ currentPage, totalPage, route, limit=30, search=""}: PropsPagination ){
+    const buildUrl = (page: number, newLimit?: number) => {
+        const params = new URLSearchParams({
+            page: page.toString(),
+            limit: (newLimit ?? limit).toString(),
+            search,
+        });
+        return `/dashboard/${route}?${params.toString()}`;
+    };
 
-  const buildUrl = (page: number, newLimit?: number) => {
-    const params = new URLSearchParams({
-      page: page.toString(),
-      limit: (newLimit ?? limit).toString(),
-      search,
-    });
-    return `/dashboard/${route}?${params.toString()}`;
-  };
-
-  const pages = Array.from({ length: totalPage }, (_, i) => i + 1);
-  const router = useRouter();
-
-  return (
-    <div className="mt-10 flex justify-between items-center relative flex-wrap">
-      <p className="text-[16px] font-normal text-[#111111B2] laptop:relative tablet:text-center tablet:w-full">
-        Exibindo {start} a {end} de {count} registros
-      </p>
-
-      <div className="flex items-center gap-2">
-        <p className="text-[14px] font-normal text-[#111111B2]">Exibir</p>
-        <select
-          value={limit}
-          onChange={(e) => {
-            router.push(buildUrl(1, Number(e.target.value)));
-          }}
-          className="border text-[14px] font-normal text-[#111111B2] p-3 rounded-lg border-[#CCCCCC] outline-none"
-        >
-          {[10, 20, 30, 40, 50].map((option) => (
-            <option key={option} value={option}>
-              {option}
-            </option>
-          ))}
-        </select>
-        <p className="text-[14px] font-normal text-[#111111B2]">registros</p>
-      </div>
-
-      <div className={`flex justify-center mt-4 laptop:mt-0 ${pages.length <= 1 && 'invisible'}`}>
+    const pages = Array.from({ length: totalPage }, (_, i) => i + 1);
+    if(pages.length <= 1)
+      return;
+    return(
+    <div className={`flex justify-center laptop:mt-0`}>
         <div className="flex items-center gap-3">
           <Link
             href={buildUrl(currentPage - 1)}
@@ -99,6 +64,5 @@ export default function SectionBottom({
           </Link>
         </div>
       </div>
-    </div>
-  );
+    )
 }
