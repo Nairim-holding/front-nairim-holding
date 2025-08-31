@@ -13,6 +13,11 @@ interface PageProps {
     page?: string;
     limit?: string;
     search?: string;
+    sort_id?: string;
+    sort_name?: string;
+    sort_email?: string;
+    sort_gender?: string;
+    sort_birth_date?: string;
   }>;
 }
 
@@ -22,11 +27,21 @@ export default async function Page({ searchParams }: PageProps) {
   const page = Number(params.page ?? "1");
   const limit = Number(params.limit ?? "30");
   const search = params.search ?? "";
-
+  const sort_id = params.sort_id ?? "";
+  const sort_name = params.sort_name ?? "";
+  const sort_email = params.sort_email ?? "";
+  const sort_gender = params.sort_gender ?? "";
+  const sort_birth_date = params.sort_birth_date ?? "";
   const url = new URL(`${process.env.NEXT_PUBLIC_URL_API}/users`);
   url.searchParams.set("page", page.toString());
   url.searchParams.set("limit", limit.toString());
   url.searchParams.set("search", search);
+
+  if (sort_id) url.searchParams.set("sort_id", sort_id);
+  if (sort_name) url.searchParams.set("sort_name", sort_name);
+  if (sort_email) url.searchParams.set("sort_email", sort_email);
+  if (sort_gender) url.searchParams.set("sort_gender", sort_gender);
+  if (sort_birth_date) url.searchParams.set("sort_birth_date", sort_birth_date);
 
   const res = await fetch(url.toString(), { cache: "no-store" });
 
@@ -47,7 +62,16 @@ export default async function Page({ searchParams }: PageProps) {
         delTitle="o administrador"
       />
       <Suspense fallback={<SkeletonTable />}>
-        <TableInformations headers={['ID', 'nome', 'email', 'sexo', 'data de aniversário', 'ação']}>
+          <TableInformations
+            headers={[
+              { label: 'ID', field: 'id', sortParam: 'sort_id' },
+              { label: 'Nome', field: 'name', sortParam: 'sort_name' },
+              { label: 'Email', field: 'email', sortParam: 'sort_email' },
+              { label: 'Sexo', field: 'gender', sortParam: 'sort_gender' },
+              { label: 'Data de Aniversário', field: 'birth_date', sortParam: 'sort_birth_date' },
+              { label: 'Ação', field: 'actions' }
+            ]}
+          >
           {
             data.data.map((user: User) => (
               <tr

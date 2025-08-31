@@ -12,6 +12,24 @@ interface PageProps {
     page?: string;
     limit?: string;
     search?: string;
+    sort_id?: string;
+    sort_name?: string;
+    sort_internal_code?: string;
+    sort_occupation?: string;
+    sort_marital_status?: string;
+    sort_cnpj?: string;
+    sort_cpf?: string;
+    sort_state_registration?: string;
+    sort_municipal_registration?: string;
+    sort_zip_code?: string;
+    sort_state?: string;
+    sort_city?: string;
+    sort_district?: string;
+    sort_address?: string;
+    sort_contact?: string;
+    sort_telephone?: string;
+    sort_phone?: string;
+    sort_email?: string;
   }>;
 }
 
@@ -22,16 +40,42 @@ export default async function Page({ searchParams }: PageProps) {
   const limit = Number(params.limit ?? "30");
   const search = params.search ?? "";
 
+  const sortParams: Record<string, string> = {
+    sort_id: params.sort_id ?? "",
+    sort_name: params.sort_name ?? "",
+    sort_internal_code: params.sort_internal_code ?? "",
+    sort_occupation: params.sort_occupation ?? "",
+    sort_marital_status: params.sort_marital_status ?? "",
+    sort_cnpj: params.sort_cnpj ?? "",
+    sort_cpf: params.sort_cpf ?? "",
+    sort_state_registration: params.sort_state_registration ?? "",
+    sort_municipal_registration: params.sort_municipal_registration ?? "",
+    sort_zip_code: params.sort_zip_code ?? "",
+    sort_state: params.sort_state ?? "",
+    sort_city: params.sort_city ?? "",
+    sort_district: params.sort_district ?? "",
+    sort_address: params.sort_address ?? "",
+    sort_contact: params.sort_contact ?? "",
+    sort_telephone: params.sort_telephone ?? "",
+    sort_phone: params.sort_phone ?? "",
+    sort_email: params.sort_email ?? "",
+  };
+
   const url = new URL(`${process.env.NEXT_PUBLIC_URL_API}/tenant`);
   url.searchParams.set("page", page.toString());
   url.searchParams.set("limit", limit.toString());
   url.searchParams.set("search", search);
+
+  Object.entries(sortParams).forEach(([key, value]) => {
+    if (value) url.searchParams.set(key, value);
+  });
 
   const res = await fetch(url.toString(), { cache: "no-store" });
 
   if (!res.ok) return notFound();
 
   const data = await res.json();
+
   return (
     <Section title="Inquilinos">
       <SectionTop
@@ -42,40 +86,64 @@ export default async function Page({ searchParams }: PageProps) {
         limit={limit}
         route="/inquilinos"
         hrefAdd="/dashboard/inquilinos/cadastrar/dados-inquilino"
-        routeApi="tenant" 
+        routeApi="tenant"
         delTitle="o inquilino"
       />
       <Suspense fallback={<SkeletonTable />}>
         <TableInformations
           headers={[
-            "ID",
-            "Nome",
-            "Código Interno",
-            "Profissão",
-            "Estado Civil",
-            "CNPJ",
-            "CPF",
-            "Inscrição Estadual",
-            "Inscrição Municipal",
-            "CEP",
-            "UF",
-            "Cidade",
-            "Bairro",
-            "Endereço",
-            "Contato",
-            "Fone",
-            "Celular",
-            "E-mail",
-            "Ação",
-          ]}
-        >
+            { label: "ID", field: "id", sortParam: "sort_id" },
+            { label: "Nome", field: "name", sortParam: "sort_name" },
+            {
+              label: "Código Interno",
+              field: "internal_code",
+              sortParam: "sort_internal_code",
+            },
+            {
+              label: "Profissão",
+              field: "occupation",
+              sortParam: "sort_occupation",
+            },
+            {
+              label: "Estado Civil",
+              field: "marital_status",
+              sortParam: "sort_marital_status",
+            },
+            { label: "CNPJ", field: "cnpj", sortParam: "sort_cnpj" },
+            { label: "CPF", field: "cpf", sortParam: "sort_cpf" },
+            {
+              label: "Inscrição Estadual",
+              field: "state_registration",
+              sortParam: "sort_state_registration",
+            },
+            {
+              label: "Inscrição Municipal",
+              field: "municipal_registration",
+              sortParam: "sort_municipal_registration",
+            },
+            { label: "CEP", field: "zip_code", sortParam: "sort_zip_code" },
+            { label: "UF", field: "state", sortParam: "sort_state" },
+            { label: "Cidade", field: "city", sortParam: "sort_city" },
+            { label: "Bairro", field: "district", sortParam: "sort_district" },
+            { label: "Endereço", field: "address", sortParam: "sort_address" },
+            { label: "Contato", field: "contact", sortParam: "sort_contact" },
+            { label: "Fone", field: "telephone", sortParam: "sort_telephone" },
+            { label: "Celular", field: "phone", sortParam: "sort_phone" },
+            { label: "E-mail", field: "email", sortParam: "sort_email" },
+            { label: "Ação", field: "actions" },
+          ]}>
           {data.data.map((e: Tenant) => (
             <tr
               key={e.id}
               className="bg-white hover:bg-gray-50 text-[#111111B2] text-center relative z-[0]">
               <td className="py-1 px-2">
                 <div className="flex items-center justify-start gap-2 whitespace-nowrap">
-                  <input type="checkbox" className="inp-checkbox-select" value={e.id} id={e.name}></input>
+                  <input
+                    type="checkbox"
+                    className="inp-checkbox-select"
+                    value={e.id}
+                    id={e.name}
+                  />
                   {e.id ?? ""}
                 </div>
               </td>
@@ -85,7 +153,7 @@ export default async function Page({ searchParams }: PageProps) {
                 </div>
               </td>
               <td className="py-1 px-2">
-                <div className="flex items-center justify-center whitespace-nowrap truncate">
+                <div className="flex items-center justify-center whitespace-nowrap">
                   {e.internal_code ?? ""}
                 </div>
               </td>
@@ -141,7 +209,7 @@ export default async function Page({ searchParams }: PageProps) {
               </td>
               <td className="py-1 px-2">
                 <div className="flex items-center justify-center whitespace-nowrap">
-                {e.addresses?.[0]
+                  {e.addresses?.[0]
                     ? `${e.addresses[0].address.street}, ${e.addresses[0].address.number}`
                     : ""}
                 </div>
@@ -167,9 +235,12 @@ export default async function Page({ searchParams }: PageProps) {
                 </div>
               </td>
               <td className="py-1 px-2 sticky right-0 bg-white z-10">
-                <div className="flex items-center justify-center whitespace-nowrap">
-                  <ListActions id={e.id} name={e.name} route="inquilinos" subRoute="dados-inquilino" />
-                </div>
+                <ListActions
+                  id={e.id}
+                  name={e.name}
+                  route="inquilinos"
+                  subRoute="dados-inquilino"
+                />
               </td>
             </tr>
           ))}
@@ -178,5 +249,3 @@ export default async function Page({ searchParams }: PageProps) {
     </Section>
   );
 }
-
-

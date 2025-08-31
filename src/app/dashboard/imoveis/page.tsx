@@ -12,6 +12,26 @@ interface PageProps {
     page?: string;
     limit?: string;
     search?: string;
+    sort_id?: string;
+    sort_owner?: string;
+    sort_title?: string;
+    sort_zip_code?: string;
+    sort_street?: string;
+    sort_district?: string;
+    sort_city?: string;
+    sort_state?: string;
+    sort_type?: string;
+    sort_bedrooms?: string;
+    sort_bathrooms?: string;
+    sort_half_bathrooms?: string;
+    sort_garage_spaces?: string;
+    sort_area_total?: string;
+    sort_area_built?: string;
+    sort_frontage?: string;
+    sort_furnished?: string;
+    sort_floor_number?: string;
+    sort_tax_registration?: string;
+    sort_notes?: string;
   }>;
 }
 
@@ -27,11 +47,39 @@ export default async function Page({ searchParams }: PageProps) {
   url.searchParams.set("limit", limit.toString());
   url.searchParams.set("search", search);
 
-  const res = await fetch(url.toString(), { cache: "no-store" });
+  const sortFields = [
+    "sort_id",
+    "sort_owner",
+    "sort_title",
+    "sort_zip_code",
+    "sort_street",
+    "sort_district",
+    "sort_city",
+    "sort_state",
+    "sort_type",
+    "sort_bedrooms",
+    "sort_bathrooms",
+    "sort_half_bathrooms",
+    "sort_garage_spaces",
+    "sort_area_total",
+    "sort_area_built",
+    "sort_frontage",
+    "sort_furnished",
+    "sort_floor_number",
+    "sort_tax_registration",
+    "sort_notes",
+  ];
 
+  sortFields.forEach((field) => {
+    const value = params[field as keyof typeof params];
+    if (value) url.searchParams.set(field, value);
+  });
+
+  const res = await fetch(url.toString(), { cache: "no-store" });
   if (!res.ok) return notFound();
 
   const data = await res.json();
+
   return (
     <Section title="Meus Imóveis">
       <SectionTop
@@ -48,36 +96,72 @@ export default async function Page({ searchParams }: PageProps) {
       <Suspense fallback={<SkeletonTable />}>
         <TableInformations
           headers={[
-            "ID",
-            "Proprietário",
-            "Nome",
-            "CEP",
-            "Endereço",
-            "Bairro",
-            "Cidade",
-            "UF",
-            "Tipo do imóvel",
-            "Quartos",
-            "Banheiros",
-            "Lavabos",
-            "Vagas na Garagem",
-            "Área Total (m²)",
-            "Área Privativa (m²)",
-            "Fachada",
-            "Mobiliado",
-            "Número de Andar",
-            "Inscrição fiscal",
-            "Observações",
-            "Ação",
-          ]}
-        >
+            { label: "ID", field: "id", sortParam: "sort_id" },
+            { label: "Proprietário", field: "owner", sortParam: "sort_owner" },
+            { label: "Nome", field: "title", sortParam: "sort_title" },
+            { label: "CEP", field: "zip_code", sortParam: "sort_zip_code" },
+            { label: "Endereço", field: "street", sortParam: "sort_street" },
+            { label: "Bairro", field: "district", sortParam: "sort_district" },
+            { label: "Cidade", field: "city", sortParam: "sort_city" },
+            { label: "UF", field: "state", sortParam: "sort_state" },
+            { label: "Tipo do imóvel", field: "type", sortParam: "sort_type" },
+            { label: "Quartos", field: "bedrooms", sortParam: "sort_bedrooms" },
+            {
+              label: "Banheiros",
+              field: "bathrooms",
+              sortParam: "sort_bathrooms",
+            },
+            {
+              label: "Lavabos",
+              field: "half_bathrooms",
+              sortParam: "sort_half_bathrooms",
+            },
+            {
+              label: "Vagas na Garagem",
+              field: "garage_spaces",
+              sortParam: "sort_garage_spaces",
+            },
+            {
+              label: "Área Total (m²)",
+              field: "area_total",
+              sortParam: "sort_area_total",
+            },
+            {
+              label: "Área Privativa (m²)",
+              field: "area_built",
+              sortParam: "sort_area_built",
+            },
+            { label: "Fachada", field: "frontage", sortParam: "sort_frontage" },
+            {
+              label: "Mobiliado",
+              field: "furnished",
+              sortParam: "sort_furnished",
+            },
+            {
+              label: "Número de Andar",
+              field: "floor_number",
+              sortParam: "sort_floor_number",
+            },
+            {
+              label: "Inscrição fiscal",
+              field: "tax_registration",
+              sortParam: "sort_tax_registration",
+            },
+            { label: "Observações", field: "notes", sortParam: "sort_notes" },
+            { label: "Ação", field: "actions" },
+          ]}>
           {data.data.map((e: Property) => (
             <tr
               key={e.id}
               className="bg-white hover:bg-gray-50 text-[#111111B2] text-center relative z-[0]">
               <td className="py-1 px-2">
                 <div className="flex items-center justify-start gap-2 whitespace-nowrap">
-                  <input type="checkbox" className="inp-checkbox-select" value={e.id} id={e.title}></input>
+                  <input
+                    type="checkbox"
+                    className="inp-checkbox-select"
+                    value={e.id}
+                    id={e.title}
+                  />
                   {e.id}
                 </div>
               </td>
@@ -86,8 +170,8 @@ export default async function Page({ searchParams }: PageProps) {
                   {e.owner?.name}
                 </div>
               </td>
-              <td className="py-1 px-2">
-                <div className="flex items-center justify-center truncate whitespace-nowrap">
+              <td className="py-1 px-2 truncate">
+                <div className="flex items-center justify-center whitespace-nowrap">
                   {e.title}
                 </div>
               </td>
@@ -179,9 +263,12 @@ export default async function Page({ searchParams }: PageProps) {
                 </div>
               </td>
               <td className="py-1 px-2 sticky right-0 bg-white z-10">
-                <div className="flex items-center justify-center">
-                  <ListActions id={e.id} name={e.title} route="imoveis" subRoute="dados-imovel" />
-                </div>
+                <ListActions
+                  id={e.id}
+                  name={e.title}
+                  route="imoveis"
+                  subRoute="dados-imovel"
+                />
               </td>
             </tr>
           ))}
@@ -190,5 +277,3 @@ export default async function Page({ searchParams }: PageProps) {
     </Section>
   );
 }
-
-
