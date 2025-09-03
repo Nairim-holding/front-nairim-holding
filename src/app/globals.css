@@ -248,3 +248,9 @@ html.dark body{
 .dark .lines-bg tbody tr:nth-child(2n) td{
   background-color: #333;
 }
+
+@media screen and (max-width: 700px){
+  .main-dashboard{
+    padding-left: 0;
+  }
+}

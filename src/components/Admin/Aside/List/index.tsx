@@ -14,7 +14,8 @@ export default function List({
   darkMode,
   setDarkMode,
   openAside,
-  handleMouseLeave
+  handleMouseLeave,
+  mobile
 }: PropsButtonToggle) {
   const [showSublist, setShowSublist] = useState(false);
   const [openAsideDelay, setOpenAsideDelay] = useState(openAside);

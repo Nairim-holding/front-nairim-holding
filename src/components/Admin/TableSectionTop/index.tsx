@@ -132,7 +132,7 @@ export default function SectionTop({
 
   return (
     <div className="flex justify-between items-center flex-wrap mb-1 mt-2">
-      <div className="flex items-center gap-5 max-w-[500px] w-full">
+      <div className="flex items-center gap-5 max-w-[500px] w-full sm:flex-wrap">
         <div className="flex items-center gap-4">
           <Link href={hrefAdd}>
             <IconeAdd className="svg-darkmode-estatic" />
