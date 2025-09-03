@@ -1,6 +1,6 @@
-'use client';
+"use client";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { TableInformationsProps } from "./type";
 import IconArrowDownUp from "@/components/Icons/IconArrowDownUp";
 
@@ -14,10 +14,10 @@ export default function TableInformations({
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  // Estado local para refletir imediatamente a rotação por coluna
+  // Estado local para refletir o sort ativo
   const [localSort, setLocalSort] = useState<Record<string, Order | undefined>>({});
 
-  // Sincroniza o estado local com a URL sempre que ela mudar
+  // Sincroniza estado local com os parâmetros da URL
   useEffect(() => {
     const sync: Record<string, Order | undefined> = {};
     headers.forEach((h: any) => {
@@ -28,8 +28,9 @@ export default function TableInformations({
     });
     setLocalSort(sync);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchParams]); // depende de searchParams para reagir a navegações
+  }, [searchParams]);
 
+  // Selecionar / desmarcar todos os checkboxes
   function handleSelectAll(event: React.ChangeEvent<HTMLInputElement>) {
     const checked = event.target.checked;
     const checkboxes = document.querySelectorAll<HTMLInputElement>(
@@ -40,17 +41,32 @@ export default function TableInformations({
     });
   }
 
+  // Atualiza ordenação — garante que apenas um sortParam fica ativo
   function handleSort(sortParam: string) {
-    const currentOrder = (localSort[sortParam] ?? (searchParams.get(sortParam) as Order | null)) || null;
+    const currentOrder =
+      (localSort[sortParam] ??
+        (searchParams.get(sortParam) as Order | null)) || null;
 
+    // Alterna ordem
     let nextOrder: Order = "desc";
     if (currentOrder === "desc") nextOrder = "asc";
     else if (currentOrder === "asc") nextOrder = "desc";
 
-    setLocalSort(prev => ({ ...prev, [sortParam]: nextOrder }));
+    setLocalSort({ [sortParam]: nextOrder }); // <-- reseta todos os outros
 
+    // Monta nova URL
     const newParams = new URLSearchParams(searchParams.toString());
+
+    // Remove todos os filtros antigos antes de aplicar o novo
+    headers.forEach((h: any) => {
+      if (h.sortParam) {
+        newParams.delete(h.sortParam);
+      }
+    });
+
+    // Define somente o novo filtro ativo
     newParams.set(sortParam, nextOrder);
+
     router.push(`?${newParams.toString()}`);
   }
 
@@ -70,8 +86,11 @@ export default function TableInformations({
             {headers.map((header: any, idx: number) => {
               const isSortable = header?.sortParam && header.field !== "actions";
               const displayOrder: Order | undefined =
-                (header?.sortParam ? localSort[header.sortParam] : undefined) ??
-                (header?.sortParam ? (searchParams.get(header.sortParam) as Order | null) || undefined : undefined);
+                header?.sortParam
+                  ? localSort[header.sortParam] ??
+                    (searchParams.get(header.sortParam) as Order | null) ??
+                    undefined
+                  : undefined;
 
               return (
                 <th
