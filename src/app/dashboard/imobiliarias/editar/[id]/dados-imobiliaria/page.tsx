@@ -29,8 +29,6 @@ export default function Page() {
     "trade_name",
     "legal_name",
     "cnpj",
-    "municipal_registration",
-    "state_registration",
     "license_number",
   ];
 
@@ -172,7 +170,6 @@ export default function Page() {
               onChange={field.onChange}
               label="CNPJ"
               id="cnpj"
-              required
               mask="cnpj"
               maxLength={18}
               placeHolder="00.000.000/0000-00"
@@ -193,7 +190,6 @@ export default function Page() {
               onChange={field.onChange}
               label="Inscrição Municipal"
               id="municipal_registration"
-              required
               placeHolder="Digite a inscrição municipal"
               type="number"
               svg={<IconeAndares className="svg-darkmode-estatic" />}

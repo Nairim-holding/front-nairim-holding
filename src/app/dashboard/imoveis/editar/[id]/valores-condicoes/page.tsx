@@ -182,7 +182,7 @@ export default function Page() {
               label="Valor do Imóvel (Compra)"
               id="purchase_value"
               required
-              placeHolder="R$ 180.000,00"
+              placeHolder="Digite o Valor do Imóvel"
               svg={<IconeValorImovel className="svg-darkmode-estatic" />}></Input>
           )}
         />
@@ -216,7 +216,7 @@ export default function Page() {
               label="Valor IPTU"
               id="property_tax"
               required
-              placeHolder="R$ 1.440,00"
+              placeHolder="Digite o Valor do IPTU"
               type="text"
               tabIndex={3}
               mask="money"
@@ -235,7 +235,7 @@ export default function Page() {
               label="Valor Aluguel"
               id="rental_value"
               required
-              placeHolder="R$ 900,00"
+              placeHolder="Digite o Valor do Aluguel"
               type="text"
               tabIndex={4}
               mask="money"
@@ -254,7 +254,7 @@ export default function Page() {
               label="Valor Condomínio"
               id="condo_fee"
               required
-              placeHolder="R$ 320,00"
+              placeHolder="Digitte o Valor do Condomínio"
               type="text"
               tabIndex={5}
               mask="money"
@@ -288,7 +288,7 @@ export default function Page() {
               onChange={field.onChange}
               label="Valor de Venda"
               id="sale_value"
-              placeHolder="R$ 220.000,00"
+              placeHolder="Digite o Valor de Venda"
               type="text"
               tabIndex={6}
               mask="money"
@@ -328,7 +328,7 @@ export default function Page() {
               type="text"
               tabIndex={8}
               mask="money"
-              placeHolder="R$ 1.000,00"
+              placeHolder="Digite o Valor dos Custos Extras"
               svg={<IconeValorImovel className="svg-darkmode-estatic" />}
             />
           )}

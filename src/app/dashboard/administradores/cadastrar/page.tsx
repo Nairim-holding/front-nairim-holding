@@ -88,12 +88,11 @@ export default function Page() {
   }
 
     const optionsGender = [
-        { label: "Homem", value: "MALE" },
-        { label: "Mulher", value: "FEMALE" },
-        { label: "Outro", value: "OTHER" },
+        { label: "Masculino", value: "MALE" },
+        { label: "Feminino", value: "FEMALE" },
     ];
   return (
-    <Section title="Cadastrar Admnistrador" href="/dashboard/administradores" hrefText="Voltar para dashboard">
+    <Section title="Cadastrar Admnistrador" href="/dashboard/administradores" hrefText="Voltar">
         <div className="mt-3 bg-[#fff] dark:bg-[#12101D] p-5 rounded-xl" style={{ boxShadow: '0px 4px 8px 3px rgba(0, 0, 0, 0.15)' }}>
             <Form
                 className="flex flex-row flex-wrap gap-8"

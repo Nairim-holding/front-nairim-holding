@@ -58,8 +58,8 @@ export default function CarrosselBanner({
                     title={property.title}
                     fill
                   />
-                  <div className="absolute inset-px text-white flex justify-center items-center flex-col px-16 tablet:justify-start mobile:px-5">
-                    <div className="flex w-full text-[16px] font-medium py-5 gap-2 italic tablet:text-[14px]">
+                  <div className="absolute inset-px text-white flex justify-center items-start flex-col px-16 tablet:justify-start mobile:px-5">
+                    {/* <div className="flex w-full text-[16px] font-medium py-5 gap-2 italic tablet:text-[14px]">
                       <svg
                         width="24"
                         height="24"
@@ -79,16 +79,16 @@ export default function CarrosselBanner({
                       {property.addresses?.[0]
                         ? `${property.addresses[0].address.street} ${property.addresses[0].address.number}, ${property.addresses[0].address.district} - ${property.addresses[0].address.city}`
                         : ""}
-                    </div>
+                    </div> */}
                     <h1 className="text-[60px] font-bold w-full text-start leading-[60px] mb-5 font-bebasNeue tablet:text-[30px] tablet:m-0 mobile:leading-[30px]">
                       {property.title}
                     </h1>
-                    <p className="italic opacity-70 font-normal mb-5 tablet:text-[14px] tablet:m-0 text-start w-full">
+                    {/* <p className="italic opacity-70 font-normal mb-5 tablet:text-[14px] tablet:m-0 text-start w-full">
                       {property.type?.description ?? ""}
-                    </p>
+                    </p> */}
                     <Link
                       href="#"
-                      className="mt-10 text-[24px] leading-[60px] flex items-center justify-center font-normal font-bebasNeue bg-[rgba(255,255,255,0.3)] pointer max-w-[230px] w-full rounded-full tablet:mt-3 tablet:leading-[30px] tablet:text-[16px] tablet:max-w-[170px]">
+                      className="mt-2 text-[24px] leading-[60px] flex items-center justify-center font-normal font-bebasNeue bg-[rgba(255,255,255,0.3)] pointer max-w-[230px] w-full rounded-full tablet:mt-3 tablet:leading-[30px] tablet:text-[16px] tablet:max-w-[170px]">
                       ver imóvel
                     </Link>
                   </div>

@@ -77,7 +77,6 @@ export default function Page(){
               autoFocus
               label="Contato"
               id="contact"
-              required
               placeHolder="Digite o nome do contato"
               disabled
               svg={

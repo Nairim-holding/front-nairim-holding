@@ -117,7 +117,6 @@ export default function Page(){
               autoFocus
               label="Contato"
               id="contact"
-              required
               mask="telefone"
               placeHolder="Digite o nome do contato"
               svg={

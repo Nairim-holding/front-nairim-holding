@@ -119,7 +119,6 @@ export default function Page(){
               autoFocus
               label="Contato"
               id="contact"
-              required
               placeHolder="Digite o nome do contato"
               svg={
                 <IconeNomeFantasia className="svg-darkmode-estatic" />

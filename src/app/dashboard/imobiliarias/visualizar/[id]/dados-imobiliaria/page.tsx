@@ -134,7 +134,6 @@ useEffect(() => {
               onChange={field.onChange}
               label="Inscrição Municipal"
               id="municipal_registration"
-              required
               placeHolder="Digite a inscrição municipal"
               type="number"
               svg={<IconeAndares className="svg-darkmode-estatic" />}
@@ -154,7 +153,6 @@ useEffect(() => {
               onChange={field.onChange}
               label="Inscrição Estadual"
               id="state_registration"
-              required
               placeHolder="Digite a inscrição estadual"
               type="number"
               svg={<IconeAndares className="svg-darkmode-estatic" />}

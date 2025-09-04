@@ -103,7 +103,7 @@ export default function Page(){
                     label="Valor do Imóvel (Compra)"
                     id="purchase_value"
                     required
-                    placeHolder="R$ 180.000,00"
+                    placeHolder="Digite o Valor do Imóvel"
                     disabled
                     svg={<IconeValorImovel className="svg-darkmode-estatic" />}>
                 </Input>
@@ -141,7 +141,7 @@ export default function Page(){
                     id="property_tax"
                     required
                     disabled
-                    placeHolder="R$ 1.440,00"
+                    placeHolder="Digite o Valor do IPTU"
                     type="text"
                     mask="money"
                     svg={<IconeValorIptu className="svg-darkmode-estatic" />}>
@@ -160,7 +160,7 @@ export default function Page(){
                     label="Valor Aluguel"
                     id="rental_value"
                     required
-                    placeHolder="R$ 900,00"
+                    placeHolder="Digite o Valor do Aluguel"
                     type="text"
                     mask="money"
                     disabled
@@ -180,7 +180,7 @@ export default function Page(){
                     label="Valor Condomínio"
                     id="condo_fee"
                     required
-                    placeHolder="R$ 320,00"
+                    placeHolder="Digite o Valor do Condomínio"
                     type="text"
                     mask="money"
                     disabled
@@ -217,7 +217,7 @@ export default function Page(){
                 onChange={field.onChange}
                 label="Valor de Venda"
                 id="sale_value"
-                placeHolder="R$ 220.000,00"
+                placeHolder="Digite o Valor de Venda"
                 type="text"
                 mask="money"
                 disabled
@@ -256,7 +256,7 @@ export default function Page(){
                 id="extra_charges"
                 type="text"
                 mask="money"
-                placeHolder="R$ 1.000,00"
+                placeHolder="Digite o Valor dos Custos Extras"
                 disabled
                 svg={<IconeValorImovel className="svg-darkmode-estatic" />}
               />

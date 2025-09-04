@@ -25,13 +25,10 @@ export default function Page() {
 
   const requiredFields = [
     "name",
-    "internal_code",
     "occupation",
     "marital_status",
     "cnpj",
     "cpf",
-    "state_registration",
-    "municipal_registration",
   ];
 
   const [isFormComplete, setIsFormComplete] = useState<boolean>(false);
@@ -161,7 +158,6 @@ export default function Page() {
               onChange={field.onChange}
               label="Código Interno"
               id="internal_code"
-              required
               placeHolder="Código Interno do proprietário"
               type="text"
               svg={<IconeNomeFantasia className="svg-darkmode-estatic" />}
@@ -260,7 +256,6 @@ export default function Page() {
               onChange={field.onChange}
               label="Inscrição Municipal"
               id="municipal_registration"
-              required
               placeHolder="Digite a inscrição municipal"
               type="text"
               svg={<IconeAndares className="svg-darkmode-estatic" />}
@@ -279,7 +274,6 @@ export default function Page() {
               onChange={field.onChange}
               label="Inscrição Estadual"
               id="state_registration"
-              required
               placeHolder="Digite a inscrição estadual"
               type="text"
               svg={<IconeAndares className="svg-darkmode-estatic" />}

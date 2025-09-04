@@ -96,7 +96,6 @@ useEffect(() => {
               onChange={field.onChange}
               label="Código Interno"
               id="internal_code"
-              required
               placeHolder="Código Interno do proprietário"
               type="text"
               svg={<IconeNomeFantasia className="svg-darkmode-estatic" />}
@@ -198,7 +197,6 @@ useEffect(() => {
               onChange={field.onChange}
               label="Inscrição Municipal"
               id="municipal_registration"
-              required
               placeHolder="Digite a inscrição municipal"
               type="text"
               svg={<IconeAndares className="svg-darkmode-estatic" />}
@@ -218,7 +216,6 @@ useEffect(() => {
               onChange={field.onChange}
               label="Inscrição Estadual"
               id="state_registration"
-              required
               placeHolder="Digite a inscrição estadual"
               type="text"
               svg={<IconeAndares className="svg-darkmode-estatic" />}

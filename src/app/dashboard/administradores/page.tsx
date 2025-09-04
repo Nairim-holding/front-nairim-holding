@@ -96,10 +96,8 @@ export default async function Page({ searchParams }: PageProps) {
                 <td className="py-1 px-2">
                   <div className="flex items-center justify-center whitespace-nowrap">
                   {user.gender === 'MALE'
-                    ? 'Homem'
-                    : user.gender === 'FEMALE'
-                    ? 'Mulher'
-                    : 'Outro'
+                    ? 'Masculino'
+                    : 'Feminino'
                   }
                   </div>
                 </td>

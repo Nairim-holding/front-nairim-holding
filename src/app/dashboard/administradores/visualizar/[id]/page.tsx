@@ -35,11 +35,8 @@ export default function Page() {
         birth_date: formatDateValueInput(userData.birth_date) || "",
         gender:
         userData.gender === "MALE"
-          ? "Homem"
-          : userData.gender === "FEMALE"
-          ? "Mulher"
-          : userData.gender === "OTHER"
-          && "Outro" || "",
+          ? "Masculino"
+          : "Feminino",
         password: userData.password || "",
         password_confirm: userData.password || "",
       });
@@ -51,7 +48,7 @@ export default function Page() {
     <Section
       title="Visualizar Admnistrador"
       href="/dashboard/administradores"
-      hrefText="Voltar para dashboard">
+      hrefText="Voltar">
       <div
         className="mt-3 bg-[#fff] dark:bg-[#12101D] p-5 rounded-xl"
         style={{ boxShadow: "0px 4px 8px 3px rgba(0, 0, 0, 0.15)" }}>

@@ -29,13 +29,10 @@ export default function Page() {
   useEffect(() => {
     const requiredFields = [
       "name",
-      "internal_code",
       "occupation",
       "marital_status",
       "cnpj",
       "cpf",
-      "state_registration",
-      "municipal_registration"
     ];
 
     const allFilled = requiredFields.every((field) => {
@@ -122,7 +119,6 @@ export default function Page() {
               onChange={field.onChange}
               label="Código Interno"
               id="internal_code"
-              required
               placeHolder="Código Interno do inquilino"
               type="number"
               svg={<IconeNomeFantasia className="svg-darkmode-estatic" />}
@@ -221,7 +217,6 @@ export default function Page() {
               onChange={field.onChange}
               label="Inscrição Municipal"
               id="municipal_registration"
-              required
               placeHolder="Digite a inscrição municipal"
               type="number"
               svg={<IconeAndares className="svg-darkmode-estatic" />}
@@ -240,7 +235,6 @@ export default function Page() {
               onChange={field.onChange}
               label="Inscrição Estadual"
               id="state_registration"
-              required
               placeHolder="Digite a inscrição estadual"
               type="number"
               svg={<IconeAndares className="svg-darkmode-estatic" />}

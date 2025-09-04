@@ -32,8 +32,6 @@ export default function Page() {
       "trade_name",
       "legal_name",
       "cnpj",
-      "municipal_registration",
-      "state_registration",
       "license_number",
     ];
 
@@ -161,7 +159,6 @@ export default function Page() {
               onChange={field.onChange}
               label="Inscrição Municipal"
               id="municipal_registration"
-              required
               placeHolder="Digite a inscrição municipal"
               type="number"
               svg={<IconeAndares className="svg-darkmode-estatic" />}
@@ -180,7 +177,6 @@ export default function Page() {
               onChange={field.onChange}
               label="Inscrição Estadual"
               id="state_registration"
-              required
               placeHolder="Digite a inscrição estadual"
               type="number"
               svg={<IconeAndares className="svg-darkmode-estatic" />}
