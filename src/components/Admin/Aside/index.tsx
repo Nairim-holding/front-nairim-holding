@@ -12,7 +12,6 @@ import IconAdd from "@/components/Icons/IconAdd";
 
 export default function Aside({ darkMode, setDarkMode }: AsideProps) {
   const [showSublist, setShowSublist] = useState(false);
-  console.log(showSublist)
   const [openAside, setOpenAside] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
   const pathname = usePathname();
@@ -44,12 +43,17 @@ export default function Aside({ darkMode, setDarkMode }: AsideProps) {
       }
   }, []);
 
+  useEffect(() => {
+  if (isMobile) {
+    setShowSublist(false);
+  }
+}, [pathname, isMobile]);
   return (
     isMobile ?
     <aside
       className={`fixed ${
         darkMode ? "bg-[#12101D]" : "bg-[#fff]"
-      } left-0 top-[85%] h-[80px] z-[1000] aside-shadow w-full top-full`}
+      } left-0 top-[85%] h-[80px] z-[1000] aside-shadow w-full`}
     >
       <div
         className={`flex flex-row h-full pt-5 px-5 gap-7 pb-3 items-center justify-center w-full transition-all ease-linear relative`}>

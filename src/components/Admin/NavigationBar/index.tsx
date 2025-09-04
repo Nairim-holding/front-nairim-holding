@@ -34,7 +34,7 @@ export default function NavigationBar({ formComplete, allEnabled = false, steps 
 
   return (
     <div className="flex border-b-2 pb-3 border-[#11111180] dark:border-[#fff]">
-      <ul className="flex items-center gap-3 flex-wrap">
+      <ul className="flex items-center gap-3 flex-wrap justify-center sm:justify-start">
         {steps.map((step, index) => {
           const isActive = index === activeStep;
           const isEnabled = enabledSteps[index];
