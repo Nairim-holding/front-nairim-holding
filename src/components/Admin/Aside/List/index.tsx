@@ -9,6 +9,8 @@ import IconDashboard from "@/components/Icons/IconDashboard";
 import IconGear from "@/components/Icons/IconGear";
 import IconRegister from "@/components/Icons/IconRegister";
 import IconAdd from "@/components/Icons/IconAdd";
+import { GrMoney } from "react-icons/gr";
+import IconCoins from "@/components/Icons/IconCoins";
 
 export default function List({
   darkMode,
@@ -231,6 +233,27 @@ export default function List({
             </ul>
           </div>
         )}
+
+        <NavItem
+          href="/dashboard/locacoes"
+          title="Ir para a página de locações">
+          <div className="w-[25px] flex justify-center">
+            <IconCoins color="#666" size={20}></IconCoins>
+          </div>
+          <p
+            className={`
+                text-[#666666] normal transition-all duration-200 ease-in-out
+                ${
+                  openAside
+                    ? "opacity-100 translate-x-0"
+                    : "opacity-0 -translate-x-2"
+                }
+                ${openAsideDelay ? "visible" : "invisible"}
+                whitespace-nowrap
+              `}>
+            Locações
+          </p>
+        </NavItem>
 
         <NavItem
           href="/dashboard/configuracoes"

@@ -72,15 +72,9 @@ export default function Page() {
       </section>
 
       <section className="flex flex-col justify-center items-center bg-white w-full px-6 sm:px-10 md:px-16 lg:px-32 xl:px-40 2xl:px-60 py-10 sm:rounded-t-3xl lg:rounded-none">
-        <button className="flex items-center justify-center gap-3 border w-full max-w-md border-gray-300 rounded-lg py-2 mb-6">
-          <FcGoogle size="30px" className="my-icon" />
-          <span className="text-sm">Continue com o Google</span>
-        </button>
-
-        <div className="flex items-center w-full max-w-md mb-4">
-          <div className="flex-grow border-t border-gray-300" />
-          <span className="mx-4 text-gray-500 text-sm">Ou login com</span>
-          <div className="flex-grow border-t border-gray-300" />
+        <div className="flex items-start w-full max-w-md mb-8 flex-col">
+          <h1 className="text-[24px] font-bold text-[#333333]">Bem vindo de volta!</h1>
+          <span className="text-[#333333] text-[18px]">Faça login</span>
         </div>
 
         <form className="flex flex-col gap-4 w-full max-w-md" onSubmit={onSubmit}>
