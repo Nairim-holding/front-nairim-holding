@@ -78,10 +78,6 @@ input[type="search"]::-webkit-search-results-decoration {
   font-family: var(--font-roboto);
 }
 
-.main-dashboard {
-  padding-left: 90px;
-}
-
 .transcended-image {
   animation: brilhoEntrada 1s ease-out forwards;
 }

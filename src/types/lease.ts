@@ -12,13 +12,11 @@ export interface Lease {
       id: number;
       description: string;
     };
-    owner?: {
-      id: number;
-      name: string;
-    };
   };
-
-  tenant_id: number;
+  owner?: {
+    id: number;
+    name: string;
+  };
   tenant?: Tenant;
 
   start_date: string;
@@ -36,6 +34,8 @@ export interface Lease {
   rent_due_date?: string;
   tax_due_date?: string;
   condo_due_date?: string;
+
+  contract_number?: number;
 
   created_at?: string;
   updated_at?: string;

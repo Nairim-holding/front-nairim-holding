@@ -84,75 +84,32 @@ export default async function Page({ searchParams }: PageProps) {
         totalPage={data.totalPages}
         limit={limit}
         route="/locacoes"
-        hrefAdd="/dashboard/locacoes/cadastrar"
-        routeApi="lease"
+        hrefAdd="/dashboard/locacoes/cadastrar/dados-locacoes"
+        routeApi="leases"
         delTitle="a locação"
       />
       <Suspense fallback={<SkeletonTable />}>
         <TableInformations
           headers={[
-            { label: "ID", field: "id", sortParam: "sort_id" },
-            {
-              label: "ID Imóvel",
-              field: "property_id",
-              sortParam: "sort_property",
-            },
-            { label: "Tipo Imóvel", field: "type", sortParam: "sort_type" },
-            { label: "Situação", field: "status", sortParam: "sort_status" },
-            { label: "Proprietário", field: "owner", sortParam: "sort_owner" },
-            { label: "Inquilino", field: "tenant", sortParam: "sort_tenant" },
-            {
-              label: "Data Início",
-              field: "start_date",
-              sortParam: "sort_start_date",
-            },
-            {
-              label: "Data Final",
-              field: "end_date",
-              sortParam: "sort_end_date",
-            },
-            {
-              label: "Valor Aluguel",
-              field: "rent_amount",
-              sortParam: "sort_rent_amount",
-            },
-            {
-              label: "Condomínio",
-              field: "condo_fee",
-              sortParam: "sort_condominium_fee",
-            },
-            { label: "IPTU", field: "property_tax", sortParam: "sort_iptu" },
-            {
-              label: "Taxas Extras",
-              field: "extra_charges",
-              sortParam: "sort_extra_fees",
-            },
-            {
-              label: "Comissão (%)",
-              field: "agency_commission",
-              sortParam: "sort_commission_percent",
-            },
-            {
-              label: "Valor Comissão",
-              field: "commission_amount",
-              sortParam: "sort_commission_value",
-            },
-            {
-              label: "Vencimento Aluguel",
-              field: "rent_due_date",
-              sortParam: "sort_due_rent",
-            },
-            {
-              label: "Vencimento IPTU",
-              field: "tax_due_date",
-              sortParam: "sort_due_iptu",
-            },
-            {
-              label: "Vencimento Condomínio",
-              field: "condo_due_date",
-              sortParam: "sort_due_condominium",
-            },
-            { label: "Ação", field: "actions" },
+            {label: "ID", field: "id", sortParam: "sort_id" },
+            {label: "Contrato", field: "contract_number", sortParam:"contract_number"},
+            {label: "Data Início",field: "start_date",sortParam: "sort_start_date"},
+            {label: "Data Final",field: "end_date",sortParam: "sort_end_date"},
+            {label: "Situação", field: "status", sortParam: "sort_status" },
+            {label: "Nome do Imóvel",field: "property_title",sortParam: "sort_property"},
+            {label: "Tipo Imóvel", field: "type", sortParam: "sort_type" },
+            {label: "Proprietário", field: "owner", sortParam: "sort_owner" },
+            {label: "Inquilino", field: "tenant", sortParam: "sort_tenant" },
+            {label: "Valor Aluguel",field: "rent_amount",sortParam: "sort_rent_amount"},
+            {label: "Valor Condomínio",field: "condo_fee",sortParam: "sort_condominium_fee"},
+            {label: "Valor IPTU", field: "property_tax", sortParam: "sort_iptu" },
+            {label: "Valor Taxas Extras",field: "extra_charges",sortParam: "sort_extra_fees"},
+            {label: "Comissão Imobiliária (%)",field: "agency_commission",sortParam: "sort_commission_percent"},
+            {label: "Valor Comissão",field: "commission_amount",sortParam: "sort_commission_value"},
+            {label: "Vencimento Aluguel",field: "rent_due_date",sortParam: "sort_due_rent",},
+            {label: "Vencimento IPTU",field: "tax_due_date",sortParam: "sort_due_iptu"},
+            {label: "Vencimento Condomínio",field: "condo_due_date",sortParam: "sort_due_condominium"},
+            {label: "Ação", field: "actions" },
           ]}
         >
           {data.data.map((e: Lease) => (
@@ -170,8 +127,9 @@ export default async function Page({ searchParams }: PageProps) {
                   />
                   {e.id ?? ""}
                 </div></td>
-              <td className="py-1 px-2">{e.property?.id}</td>
-              <td className="py-1 px-2">{e.property?.type?.description}</td>
+              <td className="py-1 px-2">{e.contract_number}</td>
+              <td className="py-1 px-2">{formatDate(e.start_date)}</td>
+              <td className="py-1 px-2">{formatDate(e.end_date)}</td>
               <td className="py-1 px-2">
                 {e.status === "EXPIRED"
                   ? "CONTRATO VENCIDO"
@@ -181,10 +139,10 @@ export default async function Page({ searchParams }: PageProps) {
                   ? "CONTRATO EM DIA"
                   : e.status}
               </td>
-              <td className="py-1 px-2">{e.property?.owner?.name}</td>
+              <td className="py-1 px-2">{e.property?.title}</td>
+              <td className="py-1 px-2">{e.property?.type?.description}</td>
+              <td className="py-1 px-2">{e.owner?.name}</td>
               <td className="py-1 px-2">{e.tenant?.name}</td>
-              <td className="py-1 px-2">{formatDate(e.start_date)}</td>
-              <td className="py-1 px-2">{formatDate(e.end_date)}</td>
               <td className="py-1 px-2">{e.rent_amount}</td>
               <td className="py-1 px-2">{e.condo_fee}</td>
               <td className="py-1 px-2">{e.property_tax}</td>
@@ -199,7 +157,7 @@ export default async function Page({ searchParams }: PageProps) {
                   id={e.id}
                   name={`Locação ${e.id}`}
                   route="locacoes"
-                  subRoute=""
+                  subRoute="dados-locacoes"
                 />
               </td>
             </tr>
