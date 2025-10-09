@@ -14,6 +14,7 @@ interface PageProps {
     limit?: string;
     search?: string;
     sort_id?: string;
+    sort_contract_number?: string;
     sort_property?: string;
     sort_type?: string;
     sort_owner?: string;
@@ -40,8 +41,10 @@ export default async function Page({ searchParams }: PageProps) {
   const limit = Number(params.limit ?? "30");
   const search = params.search ?? "";
 
+  // Ajustei os nomes para bater com backend, incluindo sort_contract_number
   const sortParams: Record<string, string> = {
     sort_id: params.sort_id ?? "",
+    sort_contract_number: params.sort_contract_number ?? "",
     sort_property: params.sort_property ?? "",
     sort_type: params.sort_type ?? "",
     sort_owner: params.sort_owner ?? "",
@@ -91,25 +94,25 @@ export default async function Page({ searchParams }: PageProps) {
       <Suspense fallback={<SkeletonTable />}>
         <TableInformations
           headers={[
-            {label: "ID", field: "id", sortParam: "sort_id" },
-            {label: "Contrato", field: "contract_number", sortParam:"contract_number"},
-            {label: "Data Início",field: "start_date",sortParam: "sort_start_date"},
-            {label: "Data Final",field: "end_date",sortParam: "sort_end_date"},
-            {label: "Situação", field: "status", sortParam: "sort_status" },
-            {label: "Nome do Imóvel",field: "property_title",sortParam: "sort_property"},
-            {label: "Tipo Imóvel", field: "type", sortParam: "sort_type" },
-            {label: "Proprietário", field: "owner", sortParam: "sort_owner" },
-            {label: "Inquilino", field: "tenant", sortParam: "sort_tenant" },
-            {label: "Valor Aluguel",field: "rent_amount",sortParam: "sort_rent_amount"},
-            {label: "Valor Condomínio",field: "condo_fee",sortParam: "sort_condominium_fee"},
-            {label: "Valor IPTU", field: "property_tax", sortParam: "sort_iptu" },
-            {label: "Valor Taxas Extras",field: "extra_charges",sortParam: "sort_extra_fees"},
-            {label: "Comissão Imobiliária (%)",field: "agency_commission",sortParam: "sort_commission_percent"},
-            {label: "Valor Comissão",field: "commission_amount",sortParam: "sort_commission_value"},
-            {label: "Vencimento Aluguel",field: "rent_due_date",sortParam: "sort_due_rent",},
-            {label: "Vencimento IPTU",field: "tax_due_date",sortParam: "sort_due_iptu"},
-            {label: "Vencimento Condomínio",field: "condo_due_date",sortParam: "sort_due_condominium"},
-            {label: "Ação", field: "actions" },
+            { label: "ID", field: "id", sortParam: "sort_id" },
+            { label: "Contrato", field: "contract_number", sortParam: "sort_contract_number" },
+            { label: "Data Início", field: "start_date", sortParam: "sort_start_date" },
+            { label: "Data Final", field: "end_date", sortParam: "sort_end_date" },
+            { label: "Situação", field: "status", sortParam: "sort_status" },
+            { label: "Nome do Imóvel", field: "property_title", sortParam: "sort_property" },
+            { label: "Tipo Imóvel", field: "type", sortParam: "sort_type" },
+            { label: "Proprietário", field: "owner", sortParam: "sort_owner" },
+            { label: "Inquilino", field: "tenant", sortParam: "sort_tenant" },
+            { label: "Valor Aluguel", field: "rent_amount", sortParam: "sort_rent_amount" },
+            { label: "Valor Condomínio", field: "condo_fee", sortParam: "sort_condominium_fee" },
+            { label: "Valor IPTU", field: "property_tax", sortParam: "sort_iptu" },
+            { label: "Valor Taxas Extras", field: "extra_charges", sortParam: "sort_extra_fees" },
+            { label: "Comissão Imobiliária (%)", field: "agency_commission", sortParam: "sort_commission_percent" },
+            { label: "Valor Comissão", field: "commission_amount", sortParam: "sort_commission_value" },
+            { label: "Vencimento Aluguel", field: "rent_due_date", sortParam: "sort_due_rent" },
+            { label: "Vencimento IPTU", field: "tax_due_date", sortParam: "sort_due_iptu" },
+            { label: "Vencimento Condomínio", field: "condo_due_date", sortParam: "sort_due_condominium" },
+            { label: "Ação", field: "actions" },
           ]}
         >
           {data.data.map((e: Lease) => (
@@ -126,7 +129,8 @@ export default async function Page({ searchParams }: PageProps) {
                     id={e.id.toString()}
                   />
                   {e.id ?? ""}
-                </div></td>
+                </div>
+              </td>
               <td className="py-1 px-2">{e.contract_number}</td>
               <td className="py-1 px-2">{formatDate(e.start_date)}</td>
               <td className="py-1 px-2">{formatDate(e.end_date)}</td>

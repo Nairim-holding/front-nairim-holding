@@ -20,8 +20,8 @@ export default function Aside({ darkMode, setDarkMode }: AsideProps) {
     <>
       {/* Botão Hamburguer / X */}
       <button
-        className={`fixed top-5 z-[1100] bg-white dark:bg-[#12101D] p-2 rounded-md shadow-md transition-all duration-300
-          ${openAside ? "left-[14.25rem] opacity-100" : "left-5 opacity-70 hover:opacity-100"}
+        className={`fixed top-[8px] z-[1100] bg-white dark:bg-[#12101D] p-2 rounded-md shadow-md transition-all duration-300
+          ${openAside ? "left-[14.25rem] opacity-100" : "left-[10px] opacity-70 hover:opacity-100"}
         `}
         onClick={() => setOpenAside(!openAside)}
       >

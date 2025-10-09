@@ -13,11 +13,11 @@ import { Controller, FieldValues, useForm } from "react-hook-form";
 import { useUIStore } from "@/stores/uiStore";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import IconMoney from "@/components/Icons/IconMoney";
 
 export default function Page() {
-  const { handleSubmit, control, register, reset, watch } = useForm();
+  const { handleSubmit, control, reset, watch } = useForm();
   const [isFormComplete, setIsFormComplete] = useState<boolean>(false);
-  const [item, setItem] = useState<boolean>(false);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -29,17 +29,11 @@ export default function Page() {
   }, [reset]);
 
   const watchedValues = watch();
+
   useEffect(() => {
     const requiredFields = [
       "rent_amount",
-      "condo_fee",
-      "property_tax",
-      "extra_charges",
-      "agency_commission",
-      "commission_amount",
       "rent_due_date",
-      "tax_due_date",
-      "condo_due_date",
     ];
 
     const allFilled = requiredFields.every((field) => {
@@ -56,64 +50,64 @@ export default function Page() {
   } = useUIStore();
   const router = useRouter();
 
-async function submitData(data: FieldValues) {
-  setLoading(true);
-  try {
-    // pega dados da etapa anterior
-    const dataLocation = localStorage.getItem("dataLocation");
-    const parsedLocation = dataLocation ? JSON.parse(dataLocation) : {};
+  async function submitData(data: FieldValues) {
+    setLoading(true);
+    try {
+      const dataLocation = localStorage.getItem("dataLocation");
+      const parsedLocation = dataLocation ? JSON.parse(dataLocation) : {};
 
-    // monta o payload no formato do back
-    const payload = {
-      property_id: parsedLocation.property_id,
-      type_id: parsedLocation.type_id,
-      owner_id: parsedLocation.owner_id,
-      tenant_id: parsedLocation.tenant_id,
-      contract_number: parsedLocation.contract_number,
-      start_date: parsedLocation.start_date,
-      end_date: parsedLocation.end_date,
-      status: parsedLocation.status, // enum vindo do form inicial
+      const parseMoney = (value: string) =>
+        value ? parseFloat(value.replace(/\D/g, "")) / 100 : 0;
 
-      // dados desta tela
-      rent_amount: parseFloat(data.rent_amount?.replace(/\D/g, "")) / 100,
-      condo_fee: parseFloat(data.condo_fee?.replace(/\D/g, "")) / 100,
-      property_tax: parseFloat(data.property_tax?.replace(/\D/g, "")) / 100,
-      extra_charges: parseFloat(data.extra_charges?.replace(/\D/g, "")) / 100,
-      agency_commission: data.agency_commission,
-      commission_amount: parseFloat(data.commission_amount?.replace(/\D/g, "")) / 100,
-      rent_due_date: data.rent_due_date,
-      tax_due_date: data.tax_due_date,
-      condo_due_date: data.condo_due_date,
-    };
+      const payload = {
+        property_id: parsedLocation.property_id,
+        type_id: parsedLocation.type_id,
+        owner_id: parsedLocation.owner_id,
+        tenant_id: parsedLocation.tenant_id,
+        contract_number: parsedLocation.contract_number,
+        start_date: parsedLocation.start_date,
+        end_date: parsedLocation.end_date,
+        status: parsedLocation.status,
 
-    const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_URL_API}/leases`,
-      payload
-    );
+        rent_amount: parseMoney(data.rent_amount),
+        condo_fee: parseMoney(data.condo_fee),
+        property_tax: parseMoney(data.property_tax),
+        extra_charges: parseMoney(data.extra_charges),
+        agency_commission: data.agency_commission || null,
+        commission_amount: parseMoney(data.commission_amount),
+        rent_due_date: data.rent_due_date,
+        tax_due_date: data.tax_due_date || null,
+        condo_due_date: data.condo_due_date || null,
+      };
 
-    if (response.status === 200) {
-      setSuccessMessage({
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_URL_API}/leases`,
+        payload
+      );
+
+      if (response.status === 200) {
+        setSuccessMessage({
+          visible: true,
+          message: response.data.message || "Locação criada com sucesso!",
+        });
+        router.push("/dashboard/locacoes");
+        localStorage.clear();
+      }
+    } catch (error) {
+      console.error("Erro ao criar locação:", error);
+      setErrorMessage({
         visible: true,
-        message: response.data.message || "Locação criada com sucesso!",
+        message: "Erro ao criar a locação",
       });
-      router.push("/dashboard/locacoes");
+    } finally {
+      setLoading(false);
     }
-  } catch (error) {
-    console.error("Erro ao criar locação:", error);
-    setErrorMessage({
-      visible: true,
-      message: "Erro ao criar a locação",
-    });
-  } finally {
-    setLoading(false);
   }
-}
-
 
   return (
     <>
       <NavigationBar
-        formComplete={item}
+        formComplete={isFormComplete}
         steps={[
           {
             path: `/dashboard/locacoes/cadastrar/dados-locacoes`,
@@ -141,8 +135,7 @@ async function submitData(data: FieldValues) {
           defaultValue=""
           render={({ field }) => (
             <Input
-              value={field.value}
-              onChange={field.onChange}
+              {...field}
               type="text"
               mask="money"
               tabIndex={1}
@@ -161,15 +154,13 @@ async function submitData(data: FieldValues) {
           defaultValue=""
           render={({ field }) => (
             <Input
-              value={field.value}
-              onChange={field.onChange}
+              {...field}
               type="text"
               mask="money"
               tabIndex={2}
               label="Valor Condomínio"
               id="condo_fee"
-              required
-              placeHolder="Digite o Valor do Condomínio"
+              placeHolder="Valor do Condomínio"
               svg={<IconeValorCondominio className="svg-darkmode-estatic" />}
             />
           )}
@@ -181,15 +172,13 @@ async function submitData(data: FieldValues) {
           defaultValue=""
           render={({ field }) => (
             <Input
-              value={field.value}
-              onChange={field.onChange}
+              {...field}
               type="text"
               mask="money"
               tabIndex={3}
               label="Valor IPTU"
               id="property_tax"
-              required
-              placeHolder="Digite o Valor do IPTU"
+              placeHolder="Valor do IPTU"
               svg={<IconeValorIptu className="svg-darkmode-estatic" />}
             />
           )}
@@ -201,16 +190,14 @@ async function submitData(data: FieldValues) {
           defaultValue=""
           render={({ field }) => (
             <Input
-              value={field.value}
-              onChange={field.onChange}
+              {...field}
               type="text"
               mask="money"
               tabIndex={4}
-              label="Valor Taxas Extras"
+              label="Taxas Extras"
               id="extra_charges"
-              required
-              placeHolder="Digite o Valor das Taxas Extras"
-              svg={<IconeCifrao className="svg-darkmode-estatic" />}
+              placeHolder="Valor das Taxas Extras"
+              svg={<IconMoney margin color="#666" size={30} />}
             />
           )}
         />
@@ -221,15 +208,14 @@ async function submitData(data: FieldValues) {
           defaultValue=""
           render={({ field }) => (
             <Input
-              value={field.value}
-              onChange={field.onChange}
-              type="text"
+              {...field}
+              type="number"
               tabIndex={5}
+              maxLength={3}
               label="Comissão Imobiliária (%)"
               id="agency_commission"
-              required
-              placeHolder="Digite a Comissão (%)"
-              svg={<IconeCifrao className="svg-darkmode-estatic" />}
+              placeHolder="Comissão %"
+              svg={<IconMoney margin color="#666" size={30} />}
             />
           )}
         />
@@ -240,16 +226,14 @@ async function submitData(data: FieldValues) {
           defaultValue=""
           render={({ field }) => (
             <Input
-              value={field.value}
-              onChange={field.onChange}
+              {...field}
               type="text"
               mask="money"
               tabIndex={6}
               label="Valor Comissão"
               id="commission_amount"
-              required
-              placeHolder="Digite o Valor da Comissão"
-              svg={<IconeCifrao className="svg-darkmode-estatic" />}
+              placeHolder="Valor Comissão"
+              svg={<IconMoney margin color="#666" size={30} />}
             />
           )}
         />
@@ -260,14 +244,12 @@ async function submitData(data: FieldValues) {
           defaultValue=""
           render={({ field }) => (
             <Input
-              value={field.value}
-              onChange={field.onChange}
+              {...field}
               type="date"
               tabIndex={7}
               label="Vencimento Aluguel"
               id="rent_due_date"
               required
-              placeHolder="12/05/2024"
               svg={<IconeDataCompra className="svg-darkmode-estatic" />}
             />
           )}
@@ -279,14 +261,11 @@ async function submitData(data: FieldValues) {
           defaultValue=""
           render={({ field }) => (
             <Input
-              value={field.value}
-              onChange={field.onChange}
+              {...field}
               type="date"
               tabIndex={8}
               label="Vencimento IPTU"
               id="tax_due_date"
-              required
-              placeHolder="12/06/2024"
               svg={<IconeDataCompra className="svg-darkmode-estatic" />}
             />
           )}
@@ -298,14 +277,11 @@ async function submitData(data: FieldValues) {
           defaultValue=""
           render={({ field }) => (
             <Input
-              value={field.value}
-              onChange={field.onChange}
+              {...field}
               type="date"
               tabIndex={9}
               label="Vencimento Condomínio"
               id="condo_due_date"
-              required
-              placeHolder="12/07/2024"
               svg={<IconeDataCompra className="svg-darkmode-estatic" />}
             />
           )}
@@ -315,13 +291,13 @@ async function submitData(data: FieldValues) {
           <button
             type="submit"
             onClick={handleSubmit(submitData)}
-            className={`max-w-[200px] w-full h-[40px] bg-gradient-to-r from-[#8B5CF6] to-[#6D28D9] text-[#fff] rounded-lg text-[16px] font-normal border-[#8B5CF6] drop-shadow-purple-soft ${
+            className={`max-w-[200px] w-full h-[40px] bg-gradient-to-r from-[#8B5CF6] to-[#6D28D9] text-white rounded-lg text-[16px] font-normal drop-shadow-purple-soft ${
               !isFormComplete ? "opacity-50 cursor-not-allowed" : ""
             }`}
-            disabled={!isFormComplete}
-            tabIndex={15}
+            disabled={!isFormComplete || loading}
+            tabIndex={10}
           >
-            Salvar
+            {loading ? "Salvando..." : "Salvar"}
           </button>
         </div>
       </Form>

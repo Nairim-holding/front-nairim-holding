@@ -3,6 +3,10 @@ export interface IconProps{
     color: string;
 }
 
+export interface IconMarginProps extends IconProps{
+    margin: boolean;
+}
+
 export interface IconPropsPasswordHiddenShow extends IconProps{
     hidden: boolean;
 }

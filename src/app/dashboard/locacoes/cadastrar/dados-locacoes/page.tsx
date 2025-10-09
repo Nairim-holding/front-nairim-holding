@@ -7,8 +7,8 @@ import { useEffect, useState } from "react";
 
 import IconeCasa from "@/../public/icons/casa.svg";
 import IconeMobiliado from "@/../public/icons/mobiliado.svg";
-import IconeQuartos from "@/../public/icons/quartos.svg";
 import IconeNomeFantasia from "@/../public/icons/nome-fantasia.svg";
+import IconeDataCompra from "@/../public/icons/calendario.svg";
 import NavigationBar from "@/components/Admin/NavigationBar";
 import axios from "axios";
 import Owner from "@/types/owner";
@@ -172,9 +172,8 @@ export default function Page() {
               label="Data Início"
               id="start_date"
               required
-              placeHolder="Quantidade de quartos"
               type="date"
-              svg={<IconeQuartos className="svg-darkmode-estatic" />}
+              svg={<IconeDataCompra className="svg-darkmode-estatic" />}
               tabIndex={2}
             />
           )}
@@ -191,9 +190,8 @@ export default function Page() {
               label="Data Final"
               id="end_date"
               required
-              placeHolder="Quantidade de quartos"
               type="date"
-              svg={<IconeQuartos className="svg-darkmode-estatic" />}
+              svg={<IconeDataCompra className="svg-darkmode-estatic" />}
               tabIndex={3}
             />
           )}
@@ -229,7 +227,7 @@ export default function Page() {
               options={optionsImoveis ?? []}
               svg={<IconeMobiliado className="svg-darkmode-estatic" />}
               onChange={field.onChange}
-              defaultValue={field.name}
+              defaultValue={field.value}
               tabIndex={5}
             />
           )}
@@ -297,7 +295,7 @@ export default function Page() {
               !isFormComplete ? "opacity-50 cursor-not-allowed" : ""
             }`}
             disabled={!isFormComplete}
-            tabIndex={15}>
+            tabIndex={9}>
             Salvar
           </button>
         </div>
