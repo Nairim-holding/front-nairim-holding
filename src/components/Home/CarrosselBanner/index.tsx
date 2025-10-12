@@ -28,6 +28,12 @@ export default function CarrosselBanner({
     horizontalSwiper?.slidePrev();
     verticalSwiper?.slidePrev();
   };
+
+  const isImage = (fileType?: string) => {
+    if (!fileType) return false;
+    return fileType.startsWith("image/");
+  };
+
   return (
     <section>
       <div className="relative">
@@ -50,7 +56,8 @@ export default function CarrosselBanner({
                     className="w-full h-full object-cover brightness-50"
                     src={
                       property?.documents?.length &&
-                      property.documents[0]?.file_path
+                      property.documents[0] &&
+                      isImage(property.documents[0].file_type)
                         ? property.documents[0].file_path
                         : "/banners/banner5.png"
                     }
@@ -140,7 +147,8 @@ export default function CarrosselBanner({
                     className="w-[488px] h-[388px] tablet:w-[288px] tablet:h-[188px] object-cover rounded-3xl"
                     src={
                       property?.documents?.length &&
-                      property.documents[0]?.file_path
+                      property.documents[0] &&
+                      isImage(property.documents[0].file_type)
                         ? property.documents[0].file_path
                         : "/banners/banner5.png"
                     }

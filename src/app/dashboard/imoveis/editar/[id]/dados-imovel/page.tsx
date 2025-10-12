@@ -24,10 +24,12 @@ import { useParams, useRouter } from "next/navigation";
 import Property from "@/types/property";
 import { useUIStore } from "@/stores/uiStore";
 import formatDateValueInput from "@/utils/formatDateValueInput";
+import Agency from "@/types/agency";
 
 export default function Page() {
   const [proprietarios, setProprietarios] = useState<[Owner]>();
   const [tipoImovel, setTipoImovel] = useState<[propertyTypes]>();
+  const [imobiliarias, setImobiliarias] = useState<[Agency]>();
   const {
     successMessage, setSuccessMessage,
     errorMessage, setErrorMessage,
@@ -42,12 +44,18 @@ export default function Page() {
       const responseTipoImovel = await axios.get(
         `${process.env.NEXT_PUBLIC_URL_API}/property-type`
       );
+      const responseImobiliarias = await axios.get(
+        `${process.env.NEXT_PUBLIC_URL_API}/agency`
+      );
 
       if (responseProprietarios.status == 200)
         setProprietarios(responseProprietarios.data.data);
 
       if (responseTipoImovel.status == 200)
         setTipoImovel(responseTipoImovel.data.data);
+
+      if(responseImobiliarias.status == 200)
+        setImobiliarias(responseImobiliarias.data.data)
     }
     getItens();
   }, []);
@@ -74,7 +82,7 @@ export default function Page() {
           `${process.env.NEXT_PUBLIC_URL_API}/property/${id}`
         );
         const propertyData = response.data as Property;
-
+        
         if (propertyData) {
           reset({
             title: propertyData.title || "",
@@ -87,6 +95,7 @@ export default function Page() {
             frontage: propertyData.frontage || "",
             tax_registration: propertyData.tax_registration || "",
             owner_id: propertyData.owner_id || "",
+            agency_id: propertyData.agency_id || "",
             type_id: propertyData.type_id || "",
             furnished: propertyData.furnished ?? "",
             floor_number: propertyData.floor_number || "",
@@ -141,6 +150,10 @@ export default function Page() {
     value: e.id.toString(),
   }));
 
+  const optionsImobiliarias = imobiliarias?.map((e) => ({
+    label: e.legal_name, value: e.id.toString()
+  }))
+
   const optionsTiposImoveis = tipoImovel?.map((e) => ({
     label: e.description,
     value: e.id.toString(),
@@ -174,6 +187,7 @@ export default function Page() {
     "furnished",
     "floor_number",
     "tax_registration",
+    "agency_id"
   ];
   const watchedValues = watch();
   const handleSave = () => {
@@ -479,6 +493,24 @@ export default function Page() {
         />
 
         <Controller
+          name="agency_id"
+          control={control}
+          defaultValue={optionsImobiliarias?.[0]?.value}
+          render={({ field }) => (
+            <Select
+              id="agency_id"
+              label="Imobiliaria"
+              required
+              options={optionsImobiliarias ?? []}
+              svg={<IconeMobiliado className="svg-darkmode-estatic" />}
+              onChange={field.onChange}
+              defaultValue={field.value}
+              tabIndex={13}
+            />
+          )}
+        />
+
+        <Controller
           name="furnished"
           control={control}
           defaultValue={optionsMobiliado[1].value}
@@ -491,7 +523,7 @@ export default function Page() {
               svg={<IconeMobiliado className="svg-darkmode-estatic" />}
               onChange={field.onChange}
               defaultValue={field.value}
-              tabIndex={13}
+              tabIndex={14}
             />
           )}
         />
@@ -502,7 +534,7 @@ export default function Page() {
           id="notes"
           placeHolder="Escreva detalhes não especificados anteriormente"
           svg={<IconeObservacoes className="svg-darkmode-estatic" />}
-          tabIndex={14}
+          tabIndex={15}
         />
         <div className="w-full flex justify-end mt-4">
           <button

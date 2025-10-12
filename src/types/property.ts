@@ -1,10 +1,13 @@
 import Address from "./address";
+import Agency from "./agency";
 import Owner from "./owner";
 import propertyTypes from './propertyTypes';
 
 export default interface Property {
     id: number;
+    agency: Agency;
     owner_id: number;
+    agency_id: number;
     type_id: number;
     title: string;
     bedrooms: number;
@@ -26,6 +29,8 @@ export default interface Property {
     type?: propertyTypes
     documents: [{
         id: number;
+        file_type: string;
         file_path: string;
     }]
+    is_active: boolean;
 }

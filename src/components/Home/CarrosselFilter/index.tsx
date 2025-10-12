@@ -13,6 +13,10 @@ export default function CarrosselFilter({
 }: {
   propertys: Property[];
 }) {
+  const isImage = (fileType?: string) => {
+    if (!fileType) return false;
+    return fileType.startsWith("image/");
+  };
   return (
     <section className="bg-[#fff] p-10 mobile:p-5">
       <div className="flex flex-wrap gap-5">
@@ -103,9 +107,11 @@ export default function CarrosselFilter({
                   <div className="relative w-full max-w-[850px] min-w-[200px] min-h-[200px] h-[247px]">
                     <Image
                       src={
-                        property?.documents?.length && property.documents[0]?.file_path
-                          ? property.documents[0].file_path
-                          : "/banners/banner2.png"
+                      property?.documents?.length &&
+                      property.documents[0] &&
+                      isImage(property.documents[0].file_type)
+                        ? property.documents[0].file_path
+                        : "/banners/banner5.png"
                       }
                       alt={property.title}
                       title={property.title}

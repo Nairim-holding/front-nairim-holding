@@ -22,21 +22,27 @@ import Owner from "@/types/owner";
 import propertyTypes from "@/types/propertyTypes";
 import { useUIStore } from "@/stores/uiStore";
 import { useRouter } from "next/navigation";
+import Agency from "@/types/agency";
 
 export default function Page() {
   const [proprietarios, setProprietarios] = useState<[Owner]>();
   const [tipoImovel, setTipoImovel] = useState<[propertyTypes]>();
+  const [imobiliarias, setImobiliarias] = useState<[Agency]>();
   const [item, setItem] = useState<boolean>(false);
   useEffect(() => {
     async function getItens(){
       const responseProprietarios = await axios.get(`${process.env.NEXT_PUBLIC_URL_API}/owner`);
       const responseTipoImovel = await axios.get(`${process.env.NEXT_PUBLIC_URL_API}/property-type`);
+      const responseImobiliarias = await axios.get(`${process.env.NEXT_PUBLIC_URL_API}/agency`);
 
       if(responseProprietarios.status == 200)
         setProprietarios(responseProprietarios.data.data)
       
       if(responseTipoImovel.status == 200)
         setTipoImovel(responseTipoImovel.data.data)
+
+      if(responseImobiliarias.status == 200)
+        setImobiliarias(responseImobiliarias.data.data)
     }
     getItens();
   }, []);
@@ -49,6 +55,10 @@ export default function Page() {
 
   const optionsTiposImoveis = tipoImovel?.map((e) => ({
     label: e.description, value: e.id.toString()
+  }))
+
+  const optionsImobiliarias = imobiliarias?.map((e) => ({
+    label: e.legal_name, value: e.id.toString()
   }))
 
   const optionsMobiliado = [
@@ -81,6 +91,7 @@ export default function Page() {
       "furnished",
       "floor_number",
       "tax_registration",
+      "agency_id"
     ];
 
     const allFilled = requiredFields.every((field) => {
@@ -374,6 +385,24 @@ export default function Page() {
         />
 
         <Controller
+          name="agency_id"
+          control={control}
+          defaultValue={optionsImobiliarias?.[0]?.value}
+          render={({ field }) => (
+            <Select
+              id="agency_id"
+              label="Imobiliaria"
+              required
+              options={optionsImobiliarias ?? []}
+              svg={<IconeMobiliado className="svg-darkmode-estatic" />}
+              onChange={field.onChange}
+              defaultValue={field.value}
+              tabIndex={13}
+            />
+          )}
+        />
+
+        <Controller
           name="furnished"
           control={control}
           defaultValue={optionsMobiliado[1].value}
@@ -386,7 +415,7 @@ export default function Page() {
               svg={<IconeMobiliado className="svg-darkmode-estatic" />}
               onChange={field.onChange}
               defaultValue={field.value}
-              tabIndex={13}
+              tabIndex={14}
             />
           )}
         />
@@ -397,7 +426,7 @@ export default function Page() {
           id="notes"
           placeHolder="Escreva detalhes não especificados anteriormente"
           svg={<IconeObservacoes className="svg-darkmode-estatic" />}
-          tabIndex={14}
+          tabIndex={15}
         />
 
         <div className="w-full flex justify-end mt-4">
@@ -408,7 +437,7 @@ export default function Page() {
               !isFormComplete ? "opacity-50 cursor-not-allowed" : ""
             }`}
             disabled={!isFormComplete}
-            tabIndex={15}>
+            tabIndex={16}>
             Salvar
           </button>
         </div>
