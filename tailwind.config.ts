@@ -25,11 +25,16 @@ export default {
         bg_input: "#4762FF14"
       },
       screens: {
+        'sm': '640px',
+        'md': '768px',
+        'lg': '1024px',
+        'xl': '1280px',
+        '2xl': '1536px',
         'laptop': {'max': '992px'},
         'tablet': {'max': '768px'},
         'mobile': {'max': '550px'},
-        'mobile-sm': {'max': '375px'}
-      },
+        'mobile-sm': {'max': '375px'},
+},
       dropShadow: {
         'custom-black': '0px 4px 6px #0000000D',
         'purple-soft': '0px 4px 12px #8B5CF666',
