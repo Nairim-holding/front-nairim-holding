@@ -25,12 +25,16 @@ interface MetricResponse {
     info: string;
   }[];
 }
+
 interface PageProps {
-  searchParams: Record<string, string | string[] | undefined>;
+  searchParams: Promise<{
+    startDate?: string;
+    endDate?: string;
+  }>;
 }
 
-export default async function Page({ searchParams }: PageProps) {
-  const params = await searchParams || {};
+export default async function Page({ searchParams }: PageProps){
+  const params = await searchParams;
 
   const today = new Date();
   const thirtyDaysAgo = new Date();

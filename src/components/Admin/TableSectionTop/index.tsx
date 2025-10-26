@@ -162,7 +162,7 @@ export default function SectionTop({
               setVisible={setFilterVisible}
               onApply={handleApplyFilter}
               onClear={handleClearFilters}
-              title={titlePlural}
+              title={titlePlural ?? ''}
               fields={fields?.map(f => ({
                 key: f.field as string,
                 label: f.label,

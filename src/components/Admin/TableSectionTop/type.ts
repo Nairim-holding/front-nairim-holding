@@ -18,5 +18,5 @@ export interface SectionTopProps {
   delTitle: string;
   data?: any;
   fields?: FieldMeta[];
-  titlePlural: string;
+  titlePlural?: string;
 }
