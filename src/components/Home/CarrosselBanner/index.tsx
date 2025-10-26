@@ -171,7 +171,7 @@ export default function CarrosselBanner({
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                 <path
                   d="M7.00033 12.8332L1.16699 6.99984M1.16699 6.99984L7.00033 1.1665M1.16699 6.99984H12.8337"
-                  stroke="white"
+                  stroke="black"
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -185,7 +185,7 @@ export default function CarrosselBanner({
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                 <path
                   d="M4.16699 9.99984H15.8337M15.8337 9.99984L10.0003 4.1665M15.8337 9.99984L10.0003 15.8332"
-                  stroke="white"
+                  stroke="black"
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
