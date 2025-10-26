@@ -17,20 +17,20 @@ export default function Layout({ children }: {children: React.ReactNode}){
         popUpDelete, setPopUpDelete,
     } = useUIStore();
 
-    useEffect(() => {
-      const darkModeStorage = sessionStorage.getItem("darkmode");
-      setDarkMode(darkModeStorage === "true");
-    }, []);
+    // useEffect(() => {
+    //   const darkModeStorage = sessionStorage.getItem("darkmode");
+    //   setDarkMode(darkModeStorage === "true");
+    // }, []);
 
-    useEffect(() => {
-      if (darkMode) {
-        sessionStorage.setItem("darkmode", "true");
-        document.documentElement.classList.add("dark-mode");
-      } else {
-        document.documentElement.classList.remove("dark-mode");
-        sessionStorage.setItem("darkmode", "false");
-      }
-    }, [darkMode]);
+    // useEffect(() => {
+    //   if (darkMode) {
+    //     sessionStorage.setItem("darkmode", "true");
+    //     document.documentElement.classList.add("dark-mode");
+    //   } else {
+    //     document.documentElement.classList.remove("dark-mode");
+    //     sessionStorage.setItem("darkmode", "false");
+    //   }
+    // }, [darkMode]);
 
     useEffect(() => {
         const cookie = Cookies.get("authToken") as string;

@@ -129,7 +129,7 @@ export default function Page() {
           ))}
         </div>
 
-        <div className="flex items-center gap-5 mt-8 border-t-2 pt-6 border-[#11111180] dark:border-[#fff] w-full justify-end">
+        <div className="flex items-center gap-5 mt-8 border-t-2 pt-6 border-[#11111180] w-full justify-end">
           <Link
             href="/dashboard/imoveis"
             className="flex justify-center gap-3 items-center max-w-[250px] w-full h-[50px] bg-gradient-to-r from-[#8B5CF6] to-[#6D28D9] rounded-lg text-[16px] font-medium text-[#fff] border border-[#8B5CF6] drop-shadow-purple-soft"

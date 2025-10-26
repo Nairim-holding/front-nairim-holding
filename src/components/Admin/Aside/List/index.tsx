@@ -133,7 +133,7 @@ export default function List({
 
         {showSublist && openAside && (
           <div className="absolute left-[300px] top-[18%] pl-3">
-            <ul className=" bg-white dark:bg-[#12101D] aside-shadow max-w-[300px] min-w-[300px] p-4 rounded-lg gap-2 flex flex-col">
+            <ul className=" bg-white aside-shadow max-w-[300px] min-w-[300px] p-4 rounded-lg gap-2 flex flex-col">
               <NavItem
                 href="/dashboard/administradores"
                 title="Ir para a página de administradores"

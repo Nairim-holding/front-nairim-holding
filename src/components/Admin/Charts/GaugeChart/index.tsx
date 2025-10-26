@@ -90,7 +90,7 @@ export default function GaugeCard({
             >
               <button
                 onClick={() => setIsFullscreen(false)}
-                className="absolute top-3 right-3 p-2 rounded-full bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 transition"
+                className="absolute top-3 right-3 p-2 rounded-full bg-slate-200 hover:bg-slate-300 transition"
               >
                 ✕
               </button>

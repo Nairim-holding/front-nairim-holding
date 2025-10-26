@@ -70,7 +70,7 @@ export default function GeoLocationMap({ locations }: GeoLocationMapProps) {
   if (locations.length === 0) {
     return (
       <div className="p-6 bg-white rounded-2xl shadow border border-slate-200 text-center h-[500px] flex items-center justify-center">
-        <p className="text-slate-500 dark:text-slate-400">
+        <p className="text-slate-500">
           Nenhum imóvel encontrado.
         </p>
       </div>
@@ -94,10 +94,10 @@ export default function GeoLocationMap({ locations }: GeoLocationMapProps) {
       {showPopup &&
         ReactDOM.createPortal(
           <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
-            <div className="bg-white dark:bg-slate-900 rounded-2xl p-4 shadow-2xl w-[90vw] h-[90vh] relative">
+            <div className="bg-white rounded-2xl p-4 shadow-2xl w-[90vw] h-[90vh] relative">
               <button
                 onClick={() => setShowPopup(false)}
-                className="absolute top-3 right-3 p-2 rounded-full bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 transition"
+                className="absolute top-3 right-3 p-2 rounded-full bg-slate-200 hover:bg-slate-300 transition"
               >
                 ✕
               </button>

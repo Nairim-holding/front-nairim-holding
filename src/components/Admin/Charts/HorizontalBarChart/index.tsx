@@ -52,7 +52,7 @@ export default function HorizontalBarChart({
         className="bg-white rounded-2xl p-4 shadow-md cursor-pointer hover:scale-[1.02] transition-transform select-none"
       >
         {label && (
-          <h2 className="text-lg font-semibold mb-3 text-slate-700 dark:text-slate-100 text-center">
+          <h2 className="text-lg font-semibold mb-3 text-slate-700 text-center">
             {label}
           </h2>
         )}
@@ -79,7 +79,7 @@ export default function HorizontalBarChart({
               </Bar>
             </BarChart>
           </ResponsiveContainer>
-          <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 text-center font-bold text-slate-700 dark:text-slate-100">
+          <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 text-center font-bold text-slate-700">
             Total: {total}
           </div>
         </div>
@@ -101,13 +101,13 @@ export default function HorizontalBarChart({
             >
               <button
                 onClick={() => setIsFullscreen(false)}
-                className="absolute top-3 right-3 p-2 rounded-full bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 transition"
+                className="absolute top-3 right-3 p-2 rounded-full bg-slate-200 hover:bg-slate-300 transition"
               >
                 ✕
               </button>
 
               {label && (
-                <h2 className="text-xl font-semibold mb-3 text-slate-800 dark:text-slate-100 text-center">
+                <h2 className="text-xl font-semibold mb-3 text-slate-800 text-center">
                   {label}
                 </h2>
               )}
@@ -139,7 +139,7 @@ export default function HorizontalBarChart({
                     </Bar>
                   </BarChart>
                 </ResponsiveContainer>
-                <div className="absolute bottom-5 left-1/2 transform -translate-x-1/2 text-center font-bold text-slate-800 dark:text-slate-100">
+                <div className="absolute bottom-5 left-1/2 transform -translate-x-1/2 text-center font-bold text-slate-800">
                   Total: {total}
                 </div>
               </div>

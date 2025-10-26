@@ -72,7 +72,7 @@ export default function Select({ options, defaultValue, onChange, label, require
 
       <Label id={id} label={label} required={required} svg={svg}></Label>
       <div
-        className={`${disabled ? 'bg-[#EDEDED] dark:bg-[#3a3559] dark:border dark:border-[#fff] cursor-not-allowed' : 'bg-white dark:bg-[#12101D] dark:text-[#fff] border border-[#CCCCCC] cursor-pointer'} rounded-lg py-2 px-4 flex justify-between items-center relative text-[14px] text-[#111111B2] h-[40px]`}
+        className={`${disabled ? 'bg-[#EDEDED] cursor-not-allowed' : 'bg-white border border-[#CCCCCC] cursor-pointer'} rounded-lg py-2 px-4 flex justify-between items-center relative text-[14px] text-[#111111B2] h-[40px]`}
         onClick={!disabled ? toggleSelect : () => null}
         tabIndex={tabIndex}
       >
@@ -81,12 +81,12 @@ export default function Select({ options, defaultValue, onChange, label, require
       </div>
 
       {isOpen && (
-        <ul className="absolute z-20 w-full bg-white dark:bg-[#12101D] dark:text-[#fff] border border-[#CCCCCC] rounded-lg mt-1 shadow-lg max-h-60 overflow-y-auto text-[14px] text-[#111111B2]">
+        <ul className="absolute z-20 w-full bg-white border border-[#CCCCCC] rounded-lg mt-1 shadow-lg max-h-60 overflow-y-auto text-[14px] text-[#111111B2]">
           {options.map((option) => (
             <li
               key={option.value}
               className={`py-2 px-4 cursor-pointer ${
-                selectedValue === option.value ? 'bg-[#EDEDED] dark:bg-[#3a3559] font-semibold' : ''
+                selectedValue === option.value ? 'bg-[#EDEDED] font-semibold' : ''
               }`}
               onClick={() => handleOptionClick(option)}
             >

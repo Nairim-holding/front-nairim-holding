@@ -132,11 +132,11 @@ export default function InputFile({
         </div>
       )}
       <Label id={id} label={label} required={required} svg={svg} />
-      <div className={`${disabled && 'bg-[#EDEDED]'} dark:bg-[#12101D] flex flex-col items-start w-full p-5 border-2 border-dashed border-[#CCCCCC] rounded-lg`}>
+      <div className={`${disabled && 'bg-[#EDEDED]'} flex flex-col items-start w-full p-5 border-2 border-dashed border-[#CCCCCC] rounded-lg`}>
         <button
           type="button"
           onClick={handleButtonClick}
-          className="flex justify-center items-center max-w-[200px] px-5 w-full h-[45px] bg-[#F0F0F0] dark:bg-[#111] dark:text-[#fff] rounded-lg text-[16px] font-medium text-[#666666] border border-[#E0E0E0] drop-shadow-custom-black"
+          className="flex justify-center items-center max-w-[200px] px-5 w-full h-[45px] bg-[#F0F0F0] rounded-lg text-[16px] font-medium text-[#666666] border border-[#E0E0E0] drop-shadow-custom-black"
         >
           {textButton}
         </button>
