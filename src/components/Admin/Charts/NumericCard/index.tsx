@@ -24,8 +24,8 @@ export default function NumericCard({ value, label, data, color = "#16a34a", var
           </h3>
       </div>
       {
-      <div className="absolute bg-[#EBEBEB] rounded-xl px-1 shadow-chart w-[70px] h-[25px] flex items-center justify-center gap-2 right-[100px] top-[50px]">
-      <p className="text-[#525252] font-roboto">{Math.round(Number(variation) / 100) + '%'}</p>
+      <div className="absolute bg-[#EBEBEB] rounded-xl px-1 shadow-chart w-[70px] h-[25px] flex items-center justify-center gap-2 left-[70%] top-[50px]">
+      <p className="text-[#525252] font-roboto">{Math.round(Number(variation)) + '%'}</p>
         {
           positive == true ? (
             <svg width="12" height="9" viewBox="0 0 12 9" fill="none" xmlns="http://www.w3.org/2000/svg">

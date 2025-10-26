@@ -22,8 +22,8 @@ export default function DashboardLayout({ metrics }: DashboardProps) {
       <DashboardFilter filter={filter} setFilter={setFilter}></DashboardFilter>
       <div className={`
         ${filter === 'financial' ? 'grid-finalcial' : ''}
-        ${filter === 'portfolio' ? 'grid-responsive' : ''}
-        ${filter === 'clients' ? 'grid-responsive' : ''}
+        ${filter === 'portfolio' ? 'grid-portfolio' : ''}
+        ${filter === 'clients' ? 'grid-client' : ''}
         ${filter === 'map' ? 'w-full' : ''}
       `}>
       {(filter === "financial" || filter === "all") && (
@@ -31,25 +31,25 @@ export default function DashboardLayout({ metrics }: DashboardProps) {
           <NumericCard
             value={`R$ ${metrics.averageRentalTicket.result.toFixed(2).replace('.', ',')}`}
             label="Ticket Médio do aluguel"
-            variation={metrics.averageRentalTicket.variation.toFixed(0)}
+            variation={metrics.averageRentalTicket.variation.toFixed(2)}
             positive={metrics.averageRentalTicket.variation == 0 ? 'equal' : metrics.averageRentalTicket.isPositive}
           />
           <NumericCard
             value={`R$ ${metrics.totalRentalActive?.result.toFixed(2).replace('.', ',')}`}
             label="Valor Total de Aluguel do Portfólio"
-            variation={metrics.totalRentalActive.variation.toFixed(0)}
+            variation={metrics.totalRentalActive.variation.toFixed(2)}
             positive={metrics.totalRentalActive.variation == 0 ? 'equal' : metrics.totalRentalActive.isPositive}
           />
           <NumericCard
             value={`R$ ${metrics.totalPropertyTaxAndCondoFee.result.toFixed(0).replace('.', ',')}`}
             label="Total de Impostos e Taxas (Mensal Est.)"
-            variation={metrics.totalPropertyTaxAndCondoFee.variation.toFixed(0)}
+            variation={metrics.totalPropertyTaxAndCondoFee.variation.toFixed(2)}
             positive={metrics.totalPropertyTaxAndCondoFee.variation == 0 ? 'equal' : metrics.totalPropertyTaxAndCondoFee.isPositive}
           />
           <NumericCard
             value={`R$ ${metrics.totalAcquisitionValue?.result.toFixed(2).replace('.', ',')}`}
             label="Valor Total de Aquisição do Portfólio"
-            variation={metrics.totalAcquisitionValue.variation.toFixed(0)}
+            variation={metrics.totalAcquisitionValue.variation.toFixed(2)}
             positive={metrics.totalAcquisitionValue.variation == 0 ? 'equal' : metrics.totalAcquisitionValue.isPositive}
           />
           <GaugeCard
@@ -60,69 +60,144 @@ export default function DashboardLayout({ metrics }: DashboardProps) {
           <NumericCard
             value={`${metrics.vacancyInMonths.result.toFixed(0)} meses`}
             label="Total da Vacância em Meses"
-            variation={metrics.vacancyInMonths.variation.toFixed(0)}
+            variation={metrics.vacancyInMonths.variation.toFixed(2)}
             positive={metrics.vacancyInMonths.variation == 0 ? 'equal' : metrics.vacancyInMonths.isPositive}
           />
         </>
       )}
-    {/*
-        {(filter === "portfolio" || filter === "all") && (
+
+      {(filter === "portfolio" || filter === "all") && (
           <>
             <NumericCard
-              value={totalPropertys.toString()}
+              value={metrics.totalPropertys.result.toString()}
               label="Total de Imóveis"
+              variation={metrics.totalPropertys.variation.toFixed(0)}
+              positive={
+                metrics.totalPropertys.variation === 0
+                  ? "equal"
+                  : metrics.totalPropertys.isPositive
+              }
             />
+
+            <NumericCard
+              value={metrics.countPropertiesWithLessThan3Docs.result.toString()}
+              label="Imóveis com Documentação Pendente"
+              variation={metrics.countPropertiesWithLessThan3Docs.variation.toFixed(
+                0
+              )}
+              positive={
+                metrics.countPropertiesWithLessThan3Docs.variation === 0
+                  ? "equal"
+                  : metrics.countPropertiesWithLessThan3Docs.isPositive
+              }
+            />
+
+            <NumericCard
+              value={metrics.totalPropertiesWithSaleValue.result.toString()}
+              label="Imóveis com Valor de Venda Definido"
+              variation={metrics.totalPropertiesWithSaleValue.variation.toFixed(
+                0
+              )}
+              positive={
+                metrics.totalPropertiesWithSaleValue.variation === 0
+                  ? "equal"
+                  : metrics.totalPropertiesWithSaleValue.isPositive
+              }
+            />
+
             <DonutChart
-              data={chartData}
+              data={[
+                {
+                  name: "Disponíveis",
+                  value: metrics.financialVacancyRate.result,
+                },
+                {
+                  name: "Ocupados",
+                  value: 100 - metrics.financialVacancyRate.result,
+                },
+              ]}
               label="Imóveis por Status de Disponibilidade"
+              colors={['#9E75FB', '#FF5555']}
             />
-            <HorizontalBarChart
-              data={chartDataHorizontal}
-              colors={["#6D28D9", "#f59e0b", "#3b82f6", "#ef4444"]}
-              label="Status dos Imóveis"
-            />
+
+              <DonutChart
+                data={metrics.availablePropertiesByType}
+                label="Imóveis na carteira"
+                colors={["#FF7777", "#77FF7B", "#F9FF53", "#77A2FF", "#E477FF"]}
+              />
+
+
             <GaugeCard
               label="Taxa de Ocupação"
-              value={rateOcuppied}
+              value={100 - metrics.financialVacancyRate.result}
               color="#8B5CF6"
             />
-            <NumericCard
-              value={countPropertiesWithLessThan3Docs.toString()}
-              label="Imóveis com Documentação Pendente"
-            />
-            <NumericCard
-              value={totalPropertiesWithSaleValue.toString()}
-              label="Imóveis com Valor de Venda Definido"
-            />
+
             <GaugeCard
               label="Índice de Vacância Física"
-              value={physicalVacancyRate}
+              value={metrics.vacancyInMonths.result}
               color="#8B5CF6"
             />
           </>
-        )}
-
+      )}
+      
         {(filter === "clients" || filter === "all") && (
           <>
             <NumericCard
-              value={totalOwners.toString()}
-              label="Total de Proprietários Ativos"
+              value={metrics.ownersTotal.result.toString()}
+              label="Proprietários Total"
+              variation={metrics.ownersTotal.variation.toFixed(
+                0
+              )}
+              positive={
+                metrics.ownersTotal.variation === 0
+                  ? "equal"
+                  : metrics.ownersTotal.isPositive
+              }
             />
             <NumericCard
-              value={totalTenants.toString()}
-              label="Total de Inquilinos Ativos"
+              value={metrics.tenantsTotal.result.toString()}
+              label="Inquilinos Total"
+              variation={metrics.tenantsTotal.variation.toFixed(
+                0
+              )}
+              positive={
+                metrics.tenantsTotal.variation === 0
+                  ? "equal"
+                  : metrics.tenantsTotal.isPositive
+              }
             />
             <NumericCard
-              value={propertyOwnerRatio.toFixed(2)}
-              label="Relação Imóveis/Proprietário"
+              value={metrics.propertiesPerOwner.result.toFixed(2)}
+              label="Imóveis por Proprietário"
+              variation={metrics.propertiesPerOwner.variation.toFixed(
+                0
+              )}
+              positive={
+                metrics.propertiesPerOwner.variation === 0
+                  ? "equal"
+                  : metrics.propertiesPerOwner.isPositive
+              }
             />
-            <HorizontalBarChart
-              data={chartDataByAgency}
-              colors={["#6D28D9", "#f59e0b", "#3b82f6", "#ef4444"]}
+            <NumericCard
+              value={metrics.agenciesTotal.result.toFixed(2)}
+              label="Total de Agência Parceiras"
+              variation={metrics.agenciesTotal.variation.toFixed(
+                0
+              )}
+              positive={
+                metrics.agenciesTotal.variation === 0
+                  ? "equal"
+                  : metrics.agenciesTotal.isPositive
+              }
+            />
+            <DonutChart
+              data={metrics.propertiesByAgency}
+              colors={["#FF7777", "#F9FF53", "#77FF7B", "#E477FF", "#77A2FF"]}
               label="Imóveis por Agência"
             />
           </>
-        )} */}
+        )}
 
         {(filter === "map" || filter === "all") && (
           <GeoLocationMapWrapper locations={metrics.geolocationData} />
