@@ -6,6 +6,6 @@ const GeoLocationMap = dynamic(() => import("@/components/Admin/Charts/GeoLocati
   ssr: false,
 });
 
-export default function GeoLocationMapWrapper({ properties }: { properties: any[] }) {
-  return <GeoLocationMap properties={properties} />;
+export default function GeoLocationMapWrapper({ locations }: {   locations: { lat: number; lng: number; info: string }[]}) {
+  return <GeoLocationMap locations={locations} />;
 }

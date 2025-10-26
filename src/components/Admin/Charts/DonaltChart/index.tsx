@@ -86,10 +86,10 @@ export default function DonutChart({
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
-        className="bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-md cursor-pointer hover:scale-[1.02] transition-transform select-none"
+        className="bg-white rounded-lg border border-[#DDE1E6] p-4 shadow-md cursor-pointer hover:scale-[1.02] transition-transform select-none"
       >
         {label && (
-          <h2 className="text-lg font-semibold mb-3 text-slate-700 dark:text-slate-100 text-center">
+          <h2 className="text-lg font-semibold mb-3 text-[#697077] text-center">
             {label}
           </h2>
         )}
@@ -133,7 +133,7 @@ export default function DonutChart({
             exit={{ opacity: 0 }}
           >
             <motion.div
-              className="bg-white dark:bg-slate-800 rounded-2xl p-6 relative w-full max-w-4xl h-[90vh]"
+              className="bg-white rounded-2xl p-6 relative w-full max-w-4xl h-[90vh]"
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
@@ -143,19 +143,19 @@ export default function DonutChart({
             >
               <button
                 onClick={() => setIsFullscreen(false)}
-                className="absolute top-3 right-3 p-2 rounded-full bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 transition"
+                className="absolute top-3 right-3 p-2 rounded-full bg-slate-200 hover:bg-slate-300 transition"
               >
                 ✕
               </button>
 
-              <h2 className="text-xl font-semibold mb-3 text-slate-800 dark:text-slate-100 text-center">
+              <h2 className="text-xl font-semibold mb-3 text-slate-800 text-center">
                 {label}
               </h2>
 
               <div className="relative h-full w-full">
                 {selectedFullscreen && (
                   <div className="absolute inset-0 flex justify-center items-center pointer-events-none">
-                    <span className="text-4xl font-bold text-slate-800 dark:text-slate-100">
+                    <span className="text-4xl font-bold text-slate-800">
                       {data.find((d) => d.name === selectedFullscreen)?.value ?? ""}
                     </span>
                   </div>

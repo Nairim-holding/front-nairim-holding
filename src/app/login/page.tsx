@@ -47,7 +47,7 @@ export default function Page() {
   const togglePassword = () => setShowPassword((prev) => !prev);
 
   return (
-    <section className={`font-poppins flex flex-col lg:flex-row h-dvh w-full bg-gradient-to-b from-cor_grad_1 via-cor_grad_2 to-cor_grad_3`}>
+    <section className={`font-poppins flex flex-col lg:flex-row h-dvh w-full gradient`}>
 
       <section className="w-full flex flex-col items-center justify-center text-center p-6 lg:hidden">
         <Image
@@ -115,7 +115,7 @@ export default function Page() {
           <button
             type="submit"
             disabled={isLoading}
-            className={`bg-gradient-to-r from-cor_grad_1 to-cor_grad_2 text-white rounded-lg py-2 mt-2 transition-opacity ${
+            className={`gradient-button cursor-pointer text-white rounded-lg py-2 mt-2 transition-opacity ${
               isLoading ? 'opacity-50 cursor-not-allowed' : ''
             }`}
           >

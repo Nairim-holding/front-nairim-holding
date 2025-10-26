@@ -6,6 +6,7 @@ import Section from "@/components/Ui/Section";
 import { SkeletonTable } from "@/components/Admin/SkeletonTable";
 import ListActions from "@/components/Admin/ListActions";
 import Agency from "@/types/agency";
+import { FieldMeta } from "@/types/fieldMeta";
 
 interface PageProps {
   searchParams: Promise<{
@@ -30,6 +31,33 @@ interface PageProps {
     sort_email?: string;
   }>;
 }
+
+const agencyFields: FieldMeta[] = [
+  { key: "id", label: "ID", type: "number" },
+  { key: "trade_name", label: "Nome Fantasia", type: "text" },
+  { key: "legal_name", label: "Razão Social", type: "text" },
+  { key: "cnpj", label: "CNPJ", type: "text" },
+  { key: "state_registration", label: "Inscrição Estadual", type: "number" },
+  { key: "municipal_registration", label: "Inscrição Municipal", type: "number" },
+  { key: "license_number", label: "Número de Licença", type: "text" },
+
+  { key: "addresses.zip_code", label: "CEP", type: "text" },
+  { key: "addresses.street", label: "Rua", type: "text" },
+  { key: "addresses.number", label: "Número", type: "number" },
+  { key: "addresses.district", label: "Bairro", type: "text" },
+  { key: "addresses.city", label: "Cidade", type: "text" },
+  { key: "addresses.state", label: "Estado", type: "text" },
+  { key: "addresses.country", label: "País", type: "text" },
+
+  { key: "contacts.contact.contact", label: "Nome do Contato", type: "text" },
+  { key: "contacts.contact.telephone", label: "Telefone", type: "text" },
+  { key: "contacts.contact.phone", label: "Celular", type: "text" },
+  { key: "contacts.contact.email", label: "Email", type: "text" },
+  { key: "contacts.contact.whatsapp", label: "WhatsApp", type: "checkbox" },
+
+  { key: "created_at", label: "Criado em", type: "text" },
+  { key: "updated_at", label: "Atualizado em", type: "text" },
+];
 
 export default async function Page({ searchParams }: PageProps) {
   const params = await searchParams;
@@ -84,6 +112,9 @@ export default async function Page({ searchParams }: PageProps) {
         hrefAdd="/dashboard/imobiliarias/cadastrar/dados-imobiliaria"
         routeApi="agency"
         delTitle="a imobiliária"
+        data={data}
+        fields={agencyFields}
+        titlePlural="imobiliarias"
       />
       <Suspense fallback={<SkeletonTable />}>
         <TableInformations

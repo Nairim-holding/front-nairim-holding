@@ -25,9 +25,9 @@ export default function Layout({ children }: {children: React.ReactNode}){
     useEffect(() => {
       if (darkMode) {
         sessionStorage.setItem("darkmode", "true");
-        document.documentElement.classList.add("dark");
+        document.documentElement.classList.add("dark-mode");
       } else {
-        document.documentElement.classList.remove("dark");
+        document.documentElement.classList.remove("dark-mode");
         sessionStorage.setItem("darkmode", "false");
       }
     }, [darkMode]);

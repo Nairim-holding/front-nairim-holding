@@ -49,7 +49,7 @@ export default function HorizontalBarChart({
     <>
       <div
         onClick={() => setIsFullscreen(true)}
-        className="bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-md cursor-pointer hover:scale-[1.02] transition-transform select-none"
+        className="bg-white rounded-2xl p-4 shadow-md cursor-pointer hover:scale-[1.02] transition-transform select-none"
       >
         {label && (
           <h2 className="text-lg font-semibold mb-3 text-slate-700 dark:text-slate-100 text-center">
@@ -94,7 +94,7 @@ export default function HorizontalBarChart({
             exit={{ opacity: 0 }}
           >
             <motion.div
-              className="bg-white dark:bg-slate-800 rounded-2xl p-6 relative w-full max-w-4xl h-[90vh]"
+              className="bg-white rounded-2xl p-6 relative w-full max-w-4xl h-[90vh]"
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}

@@ -25,51 +25,11 @@ interface Property {
 }
 
 interface GeoLocationMapProps {
-  properties: Property[];
+  locations: { lat: number; lng: number; info: string }[],
 }
 
-export default function GeoLocationMap({ properties }: GeoLocationMapProps) {
-  const [locations, setLocations] = useState<
-    { lat: number; lng: number; info: string }[]
-  >([]);
-  const [loading, setLoading] = useState(true);
+export default function GeoLocationMap({ locations }: GeoLocationMapProps) {
   const [showPopup, setShowPopup] = useState(false);
-
-  useEffect(() => {
-    async function fetchCoordinates() {
-      setLoading(true);
-      const coords: { lat: number; lng: number; info: string }[] = [];
-
-      for (const property of properties) {
-        const addr = property.addresses?.[0]?.address;
-        if (!addr) continue;
-
-        const fullAddress = `${addr.street}, ${addr.number}, ${addr.city}, ${addr.state}, ${addr.country}`;
-        try {
-          const response = await fetch(
-            `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
-              fullAddress
-            )}`
-          );
-          const data = await response.json();
-          if (data && data[0]) {
-            coords.push({
-              lat: parseFloat(data[0].lat),
-              lng: parseFloat(data[0].lon),
-              info: `${property.title} (${addr.city}/${addr.state})`,
-            });
-          }
-        } catch (error) {
-          console.error("Erro ao obter coordenadas:", error);
-        }
-      }
-
-      setLocations(coords);
-      setLoading(false);
-    }
-
-    fetchCoordinates();
-  }, [properties]);
 
   const icon = L.icon({
     iconUrl: "https://cdn-icons-png.flaticon.com/512/684/684908.png",
@@ -107,17 +67,9 @@ export default function GeoLocationMap({ properties }: GeoLocationMapProps) {
     </MapContainer>
   );
 
-  if (loading) {
-    return (
-      <div className="p-6 bg-white dark:bg-slate-800 rounded-2xl shadow border border-slate-200 dark:border-slate-700 text-center flex items-center justify-center h-[500px]">
-        <p className="text-slate-500 dark:text-slate-400">Carregando mapa...</p>
-      </div>
-    );
-  }
-
   if (locations.length === 0) {
     return (
-      <div className="p-6 bg-white dark:bg-slate-800 rounded-2xl shadow border border-slate-200 dark:border-slate-700 text-center h-[500px] flex items-center justify-center">
+      <div className="p-6 bg-white rounded-2xl shadow border border-slate-200 text-center h-[500px] flex items-center justify-center">
         <p className="text-slate-500 dark:text-slate-400">
           Nenhum imóvel encontrado.
         </p>
@@ -128,10 +80,10 @@ export default function GeoLocationMap({ properties }: GeoLocationMapProps) {
   return (
     <>
       <div
-        className="p-4 bg-white dark:bg-slate-800 rounded-2xl shadow border border-slate-200 dark:border-slate-700 cursor-pointer transition hover:scale-[1.01]"
+        className="p-4 bg-white rounded-2xl shadow border border-slate-200 cursor-pointer transition hover:scale-[1.01]"
         onClick={() => setShowPopup(true)}
       >
-        <h3 className="text-lg font-semibold mb-3 text-slate-700 dark:text-slate-100 text-center">
+        <h3 className="text-lg font-semibold mb-3 text-slate-700 text-center">
           Mapa de Localização dos Imóveis
         </h3>
         <div className="relative w-full h-[500px] overflow-hidden rounded-2xl">

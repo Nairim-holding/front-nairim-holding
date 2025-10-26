@@ -6,6 +6,7 @@ import Section from "@/components/Ui/Section";
 import { SkeletonTable } from "@/components/Admin/SkeletonTable";
 import Property from "@/types/property";
 import ListActions from "@/components/Admin/ListActions";
+import { FieldMeta } from "@/types/fieldMeta";
 
 interface PageProps {
   searchParams: Promise<{
@@ -32,12 +33,35 @@ interface PageProps {
     sort_floor_number?: string;
     sort_tax_registration?: string;
     sort_notes?: string;
+    [key: string]: string | undefined;
   }>;
 }
 
+const propertyFields: FieldMeta[] = [
+  { key: "id", label: "ID", type: "number" },
+  { key: "owner", label: "Proprietário", type: "text" },
+  { key: "title", label: "Título", type: "text" },
+  { key: "zip_code", label: "CEP", type: "text" },
+  { key: "street", label: "Endereço", type: "text" },
+  { key: "district", label: "Bairro", type: "text" },
+  { key: "city", label: "Cidade", type: "text" },
+  { key: "state", label: "UF", type: "text" },
+  { key: "type", label: "Tipo do imóvel", type: "text" },
+  { key: "bedrooms", label: "Quartos", type: "number" },
+  { key: "bathrooms", label: "Banheiros", type: "number" },
+  { key: "half_bathrooms", label: "Lavabos", type: "number" },
+  { key: "garage_spaces", label: "Vagas na Garagem", type: "number" },
+  { key: "area_total", label: "Área Total (m²)", type: "number" },
+  { key: "area_built", label: "Área Privativa (m²)", type: "number" },
+  { key: "frontage", label: "Fachada", type: "text" },
+  { key: "furnished", label: "Mobiliado", type: "checkbox" },
+  { key: "floor_number", label: "Número de Andar", type: "number" },
+  { key: "tax_registration", label: "Inscrição fiscal", type: "text" },
+  { key: "notes", label: "Observações", type: "text" },
+];
+
 export default async function Page({ searchParams }: PageProps) {
   const params = await searchParams;
-
   const page = Number(params.page ?? "1");
   const limit = Number(params.limit ?? "30");
   const search = params.search ?? "";
@@ -45,41 +69,30 @@ export default async function Page({ searchParams }: PageProps) {
   const url = new URL(`${process.env.NEXT_PUBLIC_URL_API}/property`);
   url.searchParams.set("page", page.toString());
   url.searchParams.set("limit", limit.toString());
-  url.searchParams.set("search", search);
+  if (search) url.searchParams.set("search", search);
 
   const sortFields = [
-    "sort_id",
-    "sort_owner",
-    "sort_title",
-    "sort_zip_code",
-    "sort_street",
-    "sort_district",
-    "sort_city",
-    "sort_state",
-    "sort_type",
-    "sort_bedrooms",
-    "sort_bathrooms",
-    "sort_half_bathrooms",
-    "sort_garage_spaces",
-    "sort_area_total",
-    "sort_area_built",
-    "sort_frontage",
-    "sort_furnished",
-    "sort_floor_number",
-    "sort_tax_registration",
-    "sort_notes",
+    "sort_id", "sort_owner", "sort_title", "sort_zip_code", "sort_street",
+    "sort_district", "sort_city", "sort_state", "sort_type", "sort_bedrooms",
+    "sort_bathrooms", "sort_half_bathrooms", "sort_garage_spaces",
+    "sort_area_total", "sort_area_built", "sort_frontage", "sort_furnished",
+    "sort_floor_number", "sort_tax_registration", "sort_notes",
   ];
 
   sortFields.forEach((field) => {
-    const value = params[field as keyof typeof params];
+    const value = params[field];
     if (value) url.searchParams.set(field, value);
+  });
+
+  propertyFields.forEach(({ key }) => {
+    const value = params[key];
+    if (value) url.searchParams.set(key, value);
   });
 
   const res = await fetch(url.toString(), { cache: "no-store" });
   if (!res.ok) return notFound();
 
   const data = await res.json();
-
   return (
     <Section title="Meus Imóveis">
       <SectionTop
@@ -92,6 +105,9 @@ export default async function Page({ searchParams }: PageProps) {
         count={data.count}
         routeApi="property"
         delTitle="o imóvel"
+        data={data}
+        fields={propertyFields}
+        titlePlural="imóveis"
       />
       <Suspense fallback={<SkeletonTable />}>
         <TableInformations

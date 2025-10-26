@@ -7,6 +7,7 @@ import { SkeletonTable } from "@/components/Admin/SkeletonTable";
 import ListActions from "@/components/Admin/ListActions";
 import Owner from "@/types/owner";
 import formatDate from "@/utils/formatDate";
+import { FieldMeta } from "@/types/fieldMeta";
 
 interface PageProps {
   searchParams: Promise<{
@@ -24,6 +25,36 @@ interface PageProps {
     sort_municipal_registration?: string;
   }>;
 }
+
+const ownerFields: FieldMeta[] = [
+  { key: "id", label: "ID", type: "number" },
+  { key: "name", label: "Nome", type: "text" },
+  { key: "internal_code", label: "Código Interno", type: "number" },
+  { key: "occupation", label: "Ocupação", type: "text" },
+  { key: "marital_status", label: "Estado Civil", type: "text" },
+  { key: "cnpj", label: "CNPJ", type: "text" },
+  { key: "cpf", label: "CPF", type: "text" },
+  { key: "state_registration", label: "Inscrição Estadual", type: "number" },
+  { key: "municipal_registration", label: "Inscrição Municipal", type: "number" },
+  { key: "is_active", label: "Ativo", type: "checkbox" },
+
+  { key: "addresses.address.zip_code", label: "CEP", type: "text" },
+  { key: "addresses.address.street", label: "Rua", type: "text" },
+  { key: "addresses.address.number", label: "Número", type: "number" },
+  { key: "addresses.address.district", label: "Bairro", type: "text" },
+  { key: "addresses.address.city", label: "Cidade", type: "text" },
+  { key: "addresses.address.state", label: "Estado", type: "text" },
+  { key: "addresses.address.country", label: "País", type: "text" },
+
+  { key: "contacts.contact.contact", label: "Nome do Contato", type: "text" },
+  { key: "contacts.contact.telephone", label: "Telefone", type: "text" },
+  { key: "contacts.contact.phone", label: "Celular", type: "text" },
+  { key: "contacts.contact.email", label: "Email", type: "text" },
+  { key: "contacts.contact.whatsapp", label: "WhatsApp", type: "checkbox" },
+
+  { key: "created_at", label: "Criado em", type: "text" },
+  { key: "updated_at", label: "Atualizado em", type: "text" },
+];
 
 export default async function Page({ searchParams }: PageProps) {
   const params = await searchParams;
@@ -70,6 +101,9 @@ export default async function Page({ searchParams }: PageProps) {
         hrefAdd="/dashboard/proprietarios/cadastrar/dados-proprietario"
         routeApi="owner"
         delTitle="o proprietário"
+        data={data}
+        fields={ownerFields}
+        titlePlural="proprietários"
       />
       <Suspense fallback={<SkeletonTable />}>
         <TableInformations

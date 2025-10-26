@@ -6,6 +6,7 @@ import Section from "@/components/Ui/Section";
 import { SkeletonTable } from "@/components/Admin/SkeletonTable";
 import ListActions from "@/components/Admin/ListActions";
 import propertyTypes from "@/types/propertyTypes";
+import { FieldMeta } from "@/types/fieldMeta";
 
 interface PageProps {
   searchParams: Promise<{
@@ -16,6 +17,11 @@ interface PageProps {
     sort_description?: string;
   }>;
 }
+
+const typeFields: FieldMeta[] = [
+  { key: "id", label: "ID", type: "number" },
+  { key: "description", label: "Descrição", type: "text" },
+];
 
 export default async function Page({ searchParams }: PageProps) {
   const params = await searchParams;
@@ -50,6 +56,9 @@ export default async function Page({ searchParams }: PageProps) {
         hrefAdd="/dashboard/tipo-imovel/cadastrar"
         routeApi="property-type"
         delTitle="o tipo de imóvel"
+        data={data}
+        fields={typeFields}
+        titlePlural="tipo do imóvel"
       />
       <Suspense fallback={<SkeletonTable />}>
         <TableInformations

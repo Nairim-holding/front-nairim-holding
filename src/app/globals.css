@@ -1,13 +1,75 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-  --font-poppins: "Poppins", sans-serif; 
-  --font-bebasNeue: "Bebas Neue", sans-serif;
-  --font-roboto:  "Roboto", sans-serif;
+  --cor-grad-1: #6A36C5;
+  --cor-grad-2: #22005B;
+  --cor-grad-3: #11002E;
+  --primary: #6D60FC;
+  --secondary: #F2FAFC;
+  --terciary: #A49DFC;
+  --gray: #B4B4B4;
+  --blue: #4A3AFF;
+  --bg-footer: #4236C5;
+  --yellow: #F6CB12;
+  --text-black: #292B22;
+  --text-black-light: #333;
+  --bg-input: #4762FF14;
+}
+
+
+.gradient{
+  background: linear-gradient(
+    to bottom,
+    var(--cor-grad-1),
+    var(--cor-grad-2),
+    var(--cor-grad-3)
+  );
+}
+
+.gradient-button{
+  background: linear-gradient(
+    to right, 
+    var(--cor-grad-1),
+    var(--cor-grad-2)
+  );
+}
+
+/* Classes utilitárias de background */
+.bg-cor_grad-1 { background-color: var(--cor-grad-1); }
+.bg-cor_grad-2 { background-color: var(--cor-grad-2); }
+.bg-cor_grad-3 { background-color: var(--cor-grad-3); }
+.bg-primary { background-color: var(--primary); }
+.bg-secondary { background-color: var(--secondary); }
+.bg-terciary { background-color: var(--terciary); }
+.bg-gray { background-color: var(--gray); }
+.bg-blue { background-color: var(--blue); }
+.bg-bg_footer { background-color: var(--bg-footer); }
+.bg-yellow { background-color: var(--yellow); }
+.bg-bg_input { background-color: var(--bg-input); }
+
+/* Classes utilitárias de texto */
+.text-cor_grad-1 { color: var(--cor-grad-1); }
+.text-cor_grad-2 { color: var(--cor-grad-2); }
+.text-cor_grad-3 { color: var(--cor-grad-3); }
+.text-primary { color: var(--primary); }
+.text-secondary { color: var(--secondary); }
+.text-terciary { color: var(--terciary); }
+.text-gray { color: var(--gray); }
+.text-blue { color: var(--blue); }
+.text-bg-footer { color: var(--bg-footer); }
+.text-yellow { color: var(--yellow); }
+.text-text_black { color: var(--text-black); }
+.text-text_black_light { color: var(--text-black-light); }
+
+/* Você pode adicionar sombras customizadas também */
+.shadow-custom-black { box-shadow: 0px 4px 6px #0000000D; }
+.shadow-purple-soft { box-shadow: 0px 4px 12px #8B5CF666; }
+.shadow-section-1 { box-shadow: 0px 1px 3px 0px rgb(0, 0, 0); }
+.shadow-section-2 { box-shadow: 0px 4px 8px 3px rgb(0, 0, 0); }
+
+.shadow-chart{
+  box-shadow: 0px 1px 3px 0px #0000004D;
+  /* box-shadow: 0px 4px 8px 3px #00000026; */
 }
 
 body {
@@ -139,6 +201,10 @@ input[type="number"] {
   box-shadow: 1px 5px 5px 0px #00000040;
 }
 
+.filter-shadow{
+  box-shadow: 5px 5px 6px 5px #00000040;
+}
+
 .li-active {
   box-shadow: 0px 4px 10px 0px #8B5CF666;
 }
@@ -195,53 +261,53 @@ input[type="checkbox"]:checked::after {
   transform: translate(-50%, -55%);
 }
 
-html.dark body{
+html.dark-mode body{
   background-color: #12101D;
 }
 
-.dark section, 
-.dark input, 
-.dark select, 
-.dark textarea{
+.dark-mode section, 
+.dark-mode input, 
+.dark-mode select, 
+.dark-mode textarea{
   background-color: #12101D;
 }
 
-.dark h1, .dark p, .dark span, .dark input, .dark select, .dark a, .dark textarea{
+.dark-mode h1, .dark-mode p, .dark-mode span, .dark-mode input, .dark-mode select, .dark-mode a, .dark-mode textarea{
   color: #fff;
 }
 
-.dark input:disabled,
-.dark textarea:disabled{
+.dark-mode input:disabled,
+.dark-mode textarea:disabled{
   background-color: #3a3559;
 }
 
-.dark thead, .dark th{
+.dark-mode thead, .dark-mode th{
   background-color: #000;
   color: #fff;
 }
 
-.dark tbody tr, .dark tbody tr td{
+.dark-mode tbody tr, .dark-mode tbody tr td{
   background-color: #1b1b1b;
   color: #fff;
 }
 
-.dark .svg-darkmode{
+.dark-mode .svg-darkmode{
   color: #fff !important;
 }
 
-.dark .svg-darkmode-estatic path{
+.dark-mode .svg-darkmode-estatic path{
   fill: #fff;
 }
 
-.dark input[type="date"]::-webkit-calendar-picker-indicator {
+.dark-mode input[type="date"]::-webkit-calendar-picker-indicator {
   filter: invert(1);
 }
 
-.dark .img-bino {
+.dark-mode .img-bino {
   filter: brightness(0.2) saturate(100%) invert(0) !important;
 }
 
-.dark .lines-bg tbody tr:nth-child(2n) td{
+.dark-mode .lines-bg tbody tr:nth-child(2n) td{
   background-color: #333;
 }
 
@@ -265,7 +331,15 @@ html.dark body{
 .grid-responsive {
   display: grid;
   grid-template-columns: repeat(1, minmax(0, 1fr));
-  gap: 1rem;
+  row-gap: 2rem;
+  column-gap: 1rem;
+}
+
+.grid-finalcial {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  row-gap: 2rem;
+  column-gap: 1rem;
 }
 
 .border-button{
