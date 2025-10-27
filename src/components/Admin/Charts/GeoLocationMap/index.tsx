@@ -29,6 +29,7 @@ interface GeoLocationMapProps {
 }
 
 export default function GeoLocationMap({ locations }: GeoLocationMapProps) {
+  console.log(locations)
   const [showPopup, setShowPopup] = useState(false);
 
   const icon = L.icon({
