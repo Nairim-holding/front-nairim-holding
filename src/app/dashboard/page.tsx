@@ -1,31 +1,5 @@
 import DashboardLayout from "@/layout/dashboardLayout";
-import Agency from "@/types/agency";
-import Owner from "@/types/owner";
-import Property from "@/types/property";
-import Tenant from "@/types/tenant";
-
-interface MetricResponse {
-  averageRentalTicket: { result: number; variation: number };
-  totalPropertyTaxAndCondoFee: { result: number; variation: number };
-  vacancyInMonths: { result: number; variation: number };
-  totalPropertys: { result: number; variation: number };
-  countPropertiesWithLessThan3Docs: { result: number; variation: number };
-  totalPropertiesWithSaleValue: { result: number; variation: number };
-  ownersTotal: { result: number; variation: number };
-  tenantsTotal: { result: number; variation: number };
-  propertiesPerOwner: { result: number; variation: number };
-  agenciesTotal: { result: number; variation: number };
-  properties: Property[];
-  owners: Owner[];
-  tenants: Tenant[];
-  agencies: Agency[];
-  geolocationData: {
-    lat: number;
-    lng: number;
-    info: string;
-  }[];
-}
-
+import MetricResponse from "@/types/dashboard";
 interface PageProps {
   searchParams: Promise<{
     startDate?: string;
@@ -33,24 +7,63 @@ interface PageProps {
   }>;
 }
 
+export const revalidate = 60; 
+
 export default async function Page({ searchParams }: PageProps){
   const params = await searchParams;
 
   const today = new Date();
-  const thirtyDaysAgo = new Date();
+  const thirtyDaysAgo = new Date(today);
   thirtyDaysAgo.setDate(today.getDate() - 30);
 
-  const formatDate = (date: Date) => date.toISOString().split('T')[0];
+  const formatDate = (date: Date) => date.toISOString().split("T")[0];
 
   const startDate = params.startDate ?? formatDate(thirtyDaysAgo);
   const endDate = params.endDate ?? formatDate(today);
 
   const baseUrl = process.env.NEXT_PUBLIC_URL_API;
+  if (!baseUrl) {
+    throw new Error("NEXT_PUBLIC_URL_API não está configurada");
+  }
+
   const res = await fetch(
-    `${baseUrl}/dashboard?startDate=${startDate}&endDate=${endDate}`, 
+    `${baseUrl}/dashboard?startDate=${encodeURIComponent(startDate)}&endDate=${encodeURIComponent(endDate)}`,
     { cache: "no-store" }
   );
-  const data: MetricResponse = await res.json();
 
-  return <DashboardLayout metrics={data} />;
+  if (!res.ok) {
+    const text = await res.text().catch(() => "");
+    console.error("Erro ao buscar /dashboard:", res.status, text);
+    return <div>Erro ao carregar dashboard (ver console).</div>;
+  }
+
+  const data: MetricResponse = await res.json();
+  const summary = {
+    averageRentalTicket: data.averageRentalTicket ?? { result: 0, variation: 0, isPositive: false },
+    totalRentalActive: data.totalRentalActive ?? { result: 0, variation: 0, isPositive: false },
+    totalPropertyTaxAndCondoFee: data.totalPropertyTaxAndCondoFee ?? { result: 0, variation: 0, isPositive: false },
+    totalAcquisitionValue: data.totalAcquisitionValue ?? { result: 0, variation: 0, isPositive: false },
+    financialVacancyRate: data.financialVacancyRate ?? { result: 0 },
+    vacancyInMonths: data.vacancyInMonths ?? { result: 0, variation: 0, isPositive: false },
+
+    totalPropertys: data.totalPropertys ?? { result: 0, variation: 0, isPositive: false },
+    countPropertiesWithLessThan3Docs: data.countPropertiesWithLessThan3Docs ?? { result: 0, variation: 0, isPositive: false },
+    totalPropertiesWithSaleValue: data.totalPropertiesWithSaleValue ?? { result: 0, variation: 0, isPositive: false },
+    availablePropertiesByType: data.availablePropertiesByType ?? [],
+    availablePropertiesByTypeLabels: data.availablePropertiesByTypeLabels ?? [],
+
+    ownersTotal: data.ownersTotal ?? { result: 0, variation: 0, isPositive: false },
+    tenantsTotal: data.tenantsTotal ?? { result: 0, variation: 0, isPositive: false },
+    propertiesPerOwner: data.propertiesPerOwner ?? { result: 0, variation: 0, isPositive: false },
+    agenciesTotal: data.agenciesTotal ?? { result: 0, variation: 0, isPositive: false },
+    propertiesByAgency: data.propertiesByAgency ?? [],
+
+    geolocationData: (data.geolocationData ?? []).map((g) => ({
+      lat: Number(g.lat ?? 0),
+      lng: Number(g.lng ?? 0),
+      info: String(g.info ?? ""),
+    })),
+  };
+
+  return <DashboardLayout metrics={summary} />;
 }

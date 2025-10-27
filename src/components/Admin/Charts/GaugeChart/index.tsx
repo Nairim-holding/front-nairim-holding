@@ -28,7 +28,6 @@ export default function GaugeCard({
 
   return (
     <>
-      {/* CARD PRINCIPAL */}
       <div
         onClick={() => setIsFullscreen(true)}
         className="bg-white rounded-lg p-4 border border-[#DDE1E6] shadow-chart w-full cursor-pointer hover:scale-[1.02] transition-transform flex flex-col justify-between"
@@ -73,7 +72,6 @@ export default function GaugeCard({
         </div>
       </div>
 
-      {/* FULLSCREEN */}
       <AnimatePresence>
         {isFullscreen && (
           <motion.div
