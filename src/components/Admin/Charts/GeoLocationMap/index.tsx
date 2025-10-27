@@ -83,9 +83,6 @@ export default function GeoLocationMap({ locations }: GeoLocationMapProps) {
         className="p-4 bg-white rounded-2xl shadow border border-slate-200 cursor-pointer transition hover:scale-[1.01]"
         onClick={() => setShowPopup(true)}
       >
-        <h3 className="text-lg font-semibold mb-3 text-slate-700 text-center">
-          Mapa de Localização dos Imóveis
-        </h3>
         <div className="relative w-full h-[500px] overflow-hidden rounded-2xl">
           {MapComponent}
         </div>

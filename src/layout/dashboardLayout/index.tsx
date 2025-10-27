@@ -15,7 +15,6 @@ interface DashboardProps {
 
 export default function DashboardLayout({ metrics }: DashboardProps) {
   const [filter, setFilter] = useState<"financial" | "portfolio" | "clients" | "map" | "all">("financial");
-  console.log(metrics)
   return (
     <section className="p-3 min-h-screen">
 

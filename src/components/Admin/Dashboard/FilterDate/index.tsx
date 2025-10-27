@@ -117,7 +117,7 @@ export default function FilterDate({
       </div>
 
       {isOpen && (
-        <div className="absolute top-[45px] left-0 w-[300px] bg-white border border-gray-300 rounded shadow-lg p-4 z-50">
+        <div className="absolute top-[45px] left-0 w-[270px] bg-white border border-gray-300 rounded shadow-lg p-4 z-50">
           <div className="flex flex-col gap-2 mb-3">
             <button
               onClick={() => selectOption("thisMonth")}

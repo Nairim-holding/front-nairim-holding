@@ -84,7 +84,7 @@ export default function Page() {
               type="email"
               name="email"
               placeholder="exemplo@gmail.com"
-              className="border border-gray-300 pl-10 py-2 rounded-lg w-full"
+              className="border border-gray-300 pl-10 py-2 rounded-lg w-full outline-none"
               required
             />
           </div>
@@ -95,7 +95,7 @@ export default function Page() {
               type={showPassword ? "text" : "password"}
               name="password"
               placeholder="senha"
-              className="border border-gray-300 pl-10 pr-10 py-2 rounded-lg w-full"
+              className="border border-gray-300 pl-10 pr-10 py-2 rounded-lg w-full outline-none"
               required
             />
             <span

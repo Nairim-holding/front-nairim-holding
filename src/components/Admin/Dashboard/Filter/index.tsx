@@ -1,6 +1,7 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import FilterDate from "../FilterDate";
 import { useRouter } from "next/navigation";
+import IconSearch from "@/components/Icons/IconSearch";
 
 export default function DashboardFilter({filter, setFilter}: {filter: "map" | "financial" | "portfolio" | "clients" | "all"; setFilter: Dispatch<SetStateAction<"map" | "financial" | "portfolio" | "clients" | "all">>}){
     const router = useRouter();
@@ -10,8 +11,11 @@ export default function DashboardFilter({filter, setFilter}: {filter: "map" | "f
         params.set("endDate", endDate);
         router.replace(`/dashboard?${params.toString()}`, { scroll: false });
     };
+    const [searchQuery, setSearchQuery] = useState("");
+    const [locationFilter, setLocationFilter] = useState("");
+    
     return(
-    <div className="flex flex-col justify-center mb-2">
+    <div className="flex flex-col justify-center mb-2 w-full">
         <div className="flex justify-start items-center gap-5 mb-5 pl-10">
           <span className="text-3xl font-normal font-poppins">
             {filter == 'financial' && 'Financeiro'}
@@ -20,14 +24,39 @@ export default function DashboardFilter({filter, setFilter}: {filter: "map" | "f
             {filter == 'map' && 'Localização dos Imóveis'}
           </span>
         </div>
-        <div className="flex items-center justify-between px-2">
-          <div className="flex items-center justify-start gap-5">
+        <div className="flex items-center justify-between px-2 w-full">
+          <div className="flex items-center justify-start gap-5 w-full">
             <span className="text-2xl font-bold text-slate-800">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M14.0011 12V19.88C14.0411 20.18 13.9411 20.5 13.7111 20.71C13.6186 20.8027 13.5087 20.8762 13.3877 20.9264C13.2668 20.9766 13.1371 21.0024 13.0061 21.0024C12.8751 21.0024 12.7455 20.9766 12.6245 20.9264C12.5035 20.8762 12.3936 20.8027 12.3011 20.71L10.2911 18.7C10.1821 18.5933 10.0992 18.4629 10.0489 18.319C9.99861 18.175 9.98225 18.0213 10.0011 17.87V12H9.97111L4.21111 4.62C4.04872 4.41153 3.97544 4.14726 4.0073 3.88493C4.03915 3.6226 4.17354 3.38355 4.38111 3.22C4.57111 3.08 4.78111 3 5.00111 3H19.0011C19.2211 3 19.4311 3.08 19.6211 3.22C19.8287 3.38355 19.9631 3.6226 19.9949 3.88493C20.0268 4.14726 19.9535 4.41153 19.7911 4.62L14.0311 12H14.0011Z" fill="black" fillOpacity="0.6"/>
               </svg>
             </span>
             <FilterDate onApply={handleDateFilter} />
+            {filter === "map" && (
+              <div className="flex gap-4 w-full pr-5">
+                <select
+                  value={locationFilter}
+                  onChange={(e) => setLocationFilter(e.target.value)}
+                  className="border border-gray-300 rounded-md p-2 h-[45px]"
+                >
+                  <option value="">Selecione um imóvel</option>
+                  <option value="sp">São Paulo</option>
+                  <option value="rj">Rio de Janeiro</option>
+                  <option value="bh">Belo Horizonte</option>
+                </select>
+                
+                <div className="flex border py-2 px-3 rounded-lg border-[#CCCCCC] max-w-[600px] w-full gap-3">
+                  <input
+                    className="border-none outline-none w-full text-[14px] w-full font-normal text-[#111111B2]"
+                    type="search"
+                    placeholder="Pesquise por endereço, cidade, estado ou país"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                  <IconSearch size={25} color="#666" />
+                </div>
+              </div>
+      )}
           </div>
           <div className="flex gap-2">
             <button

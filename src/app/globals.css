@@ -233,6 +233,14 @@ input[type="number"] {
   background-color: #E6E6E6;
 }
 
+input{
+  caret-color: black;
+}
+
+input:focus {
+  caret-color: black;
+}
+
 input[type="checkbox"] {
   appearance: none;
   -webkit-appearance: none;
