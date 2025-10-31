@@ -1,16 +1,15 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import DashboardLayout from "@/layout/dashboardLayout";
 import MetricResponse from "@/types/dashboard";
 import { useSearchParams } from "next/navigation";
 
-export default function Page() {
+function DashboardContent() {
   const searchParams = useSearchParams();
+
   const [metrics, setMetrics] = useState<MetricResponse | null>(null);
-  const [geoData, setGeoData] = useState<
-    { lat: number; lng: number; info: string }[]
-  >([]);
+  const [geoData, setGeoData] = useState<{ lat: number; lng: number; info: string }[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loadingMetrics, setLoadingMetrics] = useState(true);
   const [loadingGeo, setLoadingGeo] = useState(true);
@@ -30,23 +29,21 @@ export default function Page() {
         thirtyDaysAgo.setDate(today.getDate() - 30);
 
         const formatDate = (date: Date) => date.toISOString().split("T")[0];
+
         const start = startDate || formatDate(thirtyDaysAgo);
         const end = endDate || formatDate(today);
 
         const baseUrl = process.env.NEXT_PUBLIC_URL_API;
         if (!baseUrl) throw new Error("NEXT_PUBLIC_URL_API não configurada");
 
-        const metricsRes = await fetch(
-          `${baseUrl}/dashboard?startDate=${start}&endDate=${end}`,
-          { cache: "no-store" }
-        );
+        const metricsRes = await fetch(`${baseUrl}/dashboard?startDate=${start}&endDate=${end}`, {
+          cache: "no-store",
+        });
+
         if (!metricsRes.ok) throw new Error("Erro ao carregar métricas");
         const data: MetricResponse = await metricsRes.json();
 
-        setMetrics({
-          ...data,
-          geolocationData: [],
-        });
+        setMetrics({ ...data, geolocationData: [] });
         setLoadingMetrics(false);
 
         fetch(`${baseUrl}/dashboard-geo?startDate=${start}&endDate=${end}`, {
@@ -104,10 +101,13 @@ export default function Page() {
     geolocationData: geoData.length ? geoData : metrics.geolocationData ?? [],
   };
 
+  return <DashboardLayout metrics={fullMetrics} geoLoading={loadingGeo} />;
+}
+
+export default function Page() {
   return (
-    <DashboardLayout
-      metrics={fullMetrics}
-      geoLoading={loadingGeo}
-    />
+    <Suspense fallback={<div className="flex justify-center items-center min-h-screen">Carregando...</div>}>
+      <DashboardContent />
+    </Suspense>
   );
 }
