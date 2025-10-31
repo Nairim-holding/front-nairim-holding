@@ -8,6 +8,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import Link from "next/link";
 import Property from "@/types/property";
+import SafeImage from "../SafeImage";
 
 export default function CarrosselBanner({
   propertys,
@@ -52,19 +53,19 @@ export default function CarrosselBanner({
             <SwiperSlide key={i}>
               <div className="flex h-full w-full tablet:flex-col">
                 <div className="w-[100%] relative tablet:h-[65%]">
-                  <Image
-                    className="w-full h-full object-cover brightness-50"
-                    src={
-                      property?.documents?.length &&
-                      property.documents[0] &&
-                      isImage(property.documents[0].file_type)
-                        ? property.documents[0].file_path
-                        : "/banners/banner5.png"
-                    }
-                    alt={property.title}
-                    title={property.title}
-                    fill
-                  />
+                <SafeImage
+                  className="w-full h-full object-cover brightness-50"
+                  src={
+                    property?.documents?.length &&
+                    property.documents[0] &&
+                    isImage(property.documents[0].file_type)
+                      ? property.documents[0].file_path
+                      : "/banners/banner5.png"
+                  }
+                  alt={property.title}
+                  title={property.title}
+                  fill
+                />
                   <div className="absolute inset-px text-white flex justify-center items-start flex-col px-16 tablet:justify-start mobile:px-5">
                     {/* <div className="flex w-full text-[16px] font-medium py-5 gap-2 italic tablet:text-[14px]">
                       <svg
@@ -143,7 +144,7 @@ export default function CarrosselBanner({
             {propertys.map((property, i) => (
               <SwiperSlide key={i}>
                 <div className="flex h-full w-full justify-end tablet:items-end tablet:justify-center">
-                  <Image
+                  <SafeImage
                     className="w-[488px] h-[388px] tablet:w-[288px] tablet:h-[188px] object-cover rounded-3xl"
                     src={
                       property?.documents?.length &&

@@ -9,6 +9,7 @@ interface GaugeCardProps {
   max?: number;
   label?: string;
   color?: string;
+  loading?: boolean;
 }
 
 export default function GaugeCard({
@@ -16,15 +17,32 @@ export default function GaugeCard({
   max = 100,
   label,
   color = "#16a34a",
+  loading = false,
 }: GaugeCardProps) {
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  // Skeleton loading state
+  if (loading) {
+    return (
+      <div className="bg-white rounded-lg p-4 border border-[#DDE1E6] shadow-chart w-full cursor-pointer transition-transform flex flex-col justify-between animate-pulse"
+        style={{ minHeight: 200 }}
+      >
+        {label && (
+          <div className="h-5 bg-gray-200 rounded w-2/5 mb-2"></div>
+        )}
+        <div className="relative flex-1 w-full" style={{ minHeight: 200 }}>
+          <div className="h-full w-full bg-gray-200 rounded"></div>
+        </div>
+      </div>
+    );
+  }
+
   const percentage = Math.min(Math.max(value / max, 0), 1) * 100;
 
   const data = [
     { name: "Filled", value: percentage },
     { name: "Remaining", value: 100 - percentage },
   ];
-
-  const [isFullscreen, setIsFullscreen] = useState(false);
 
   return (
     <>

@@ -8,18 +8,42 @@ interface DonutChartProps {
   data: { name: string; value: number }[];
   colors?: string[];
   label?: string;
+  loading?: boolean;
 }
 
 export default function DonutChart({
   data,
   colors = ["#f59e0b", "#6D28D9"],
   label,
+  loading = false,
 }: DonutChartProps) {
   const [selected, setSelected] = useState<string | null>(null);
   const [selectedFullscreen, setSelectedFullscreen] = useState<string | null>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [rotation, setRotation] = useState(0);
   const startAngleRef = useRef<number | null>(null);
+
+  // Skeleton loading state
+  if (loading) {
+    return (
+      <div className="bg-white rounded-lg p-4 border border-[#DDE1E6] shadow-chart w-full cursor-pointer transition-transform flex flex-col justify-between animate-pulse">
+        {label && (
+          <div className="h-5 bg-gray-200 rounded w-2/5 mb-2"></div>
+        )}
+        <div className="h-64 flex items-center justify-between gap-4">
+          <div className="h-full w-3/4 bg-gray-200 rounded"></div>
+          <div className="flex flex-col gap-2 text-sm w-32">
+            {[1, 2].map((index) => (
+              <div key={index} className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-sm bg-gray-300"></div>
+                <div className="h-3 bg-gray-300 rounded w-20"></div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const filteredData = data.filter(d => d.value > 0);
   const total = filteredData.reduce((acc, d) => acc + d.value, 0);

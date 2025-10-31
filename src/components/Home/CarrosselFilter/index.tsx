@@ -7,6 +7,7 @@ import "swiper/css/navigation";
 import "swiper/css";
 import Image from "next/image";
 import Property from "@/types/property";
+import SafeImage from "../SafeImage";
 
 export default function CarrosselFilter({
   propertys,
@@ -105,20 +106,19 @@ export default function CarrosselFilter({
               <SwiperSlide key={i}>
                 <div>
                   <div className="relative w-full max-w-[850px] min-w-[200px] min-h-[200px] h-[247px]">
-                    <Image
-                      src={
+                  <SafeImage
+                    className="w-full h-full object-cover brightness-50"
+                    src={
                       property?.documents?.length &&
                       property.documents[0] &&
                       isImage(property.documents[0].file_type)
                         ? property.documents[0].file_path
                         : "/banners/banner5.png"
-                      }
-                      alt={property.title}
-                      title={property.title}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                    />
+                    }
+                    alt={property.title}
+                    title={property.title}
+                    fill
+                  />
                   </div>
                   <div className="bg-[#4B40BC] text-white p-5">
                     <h1 className="text-[20px] text-start font-bold">
