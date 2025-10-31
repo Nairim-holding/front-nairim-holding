@@ -1,10 +1,13 @@
 "use client";
 
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import DashboardLayout from "@/layout/dashboardLayout";
 import MetricResponse from "@/types/dashboard";
+import { useSearchParams } from "next/navigation";
 
 export default function Page() {
+  const searchParams = useSearchParams();
+
   const [metrics, setMetrics] = useState<MetricResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -12,22 +15,28 @@ export default function Page() {
   useEffect(() => {
     async function fetchMetrics() {
       try {
+        setLoading(true);
+        setError(null);
+
+        // pega as datas da URL
+        const startDate = searchParams.get("startDate");
+        const endDate = searchParams.get("endDate");
+
         const today = new Date();
         const thirtyDaysAgo = new Date(today);
         thirtyDaysAgo.setDate(today.getDate() - 30);
 
         const formatDate = (date: Date) => date.toISOString().split("T")[0];
 
-        const startDate = formatDate(thirtyDaysAgo);
-        const endDate = formatDate(today);
+        // fallback se não tiver parâmetros na URL
+        const start = startDate || formatDate(thirtyDaysAgo);
+        const end = endDate || formatDate(today);
 
         const baseUrl = process.env.NEXT_PUBLIC_URL_API;
         if (!baseUrl) throw new Error("NEXT_PUBLIC_URL_API não está configurada");
 
         const res = await fetch(
-          `${baseUrl}/dashboard?startDate=${encodeURIComponent(
-            startDate
-          )}&endDate=${encodeURIComponent(endDate)}`,
+          `${baseUrl}/dashboard?startDate=${encodeURIComponent(start)}&endDate=${encodeURIComponent(end)}`,
           { cache: "no-store" }
         );
 
@@ -46,19 +55,16 @@ export default function Page() {
           totalAcquisitionValue: data.totalAcquisitionValue ?? { result: 0, variation: 0, isPositive: false },
           financialVacancyRate: data.financialVacancyRate ?? { result: 0 },
           vacancyInMonths: data.vacancyInMonths ?? { result: 0, variation: 0, isPositive: false },
-
           totalPropertys: data.totalPropertys ?? { result: 0, variation: 0, isPositive: false },
           countPropertiesWithLessThan3Docs: data.countPropertiesWithLessThan3Docs ?? { result: 0, variation: 0, isPositive: false },
           totalPropertiesWithSaleValue: data.totalPropertiesWithSaleValue ?? { result: 0, variation: 0, isPositive: false },
           availablePropertiesByType: data.availablePropertiesByType ?? [],
           availablePropertiesByTypeLabels: data.availablePropertiesByTypeLabels ?? [],
-
           ownersTotal: data.ownersTotal ?? { result: 0, variation: 0, isPositive: false },
           tenantsTotal: data.tenantsTotal ?? { result: 0, variation: 0, isPositive: false },
           propertiesPerOwner: data.propertiesPerOwner ?? { result: 0, variation: 0, isPositive: false },
           agenciesTotal: data.agenciesTotal ?? { result: 0, variation: 0, isPositive: false },
           propertiesByAgency: data.propertiesByAgency ?? [],
-
           geolocationData: (data.geolocationData ?? []).map((g) => ({
             lat: Number(g.lat ?? 0),
             lng: Number(g.lng ?? 0),
@@ -76,7 +82,7 @@ export default function Page() {
     }
 
     fetchMetrics();
-  }, []);
+  }, [searchParams]); // <— AGORA o fetch roda quando a URL muda
 
   if (loading) {
     return (
