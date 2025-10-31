@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState, useEffect, Suspense } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import NumericCard from "@/components/Admin/Charts/NumericCard";
 import DashboardFilter from "@/components/Admin/Dashboard/Filter";
@@ -20,6 +20,7 @@ const SkeletonLoader = ({ height = "h-[240px]" }: { height?: string }) => (
 
 const SkeletonMap = () => (
   <div className="bg-white rounded-lg p-4 border border-[#DDE1E6] shadow-chart w-full h-[500px] animate-pulse flex flex-col justify-center items-center transition-all duration-300">
+    <div className="h-8 w-1/3 bg-gray-200 rounded-md mb-4"></div>
     <div className="h-full w-full bg-gray-100 rounded-md"></div>
   </div>
 );
@@ -48,22 +49,28 @@ interface SimpleMetric {
   isPositive?: boolean;
 }
 
-interface DashboardProps {
-  metrics: MetricResponse;
+interface MapProps {
+  zoom?: number;
+  center?: { lat: number; lng: number };
+  style?: React.CSSProperties;
 }
 
+interface DashboardProps {
+  metrics: MetricResponse;
+  mapProps?: MapProps;
+  geoLoading?: boolean;
+}
 
-export default function DashboardLayout({ metrics }: DashboardProps) {
+export default function DashboardLayout({ metrics, mapProps, geoLoading = false }: DashboardProps) {
   const [filter, setFilter] = useState<
     "financial" | "portfolio" | "clients" | "map" | "all"
   >("financial");
-
   const [pendingFilter, setPendingFilter] = useState(filter);
+
   useEffect(() => {
     const timeout = setTimeout(() => setFilter(pendingFilter), 100);
     return () => clearTimeout(timeout);
   }, [pendingFilter]);
-
 
   const formatted = useMemo(() => {
     const fmtCurrency = (v?: number) =>
@@ -92,7 +99,7 @@ export default function DashboardLayout({ metrics }: DashboardProps) {
         <>
           <NumericCard
             value={formatted.avgRental}
-            label="Ticket Médio do aluguel"
+            label="Ticket Médio do Aluguel"
             variation={String(get("averageRentalTicket").variation ?? 0)}
             positive={get("averageRentalTicket").isPositive ?? false}
           />
@@ -165,7 +172,7 @@ export default function DashboardLayout({ metrics }: DashboardProps) {
           />
           <DonutChart
             data={metrics.availablePropertiesByType ?? []}
-            label="Imóveis na carteira"
+            label="Imóveis na Carteira"
           />
           <GaugeCard
             label="Taxa de Ocupação"
@@ -186,13 +193,13 @@ export default function DashboardLayout({ metrics }: DashboardProps) {
         <>
           <NumericCard
             value={String(metrics.ownersTotal?.result ?? 0)}
-            label="Proprietários Total"
+            label="Proprietários Totais"
             variation={String(metrics.ownersTotal?.variation ?? 0)}
             positive={metrics.ownersTotal?.isPositive ?? false}
           />
           <NumericCard
             value={String(metrics.tenantsTotal?.result ?? 0)}
-            label="Inquilinos Total"
+            label="Inquilinos Totais"
             variation={String(metrics.tenantsTotal?.variation ?? 0)}
             positive={metrics.tenantsTotal?.isPositive ?? false}
           />
@@ -206,7 +213,7 @@ export default function DashboardLayout({ metrics }: DashboardProps) {
           />
           <NumericCard
             value={String(metrics.agenciesTotal?.result ?? 0)}
-            label="Total de Agência Parceiras"
+            label="Total de Agências Parceiras"
             variation={String(metrics.agenciesTotal?.variation ?? 0)}
             positive={metrics.agenciesTotal?.isPositive ?? false}
           />
@@ -219,14 +226,15 @@ export default function DashboardLayout({ metrics }: DashboardProps) {
     }
 
     if (filter === "map") {
-      return <GeoLocationMapWrapper locations={metrics.geolocationData ?? []} />;
+      if (geoLoading) return <SkeletonMap />;
+      return <GeoLocationMapWrapper locations={metrics.geolocationData ?? []} {...mapProps} />;
     }
 
     return (
       <>
         <NumericCard
           value={formatted.avgRental}
-          label="Ticket Médio do aluguel"
+          label="Ticket Médio do Aluguel"
           variation={String(metrics.averageRentalTicket?.variation ?? 0)}
           positive={metrics.averageRentalTicket?.isPositive ?? false}
         />
@@ -238,15 +246,17 @@ export default function DashboardLayout({ metrics }: DashboardProps) {
         />
         <NumericCard
           value={String(metrics.ownersTotal?.result ?? 0)}
-          label="Proprietários Total"
+          label="Proprietários Totais"
           variation={String(metrics.ownersTotal?.variation ?? 0)}
           positive={metrics.ownersTotal?.isPositive ?? false}
         />
-        <DonutChart data={metrics.availablePropertiesByType ?? []} label="Imóveis" />
+        <DonutChart
+          data={metrics.availablePropertiesByType ?? []}
+          label="Imóveis"
+        />
       </>
     );
-  }, [filter, formatted, metrics]);
-
+  }, [filter, formatted, metrics, mapProps, geoLoading]);
 
   return (
     <section className="p-3 min-h-screen transition-all duration-300">
