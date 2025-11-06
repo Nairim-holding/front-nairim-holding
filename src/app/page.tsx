@@ -18,8 +18,12 @@ export default async function Home() {
     <>
         <Header></Header> 
         <main className="main-home">
-          <CarrosselBanner propertys={propertiesAvaible}></CarrosselBanner>
-          <CarrosselFilter propertys={propertiesAvaible}></CarrosselFilter>
+          {propertiesAvaible.length > 1 &&
+          <>
+            <CarrosselBanner propertys={propertiesAvaible}></CarrosselBanner>
+            <CarrosselFilter propertys={propertiesAvaible}></CarrosselFilter>
+          </>
+          }
           <AboutUs></AboutUs>
           <Assessment></Assessment>
           <Contact></Contact>
