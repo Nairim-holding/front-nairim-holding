@@ -112,7 +112,6 @@ export default async function Page({ searchParams }: PageProps) {
       <Suspense fallback={<SkeletonTable />}>
         <TableInformations
           headers={[
-            { label: "ID", field: "id", sortParam: "sort_id" },
             { label: "Proprietário", field: "owner", sortParam: "sort_owner" },
             { label: "Nome", field: "title", sortParam: "sort_title" },
             { label: "CEP", field: "zip_code", sortParam: "sort_zip_code" },
@@ -171,18 +170,13 @@ export default async function Page({ searchParams }: PageProps) {
               key={e.id}
               className="bg-white hover:bg-gray-50 text-[#111111B2] text-center relative z-[0]">
               <td className="py-1 px-2">
-                <div className="flex items-center justify-start gap-2 whitespace-nowrap">
+                <div className="flex items-start justify-start gap-2 whitespace-nowrap">
                   <input
                     type="checkbox"
                     className="inp-checkbox-select"
                     value={e.id}
                     id={e.title}
                   />
-                  {e.id}
-                </div>
-              </td>
-              <td className="py-1 px-2">
-                <div className="flex items-center justify-center whitespace-nowrap">
                   {e.owner?.name}
                 </div>
               </td>

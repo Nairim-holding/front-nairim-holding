@@ -94,7 +94,6 @@ export default async function Page({ searchParams }: PageProps) {
       <Suspense fallback={<SkeletonTable />}>
         <TableInformations
           headers={[
-            { label: "ID", field: "id", sortParam: "sort_id" },
             { label: "Contrato", field: "contract_number", sortParam: "sort_contract_number" },
             { label: "Data Início", field: "start_date", sortParam: "sort_start_date" },
             { label: "Data Final", field: "end_date", sortParam: "sort_end_date" },
@@ -121,17 +120,15 @@ export default async function Page({ searchParams }: PageProps) {
               className="bg-white hover:bg-gray-50 text-[#111111B2] text-center relative z-[0]"
             >
               <td className="py-1 px-2">
-                <div className="flex items-center justify-start gap-2 whitespace-nowrap">
-                  <input
+                <div className="flex items-start justify-start gap-2 whitespace-nowrap overflow-hidden">
+                <input
                     type="checkbox"
                     className="inp-checkbox-select"
                     value={e.id}
                     id={e.id.toString()}
-                  />
-                  {e.id ?? ""}
+                  />{e.contract_number}
                 </div>
               </td>
-              <td className="py-1 px-2">{e.contract_number}</td>
               <td className="py-1 px-2">{formatDate(e.start_date)}</td>
               <td className="py-1 px-2">{formatDate(e.end_date)}</td>
               <td className="py-1 px-2">

@@ -106,8 +106,8 @@ export default function TableInformations({
                     isSortable ? () => handleSort(header.sortParam) : undefined
                   }
                 >
-                  <div className="flex items-center justify-center gap-1 capitalize">
-                    {header.label === "ID" && (
+                  <div className={`flex gap-1 capitalize ${idx === 0 ? 'items-start justify-start' : 'items-center justify-center'}`}>
+                    {idx === 0 && (
                       <input
                         type="checkbox"
                         className="inp-checkbox-select ml-[4px] mr-[4px]"

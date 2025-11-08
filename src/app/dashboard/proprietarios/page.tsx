@@ -108,7 +108,6 @@ export default async function Page({ searchParams }: PageProps) {
       <Suspense fallback={<SkeletonTable />}>
         <TableInformations
           headers={[
-            { label: "ID", field: "id", sortParam: "sort_id" },
             { label: "Nome", field: "name", sortParam: "sort_name" },
             { label: "Código Interno", field: "internal_code", sortParam: "sort_internal_code" },
             { label: "Profissão", field: "occupation", sortParam: "sort_occupation" },
@@ -132,12 +131,11 @@ export default async function Page({ searchParams }: PageProps) {
           {data.data.map((e: Owner) => (
             <tr key={e.id} className="bg-white hover:bg-gray-50 text-[#111111B2] text-center relative z-[0]">
               <td className="py-1 px-2">
-                <div className="flex items-center justify-start gap-2 whitespace-nowrap">
+                <div className="flex items-start justify-start gap-2 whitespace-nowrap">
                   <input type="checkbox" className="inp-checkbox-select" value={e.id} id={e.name} />
-                  {e.id ?? ""}
+                  {e.name ?? ""}
                 </div>
-              </td>
-              <td className="py-1 px-2"><div className="flex items-center justify-center whitespace-nowrap">{e.name ?? ""}</div></td> 
+              </td> 
               <td className="py-1 px-2 truncate"><div className="flex items-center justify-center whitespace-nowrap">{e.internal_code ?? ""}</div></td>
               <td className="py-1 px-2"><div className="flex items-center justify-center whitespace-nowrap">{e.occupation ?? ""}</div></td>
               <td className="py-1 px-2"><div className="flex items-center justify-center whitespace-nowrap">{e.marital_status ?? ""}</div></td>
