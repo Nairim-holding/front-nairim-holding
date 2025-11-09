@@ -1,10 +1,12 @@
+// components/Admin/Dashboard/DashboardLayout.tsx
+
 "use client";
 
 import React, { useMemo, useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import NumericCard from "@/components/Admin/Charts/NumericCard";
 import DashboardFilter from "@/components/Admin/Dashboard/Filter";
-import MetricResponse from "@/types/dashboard";
+import {MetricResponse} from "@/types/dashboard";
 
 const SkeletonLoader = ({ height = "h-[240px]" }: { height?: string }) => (
   <div
@@ -25,7 +27,7 @@ const SkeletonMap = () => (
   </div>
 );
 
-const DonutChart = dynamic(() => import("@/components/Admin/Charts/DonaltChart"), {
+const DonutChart = dynamic(() => import("@/components/Admin/Charts/DonutChart"), {
   ssr: false,
   loading: () => <SkeletonLoader height="h-[240px]" />,
 });
@@ -47,6 +49,7 @@ interface SimpleMetric {
   result: number;
   variation?: number;
   isPositive?: boolean;
+  data?: any[];
 }
 
 interface MapProps {
@@ -102,35 +105,47 @@ export default function DashboardLayout({ metrics, mapProps, geoLoading = false 
             label="Ticket Médio do Aluguel"
             variation={String(get("averageRentalTicket").variation ?? 0)}
             positive={get("averageRentalTicket").isPositive ?? false}
+            detailData={get("averageRentalTicket").data}
+            detailColumns={["id", "title", "rentalValue", "type"]}
           />
           <NumericCard
             value={formatted.totalRentalActive}
             label="Valor Total de Aluguel do Portfólio"
-            variation={String(metrics.totalRentalActive?.variation ?? 0)}
-            positive={metrics.totalRentalActive?.isPositive ?? false}
+            variation={String(get("totalRentalActive").variation ?? 0)}
+            positive={get("totalRentalActive").isPositive ?? false}
+            detailData={get("totalRentalActive").data}
+            detailColumns={["id", "title", "rentalValue", "status", "type", "agency"]}
           />
           <NumericCard
             value={formatted.totalTaxFee}
             label="Total de Impostos e Taxas (Mensal Est.)"
-            variation={String(metrics.totalPropertyTaxAndCondoFee?.variation ?? 0)}
-            positive={metrics.totalPropertyTaxAndCondoFee?.isPositive ?? false}
+            variation={String(get("totalPropertyTaxAndCondoFee").variation ?? 0)}
+            positive={get("totalPropertyTaxAndCondoFee").isPositive ?? false}
+            detailData={get("totalPropertyTaxAndCondoFee").data}
+            detailColumns={["id", "title", "propertyTax", "condoFee", "totalTaxAndCondo", "type"]}
           />
           <NumericCard
             value={formatted.totalAcquisition}
             label="Valor Total de Aquisição do Portfólio"
-            variation={String(metrics.totalAcquisitionValue?.variation ?? 0)}
-            positive={metrics.totalAcquisitionValue?.isPositive ?? false}
+            variation={String(get("totalAcquisitionValue").variation ?? 0)}
+            positive={get("totalAcquisitionValue").isPositive ?? false}
+            detailData={get("totalAcquisitionValue").data}
+            detailColumns={["id", "title", "purchaseValue", "type", "currentStatus"]}
           />
           <GaugeCard
             label="Índice de Vacância Financeira"
-            value={metrics.financialVacancyRate?.result ?? 0}
+            value={get("financialVacancyRate").result ?? 0}
             color="#8B5CF6"
+            detailData={get("financialVacancyRate").data}
+            detailColumns={["id", "title", "rentalValue", "type", "areaTotal"]}
           />
           <NumericCard
             value={formatted.vacancyMonths}
             label="Total da Vacância em Meses"
-            variation={String(metrics.vacancyInMonths?.variation ?? 0)}
-            positive={metrics.vacancyInMonths?.isPositive ?? false}
+            variation={String(get("vacancyInMonths").variation ?? 0)}
+            positive={get("vacancyInMonths").isPositive ?? false}
+            detailData={get("vacancyInMonths").data}
+            detailColumns={["id", "title", "rentalValue", "type", "areaTotal"]}
           />
         </>
       );
@@ -140,28 +155,35 @@ export default function DashboardLayout({ metrics, mapProps, geoLoading = false 
       return (
         <>
           <NumericCard
-            value={String(metrics.totalPropertys?.result ?? 0)}
+            value={String(get("totalPropertys").result ?? 0)}
             label="Total de Imóveis"
-            variation={String(metrics.totalPropertys?.variation ?? 0)}
-            positive={metrics.totalPropertys?.isPositive ?? false}
+            variation={String(get("totalPropertys").variation ?? 0)}
+            positive={get("totalPropertys").isPositive ?? false}
+            detailData={get("totalPropertys").data}
+            detailColumns={["id", "title", "type", "status", "rentalValue", "saleValue", "documentCount"]}
           />
           <NumericCard
-            value={String(metrics.countPropertiesWithLessThan3Docs?.result ?? 0)}
+            value={String(get("countPropertiesWithLessThan3Docs").result ?? 0)}
             label="Imóveis com Documentação Pendente"
-            variation={String(metrics.countPropertiesWithLessThan3Docs?.variation ?? 0)}
-            positive={metrics.countPropertiesWithLessThan3Docs?.isPositive ?? false}
+            variation={String(get("countPropertiesWithLessThan3Docs").variation ?? 0)}
+            positive={get("countPropertiesWithLessThan3Docs").isPositive ?? false}
+            detailData={get("countPropertiesWithLessThan3Docs").data}
+            detailColumns={["id", "title", "documentCount", "type"]}
           />
           <NumericCard
-            value={String(metrics.totalPropertiesWithSaleValue?.result ?? 0)}
+            value={String(get("totalPropertiesWithSaleValue").result ?? 0)}
             label="Imóveis com Valor de Venda Definido"
-            variation={String(metrics.totalPropertiesWithSaleValue?.variation ?? 0)}
-            positive={metrics.totalPropertiesWithSaleValue?.isPositive ?? false}
+            variation={String(get("totalPropertiesWithSaleValue").variation ?? 0)}
+            positive={get("totalPropertiesWithSaleValue").isPositive ?? false}
+            detailData={get("totalPropertiesWithSaleValue").data}
+            detailColumns={["id", "title", "saleValue", "type", "rentalValue"]}
           />
           <DonutChart
             data={[
               {
                 name: "Disponíveis",
                 value: metrics.financialVacancyRate?.result ?? 0,
+                data: get("financialVacancyRate").data
               },
               {
                 name: "Ocupados",
@@ -173,16 +195,22 @@ export default function DashboardLayout({ metrics, mapProps, geoLoading = false 
           <DonutChart
             data={metrics.availablePropertiesByType ?? []}
             label="Imóveis na Carteira"
+            colors={['#FF7777', '#77FF7B', '#F9FF53', '#77A2FF', '#E477FF']}
           />
           <GaugeCard
             label="Taxa de Ocupação"
             value={100 - (metrics.financialVacancyRate?.result ?? 0)}
             color="#8B5CF6"
+            detailData={get("totalRentalActive").data}
+            detailColumns={["id", "title", "rentalValue", "status", "type"]}
           />
           <GaugeCard
             label="Índice de Vacância Física"
             value={metrics.vacancyInMonths?.result ?? 0}
+            max={12}
             color="#8B5CF6"
+            detailData={get("vacancyInMonths").data}
+            detailColumns={["id", "title", "rentalValue", "type", "areaTotal"]}
           />
         </>
       );
@@ -192,34 +220,43 @@ export default function DashboardLayout({ metrics, mapProps, geoLoading = false 
       return (
         <>
           <NumericCard
-            value={String(metrics.ownersTotal?.result ?? 0)}
+            value={String(get("ownersTotal").result ?? 0)}
             label="Proprietários Totais"
-            variation={String(metrics.ownersTotal?.variation ?? 0)}
-            positive={metrics.ownersTotal?.isPositive ?? false}
+            variation={String(get("ownersTotal").variation ?? 0)}
+            positive={get("ownersTotal").isPositive ?? false}
+            detailData={get("ownersTotal").data}
+            detailColumns={["id", "name", "email", "createdAt"]}
           />
           <NumericCard
-            value={String(metrics.tenantsTotal?.result ?? 0)}
+            value={String(get("tenantsTotal").result ?? 0)}
             label="Inquilinos Totais"
-            variation={String(metrics.tenantsTotal?.variation ?? 0)}
-            positive={metrics.tenantsTotal?.isPositive ?? false}
+            variation={String(get("tenantsTotal").variation ?? 0)}
+            positive={get("tenantsTotal").isPositive ?? false}
+            detailData={get("tenantsTotal").data}
+            detailColumns={["id", "name", "email", "createdAt"]}
           />
           <NumericCard
             value={String(
-              (metrics.propertiesPerOwner?.result ?? 0).toFixed(2)
+              (get("propertiesPerOwner").result ?? 0).toFixed(2)
             )}
             label="Imóveis por Proprietário"
-            variation={String(metrics.propertiesPerOwner?.variation ?? 0)}
-            positive={metrics.propertiesPerOwner?.isPositive ?? false}
+            variation={String(get("propertiesPerOwner").variation ?? 0)}
+            positive={get("propertiesPerOwner").isPositive ?? false}
+            detailData={get("propertiesPerOwner").data}
+            detailColumns={["id", "name", "email", "propertiesCount"]}
           />
           <NumericCard
-            value={String(metrics.agenciesTotal?.result ?? 0)}
+            value={String(get("agenciesTotal").result ?? 0)}
             label="Total de Agências Parceiras"
-            variation={String(metrics.agenciesTotal?.variation ?? 0)}
-            positive={metrics.agenciesTotal?.isPositive ?? false}
+            variation={String(get("agenciesTotal").variation ?? 0)}
+            positive={get("agenciesTotal").isPositive ?? false}
+            detailData={get("agenciesTotal").data}
+            detailColumns={["id", "legalName", "tradeName", "email", "createdAt"]}
           />
           <DonutChart
             data={metrics.propertiesByAgency ?? []}
             label="Imóveis por Agência"
+            colors={['#FF7777', '#77FF7B', '#77A2FF', '#F9FF53', '#E477FF']}
           />
         </>
       );
@@ -237,22 +274,35 @@ export default function DashboardLayout({ metrics, mapProps, geoLoading = false 
           label="Ticket Médio do Aluguel"
           variation={String(metrics.averageRentalTicket?.variation ?? 0)}
           positive={metrics.averageRentalTicket?.isPositive ?? false}
+          detailData={get("averageRentalTicket").data}
+          detailColumns={["id", "title", "rentalValue", "type"]}
         />
         <NumericCard
           value={String(metrics.totalPropertys?.result ?? 0)}
           label="Total de Imóveis"
           variation={String(metrics.totalPropertys?.variation ?? 0)}
           positive={metrics.totalPropertys?.isPositive ?? false}
+          detailData={get("totalPropertys").data}
+          detailColumns={["id", "title", "type", "status", "rentalValue", "saleValue", "documentCount"]}
         />
         <NumericCard
           value={String(metrics.ownersTotal?.result ?? 0)}
           label="Proprietários Totais"
           variation={String(metrics.ownersTotal?.variation ?? 0)}
           positive={metrics.ownersTotal?.isPositive ?? false}
+          detailData={get("ownersTotal").data}
+          detailColumns={["id", "name", "email", "createdAt"]}
         />
         <DonutChart
           data={metrics.availablePropertiesByType ?? []}
           label="Imóveis"
+        />
+        <GaugeCard
+          label="Taxa de Ocupação Geral"
+          value={100 - (metrics.financialVacancyRate?.result ?? 0)}
+          color="#10B981"
+          detailData={get("totalRentalActive").data}
+          detailColumns={["id", "title", "rentalValue", "status", "type"]}
         />
       </>
     );
@@ -263,11 +313,12 @@ export default function DashboardLayout({ metrics, mapProps, geoLoading = false 
       <DashboardFilter filter={pendingFilter} setFilter={setPendingFilter} />
       <div
         className={`
-          transition-all duration-300
+          grid gap-4 transition-all duration-300
           ${filter === "financial" ? "grid-finalcial" : ""}
           ${filter === "portfolio" ? "grid-portfolio" : ""}
           ${filter === "clients" ? "grid-client" : ""}
           ${filter === "map" ? "w-full" : ""}
+          ${filter === "all" ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-3" : ""}
         `}
       >
         {activeSection}

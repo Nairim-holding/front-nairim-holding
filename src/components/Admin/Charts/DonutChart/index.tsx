@@ -1,35 +1,34 @@
-// components/Admin/Charts/GaugeChart.tsx
+// components/Admin/Charts/DonutChart.tsx
 
 "use client";
 
 import { useState } from "react";
-import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip } from "recharts";
+import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 import { motion, AnimatePresence } from "framer-motion";
 import { MetricDataItem } from "@/types/dashboard";
 import DataModal from "../DataModal";
 
-interface GaugeCardProps {
-  value: number;
-  max?: number;
-  label?: string;
-  color?: string;
+interface DonutChartProps {
+  data: Array<{
+    name: string;
+    value: number;
+    data?: MetricDataItem[];
+  }>;
+  label: string;
   loading?: boolean;
-  detailData?: MetricDataItem[];
-  detailColumns?: string[];
+  colors?: string[];
 }
 
-export default function GaugeCard({
-  value,
-  max = 100,
-  label,
-  color = "#16a34a",
-  loading = false,
-  detailData,
-  detailColumns
-}: GaugeCardProps) {
+
+
+export default function DonutChart({ data, colors, label, loading = false }: DonutChartProps) {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [selectedData, setSelectedData] = useState<MetricDataItem[]>([]);
+  const [modalTitle, setModalTitle] = useState("");
+  const COLORS = colors && colors.length > 0
+    ? colors
+    : ["#9E75FB", "#FF5555", "#FFBB28", "#FF8042", "#8884D8", "#82ca9d"];
   // Skeleton loading state
   if (loading) {
     return (
@@ -46,25 +45,69 @@ export default function GaugeCard({
     );
   }
 
-  const percentage = Math.min(Math.max(value / max, 0), 1) * 100;
+  const total = data.reduce((acc, item) => acc + item.value, 0);
 
-  const data = [
-    { name: "Filled", value: percentage },
-    { name: "Remaining", value: 100 - percentage },
-  ];
+  // Função para abrir modal com dados específicos
+  const handleDataClick = (item: any) => {
+    if (item.data && item.data.length > 0) {
+      setSelectedData(item.data);
+      setModalTitle(`${label} - ${item.name}`);
+      setIsModalOpen(true);
+    }
+  };
+
+  // Função para abrir modal com todos os dados
+  const handleOpenAllData = () => {
+    const allData = data.flatMap(item => item.data || []);
+    if (allData.length > 0) {
+      setSelectedData(allData);
+      setModalTitle(`${label} - Todos os Itens`);
+      setIsModalOpen(true);
+    }
+  };
+
+  // Função para abrir detalhes a partir do fullscreen
+  const handleFullscreenDetails = () => {
+    setIsFullscreen(false);
+    // Pequeno delay para garantir que a animação de fechamento aconteça
+    setTimeout(() => {
+      handleOpenAllData();
+    }, 300);
+  };
+
+  const renderCustomizedLabel = ({
+    cx, cy, midAngle, innerRadius, outerRadius, percent
+  }: any) => {
+    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+    const x = cx + radius * Math.cos(-midAngle * Math.PI / 180);
+    const y = cy + radius * Math.sin(-midAngle * Math.PI / 180);
+
+    return (
+      <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
+        {`${(percent * 100).toFixed(0)}%`}
+      </text>
+    );
+  };
 
   // Custom Tooltip
   const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
+      const item = payload[0].payload;
       return (
-        <div className="bg-white p-3 border border-gray-200 rounded-lg shadow-lg">
-          <p className="font-medium">{label}</p>
+        <div 
+          className="bg-white p-3 border border-gray-200 rounded-lg shadow-lg"
+          onClick={(e) => {
+            e.stopPropagation();
+            handleDataClick(item);
+          }}
+        >
+          <p className="font-medium">{item.name}</p>
           <p className="text-sm text-gray-600">
-            {percentage.toFixed(1)}% ({value} de {max})
+            {item.value} ({((item.value / total) * 100).toFixed(1)}%)
           </p>
-          {detailData && detailData.length > 0 && (
-            <p className="text-xs text-blue-600 mt-1">
-              Clique no ícone para ver detalhes
+          {item.data && item.data.length > 0 && (
+            <p className="text-xs text-blue-600 mt-1 cursor-pointer hover:underline">
+              Clique para ver {item.data.length} itens
             </p>
           )}
         </div>
@@ -74,26 +117,23 @@ export default function GaugeCard({
   };
 
   return (
-    <div>
+    <div className="h-full">
       <div
         onClick={() => setIsFullscreen(true)}
-        className="bg-white rounded-lg p-4 border border-[#DDE1E6] shadow-chart w-full cursor-pointer hover:scale-[1.02] transition-transform flex flex-col justify-between group relative"
-        style={{ minHeight: 200 }}
+        className="bg-white rounded-lg p-4 border border-[#DDE1E6] shadow-chart w-full cursor-pointer hover:scale-[1.02] transition-transform flex flex-col justify-between h-full"
       >
         {/* Header com ícone de detalhes */}
         <div className="flex justify-between items-center mb-2">
-          {label && (
-            <h3 className="text-lg font-semibold text-[#21272A] text-start">
-              {label}
-            </h3>
-          )}
+          <h3 className="text-lg font-semibold text-[#21272A] text-start">
+            {label}
+          </h3>
           
-          {/* Ícone de detalhes se houver detailData */}
-          {detailData && detailData.length > 0 && (
+          {/* Ícone de detalhes se algum item tiver dados */}
+          {data.some(item => item.data && item.data.length > 0) && (
             <button
               onClick={(e) => {
                 e.stopPropagation();
-                setIsModalOpen(true);
+                handleOpenAllData();
               }}
               className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition"
               title="Ver detalhes"
@@ -110,51 +150,36 @@ export default function GaugeCard({
         </div>
 
         <div className="relative flex-1 w-full" style={{ minHeight: 200 }}>
-          <ResponsiveContainer width="100%" height="100%"  minHeight={200}>
+          <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie
                 data={data}
-                startAngle={180}
-                endAngle={0}
-                innerRadius="60%"
-                outerRadius="100%"
+                cx="50%"
+                cy="50%"
+                labelLine={false}
+                label={renderCustomizedLabel}
+                outerRadius={80}
+                fill="#8884d8"
                 dataKey="value"
-                stroke="none"
-                label={({ cx, cy }) => (
-                  <text
-                    x={cx}
-                    y={cy}
-                    textAnchor="middle"
-                    dominantBaseline="middle"
-                    fontSize={24}
-                    fill="#21272A"
-                    fontWeight="600"
-                  >
-                    {`${Math.round(percentage)}%`}
-                  </text>
-                )}
+                onClick={handleDataClick}
               >
                 {data.map((entry, index) => (
-                  <Cell key={index} fill={index === 0 ? color : "#e5e7eb"} />
+                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                 ))}
               </Pie>
               <Tooltip content={<CustomTooltip />} />
+              <Legend />
             </PieChart>
           </ResponsiveContainer>
         </div>
-
-        <div className="text-center mt-2 text-sm text-gray-600">
-          {value} de {max}
-        </div>
       </div>
 
-      {/* Modal de detalhes */}
+      {/* Modal de detalhes para o gráfico */}
       <DataModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        title={label || "Detalhes"}
-        data={detailData || []}
-        columns={detailColumns}
+        title={modalTitle}
+        data={selectedData}
       />
 
       {/* Modal fullscreen */}
@@ -174,7 +199,7 @@ export default function GaugeCard({
             >
               <button
                 onClick={() => setIsFullscreen(false)}
-                className="absolute top-3 right-3 p-2 rounded-full bg-slate-200 hover:bg-slate-300 transition z-10"
+                className="absolute top-3 right-3 p-2 rounded-full bg-slate-200 hover:bg-slate-300 transition"
               >
                 ✕
               </button>
@@ -190,49 +215,30 @@ export default function GaugeCard({
                   <PieChart>
                     <Pie
                       data={data}
-                      startAngle={180}
-                      endAngle={0}
-                      innerRadius="70%"
-                      outerRadius="100%"
+                      cx="50%"
+                      cy="50%"
+                      labelLine={false}
+                      label={renderCustomizedLabel}
+                      outerRadius={150}
+                      fill="#8884d8"
                       dataKey="value"
-                      stroke="none"
-                      label={({ cx, cy }) => (
-                        <text
-                          x={cx}
-                          y={cy}
-                          textAnchor="middle"
-                          dominantBaseline="middle"
-                          fontSize={36}
-                          fontWeight="700"
-                          fill="#21272A"
-                        >
-                          {`${Math.round(percentage)}%`}
-                        </text>
-                      )}
+                      onClick={handleDataClick}
                     >
                       {data.map((entry, index) => (
-                        <Cell
-                          key={index}
-                          fill={index === 0 ? color : "#e5e7eb"}
-                        />
+                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                       ))}
                     </Pie>
                     <Tooltip content={<CustomTooltip />} />
+                    <Legend />
                   </PieChart>
                 </ResponsiveContainer>
               </div>
 
-              <div className="text-center mt-4 text-lg text-gray-700">
-                <strong>{value}</strong> de <strong>{max}</strong>
-              </div>
-
-              {detailData && detailData.length > 0 && (
+              {/* Botão para ver detalhes no fullscreen */}
+              {data.some(item => item.data && item.data.length > 0) && (
                 <div className="flex justify-center mt-4">
                   <button
-                    onClick={() => {
-                      setIsFullscreen(false);
-                      setTimeout(() => setIsModalOpen(true), 300);
-                    }}
+                    onClick={handleFullscreenDetails}
                     className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
                   >
                     Ver Detalhes

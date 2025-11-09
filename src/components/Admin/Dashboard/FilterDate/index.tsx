@@ -134,7 +134,7 @@ export default function FilterDate({
   };
 
   return (
-    <div className="relative flex flex-col" ref={dropdownRef}>
+    <div className="relative flex flex-col max-w-[450px] w-full" ref={dropdownRef}>
       <div
         onClick={() => setIsOpen(!isOpen)}
         className="cursor-pointer w-full  max-w-[450px] h-[45px] border-[2px] border-[#CCCCCC] rounded-lg px-5 flex items-center justify-between bg-white hover:shadow-md transition"

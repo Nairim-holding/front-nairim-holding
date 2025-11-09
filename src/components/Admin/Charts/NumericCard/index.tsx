@@ -1,8 +1,10 @@
 "use client";
 
-import { useEffect } from "react";
+import { useState } from "react";
 import CountUp from "react-countup";
 import { ResponsiveContainer, LineChart, Line } from "recharts";
+import { MetricDataItem } from "@/types/dashboard";
+import DataModal from "../DataModal";
 
 interface NumericCardProps {
   value: string | number;
@@ -12,6 +14,8 @@ interface NumericCardProps {
   variation?: any;
   positive?: boolean | string;
   loading?: boolean;
+  detailData?: MetricDataItem[]; // Nova prop para dados detalhados
+  detailColumns?: string[]; // Colunas específicas para mostrar no modal
 }
 
 export default function NumericCard({ 
@@ -21,8 +25,11 @@ export default function NumericCard({
   color = "#16a34a", 
   variation, 
   positive, 
-  loading = false 
+  loading = false,
+  detailData,
+  detailColumns 
 }: NumericCardProps) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   
   // Skeleton loading state
   if (loading) {
@@ -51,19 +58,44 @@ export default function NumericCard({
   const isNumeric = !isNaN(numericValue);
   
   return (
-    <div className="p-4 bg-white rounded-lg shadow-chart border border-[#DDE1E6] flex flex-col justify-start items-start relative">
-      <div className="text-sm">
+    <>
+      <div className="p-4 bg-white rounded-lg shadow-chart border border-[#DDE1E6] flex flex-col justify-start items-start relative group hover:shadow-lg transition-all duration-300">
+        
+        {/* Ícone de detalhes - aparece apenas se houver detailData */}
+        {detailData && detailData.length > 0 && (
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="absolute top-3 right-3 p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition"
+            title="Ver detalhes"
+          >
+            <svg 
+              width="16" 
+              height="16" 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              stroke="currentColor" 
+              strokeWidth="2"
+            >
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14,2 14,8 20,8" />
+              <line x1="16" y1="13" x2="8" y2="13" />
+              <line x1="16" y1="17" x2="8" y2="17" />
+              <polyline points="10,9 9,9 8,9" />
+            </svg>
+          </button>
+        )}
+        
+        <div className="text-sm">
           <h3 className="text-lg text-[#697077] mb-2 text-start">
             {label}
           </h3>
-      </div>
-      
-      {/* Variation Indicator */}
-      {variation !== undefined && (
-        <div className="absolute bg-[#EBEBEB] rounded-xl px-1 shadow-chart w-[70px] h-[25px] flex items-center justify-center gap-2 left-[70%] top-[50px]">
-          <p className="text-[#525252] font-roboto">{Math.round(Number(variation)) + '%'}</p>
-          {
-            positive == true ? (
+        </div>
+        
+        {/* Variation Indicator */}
+        {variation !== undefined && (
+          <div className="absolute bg-[#EBEBEB] rounded-xl px-1 shadow-chart w-[70px] h-[25px] flex items-center justify-center gap-2 left-[70%] top-[50px]">
+            <p className="text-[#525252] font-roboto">{Math.round(Number(variation)) + '%'}</p>
+            {positive == true ? (
               <svg width="12" height="9" viewBox="0 0 12 9" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M0.583668 8.7344H11.0837C11.19 8.73406 11.2942 8.70474 11.3851 8.64959C11.4759 8.59444 11.5501 8.51555 11.5994 8.42141C11.6488 8.32726 11.6716 8.22144 11.6653 8.11531C11.659 8.00919 11.6239 7.9068 11.5638 7.81915L6.31375 0.235812C6.09617 -0.0786042 5.57233 -0.0786042 5.35417 0.235812L0.104168 7.81915C0.0433992 7.90661 0.00776293 8.00906 0.00113104 8.11536C-0.00550085 8.22166 0.0171253 8.32774 0.0665511 8.42208C0.115977 8.51643 0.190312 8.59542 0.28148 8.65048C0.372649 8.70554 0.477163 8.73456 0.583668 8.7344Z" fill="#00C30D"/>
               </svg>
@@ -75,35 +107,42 @@ export default function NumericCard({
               <svg width="18" height="2" viewBox="0 0 18 2" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fillRule="evenodd" clipRule="evenodd" d="M0 1C0 0.734784 0.105357 0.48043 0.292893 0.292893C0.48043 0.105357 0.734784 0 1 0H17C17.2652 0 17.5196 0.105357 17.7071 0.292893C17.8946 0.48043 18 0.734784 18 1C18 1.26522 17.8946 1.51957 17.7071 1.70711C17.5196 1.89464 17.2652 2 17 2H1C0.734784 2 0.48043 1.89464 0.292893 1.70711C0.105357 1.51957 0 1.26522 0 1Z" fill="#525252"/>
               </svg>
-            )
-          }
-        </div>
-      )}
-      
-      {/* Main Value */}
-      <div className="text-2xl font-bold text-[#21272A]">
-        {isNumeric ? (
-          <CountUp 
-            end={numericValue} 
-            duration={3} 
-            decimal="2"
-            separator="," 
-          />
-        ) : (
-          value
+            )}
+          </div>
         )}
-      </div>
-      
-      {/* Chart */}
-      {data && data.length > 0 && (
-        <div className="mt-2 h-12 text-[#21272A]">
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={data}>
-              <Line type="monotone" dataKey="value" stroke={color} strokeWidth={2} dot={false} />
-            </LineChart>
-          </ResponsiveContainer>
+        
+        {/* Main Value */}
+        <div className="text-2xl font-bold text-[#21272A]">
+          {isNumeric ? (
+            <CountUp 
+              end={numericValue} 
+              duration={3} 
+              decimal="2"
+              separator="," 
+            />
+          ) : (
+            value
+          )}
         </div>
-      )}
-    </div>
+        
+        {/* Chart */}
+        {data && data.length > 0 && (
+          <div className="mt-2 h-12 text-[#21272A]">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={data}>
+                <Line type="monotone" dataKey="value" stroke={color} strokeWidth={2} dot={false} />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        )}
+      <DataModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title={label}
+        data={detailData || []}
+        columns={detailColumns}
+      />
+      </div>
+    </>
   );
 }

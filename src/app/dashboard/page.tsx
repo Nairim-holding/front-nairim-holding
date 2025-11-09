@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, Suspense } from "react";
 import DashboardLayout from "@/layout/dashboardLayout";
-import MetricResponse from "@/types/dashboard";
+import {MetricResponse} from "@/types/dashboard";
 import { useSearchParams } from "next/navigation";
 
 function DashboardContent() {
