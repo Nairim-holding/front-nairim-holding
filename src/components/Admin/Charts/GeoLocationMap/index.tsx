@@ -168,7 +168,10 @@ export default function GeoLocationMap({ locations }: GeoLocationMapProps) {
       center={initialCenter}
       zoom={initialZoom}
       scrollWheelZoom={true}
-      whenReady={(event: L.LeafletEvent) => (mapRef.current = event.target as L.Map)}
+      whenReady={() => {
+        if (mapRef.current) return;
+        const map = (mapRef.current = L.map(document.createElement("div")));
+      }}
       className="w-full h-full rounded-2xl z-0"
       style={{ height: "100%", width: "100%", borderRadius: "1rem" }}
     >
