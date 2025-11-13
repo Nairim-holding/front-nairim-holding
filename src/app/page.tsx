@@ -13,7 +13,7 @@ export default async function Home() {
   });
 
   const properties = await response.json();
-  const propertiesAvaible = properties.data.filter((property: Property) => property.values?.[0].current_status === "AVAILABLE");
+  const propertiesAvaible = properties.data.filter((property: Property) => property.values?.[0]?.current_status === "AVAILABLE");
   return (
     <>
         <Header></Header> 
