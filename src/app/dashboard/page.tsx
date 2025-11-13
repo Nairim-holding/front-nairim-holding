@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, Suspense } from "react";
 import DashboardLayout from "@/layout/dashboardLayout";
-import {MetricResponse} from "@/types/dashboard";
+import { MetricResponse } from "@/types/dashboard";
 import { useSearchParams } from "next/navigation";
 
 function DashboardContent() {
@@ -25,13 +25,14 @@ function DashboardContent() {
         const endDate = searchParams.get("endDate");
 
         const today = new Date();
-        const thirtyDaysAgo = new Date(today);
-        thirtyDaysAgo.setDate(today.getDate() - 30);
+
+        const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+        const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
 
         const formatDate = (date: Date) => date.toISOString().split("T")[0];
 
-        const start = startDate || formatDate(thirtyDaysAgo);
-        const end = endDate || formatDate(today);
+        const start = startDate || formatDate(firstDayOfMonth);
+        const end = endDate || formatDate(lastDayOfMonth);
 
         const baseUrl = process.env.NEXT_PUBLIC_URL_API;
         if (!baseUrl) throw new Error("NEXT_PUBLIC_URL_API não configurada");
@@ -52,6 +53,7 @@ function DashboardContent() {
           .then(async (res) => {
             if (!res.ok) throw new Error("Erro ao carregar geolocalização");
             const geo = await res.json();
+
             setGeoData(
               geo.map((g: any) => ({
                 lat: Number(g.lat ?? 0),

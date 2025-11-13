@@ -83,7 +83,7 @@ export default function DonutChart({ data, colors, label, loading = false }: Don
     const y = cy + radius * Math.sin(-midAngle * Math.PI / 180);
 
     return (
-      <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
+      <text x={x} y={y} fill="black" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
         {`${(percent * 100).toFixed(0)}%`}
       </text>
     );
@@ -239,7 +239,7 @@ export default function DonutChart({ data, colors, label, loading = false }: Don
                 <div className="flex justify-center mt-4">
                   <button
                     onClick={handleFullscreenDetails}
-                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+                    className="px-4 py-2 bg-blue-600 text-black rounded-lg hover:bg-blue-700 transition"
                   >
                     Ver Detalhes
                   </button>

@@ -12,19 +12,19 @@ export default async function middleware(req: NextRequest){
         return NextResponse.redirect(new URL('/', req.url))
     }
 
-    const response = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/authenticate/verify`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ token: token.value })
-    });
+    // const response = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/authenticate/verify`, {
+    //     method: 'POST',
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify({ token: token.value })
+    // });
 
-    const tokenIsValid = await response.json() as ResVerifyToken;
+    // const tokenIsValid = await response.json() as ResVerifyToken;
     
-    if(tokenIsValid.status == 401 || tokenIsValid.status == 400){
-        return NextResponse.redirect(new URL('/', req.url))
-    }
+    // if(tokenIsValid.status == 401 || tokenIsValid.status == 400){
+    //     return NextResponse.redirect(new URL('/', req.url))
+    // }
 
     return NextResponse.next()
 }
